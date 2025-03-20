@@ -5,6 +5,7 @@ import com.vietjoke.vn.domain.fleet.entity.AirlineEntity;
 import com.vietjoke.vn.domain.fleet.entity.RouteEntity;
 import com.vietjoke.vn.domain.core.entity.BaseEntity;
 import com.vietjoke.vn.domain.booking.entity.BookingDetailEntity;
+import com.vietjoke.vn.domain.pricing.entity.SeatReservationEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,4 +42,7 @@ public class FlightEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "flightEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingDetailEntity> bookingDetailEntities;
+
+    @OneToMany(mappedBy = "flightEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SeatReservationEntity> seatReservationEntities;
 }
