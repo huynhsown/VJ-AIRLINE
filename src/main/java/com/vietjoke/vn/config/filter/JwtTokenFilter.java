@@ -50,7 +50,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 return;
             }
 
-            authenticateToken(request, token);
+            if(!authenticateToken(request, token)){
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Your account is inactive");
+                return;
+            }
+
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
@@ -65,10 +69,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private void authenticateToken(HttpServletRequest request, String token) {
+    private boolean authenticateToken(HttpServletRequest request, String token) {
         String username = jwtTokenUtil.extractUsername(token);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserEntity userDetails = (UserEntity) userDetailsService.loadUserByUsername(username);
+
+            if(!userDetails.getIsActive()) return false;
+
             if (jwtTokenUtil.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
@@ -78,8 +85,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                         );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                return true;
             }
         }
+        return false;
     }
 
     private boolean isBypassEndpoint(HttpServletRequest request) {

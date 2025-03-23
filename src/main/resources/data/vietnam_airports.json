@@ -1,0 +1,274 @@
+{
+    "countryCode": "VNM",
+    "countryName": "Việt Nam",
+    "countryEngName": "Vietnam",
+    "areaCode": "84",
+    "provinceEntities": [
+      {
+        "provinceCode": "SGN",
+        "provinceName": "Tp. Hồ Chí Minh",
+        "provinceEngName": "Ho Chi Minh",
+        "airportEntities": [
+          {
+            "airportCode": "SGN",
+            "airportName": "Sân bay Tân Sơn Nhất",
+            "airportEngName": "Tan Son Nhat Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "HAN",
+        "provinceName": "Hà Nội",
+        "provinceEngName": "Ha Noi",
+        "airportEntities": [
+          {
+            "airportCode": "HAN",
+            "airportName": "Sân bay Nội Bài",
+            "airportEngName": "Noibai Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "BMV",
+        "provinceName": "Buôn Ma Thuột",
+        "provinceEngName": "Buon Ma Thuot",
+        "airportEntities": [
+          {
+            "airportCode": "BMV",
+            "airportName": "Sây bay Buôn Ma Thuột",
+            "airportEngName": "Buon Ma Thuot Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "CT",
+        "provinceName": "Cần Thơ",
+        "provinceEngName": "Can Tho",
+        "airportEntities": [
+          {
+            "airportCode": "VCA",
+            "airportName": "Sân bay Trà Nóc",
+            "airportEngName": "Tra Noc Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "VCL",
+        "provinceName": "Chu Lai",
+        "provinceEngName": "Chu Lai",
+        "airportEntities": [
+          {
+            "airportCode": "VCL",
+            "airportName": "Sân bay Chu Lai",
+            "airportEngName": "Chu Lai Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "DLI",
+        "provinceName": "Đà Lạt",
+        "provinceEngName": "Da Lat",
+        "airportEntities": [
+          {
+            "airportCode": "DLI",
+            "airportName": "Sân bay Liên Khương",
+            "airportEngName": "Lien Khuong Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "DAD",
+        "provinceName": "Đà Nẵng",
+        "provinceEngName": "Da Nang",
+        "airportEntities": [
+          {
+            "airportCode": "DAD",
+            "airportName": "Sân bay Đà Nẵng",
+            "airportEngName": "Da Nang Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "DB",
+        "provinceName": "Điện Biên",
+        "provinceEngName": "Dien Bien",
+        "airportEntities": [
+          {
+            "airportCode": "DIN",
+            "airportName": "Sân bay Điện Biên",
+            "airportEngName": "Dien Bien Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "VDH",
+        "provinceName": "Đồng Hới",
+        "provinceEngName": "Dong Hoi",
+        "airportEntities": [
+          {
+            "airportCode": "VDH",
+            "airportName": "Sân bay Đồng Hới",
+            "airportEngName": "Dong Hoi Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "HPH",
+        "provinceName": "Hải Phòng",
+        "provinceEngName": "Hai Phong",
+        "airportEntities": [
+          {
+            "airportCode": "HPH",
+            "airportName": "Sân bay Cát Bi",
+            "airportEngName": "Cat Bi Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "VDO",
+        "provinceName": "Hạ Long",
+        "provinceEngName": "Ha Long",
+        "airportEntities": [
+          {
+            "airportCode": "VDO",
+            "airportName": "Sân bay Quốc tế Vân Đồn",
+            "airportEngName": "Van Don International Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "HUI",
+        "provinceName": "Huế",
+        "provinceEngName": "Hue",
+        "airportEntities": [
+          {
+            "airportCode": "HUI",
+            "airportName": "Sân bay Phú Bài",
+            "airportEngName": "Phu Bai Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "CXR",
+        "provinceName": "Nha Trang",
+        "provinceEngName": "Nha Trang",
+        "airportEntities": [
+          {
+            "airportCode": "CXR",
+            "airportName": "Sân bay Cam Ranh",
+            "airportEngName": "Cam Ranh Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "PQC",
+        "provinceName": "Phú Quốc",
+        "provinceEngName": "Phu Quoc",
+        "airportEntities": [
+          {
+            "airportCode": "PQC",
+            "airportName": "Sân bay Phú Quốc",
+            "airportEngName": "Phu Quoc Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "PXU",
+        "provinceName": "Pleiku",
+        "provinceEngName": "Pleiku",
+        "airportEntities": [
+          {
+            "airportCode": "PXU",
+            "airportName": "Sân bay Pleiku",
+            "airportEngName": "Pleiku Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "UIH",
+        "provinceName": "Quy Nhơn",
+        "provinceEngName": "Quy Nhon",
+        "airportEntities": [
+          {
+            "airportCode": "UIH",
+            "airportName": "Sân bay Phù Cát",
+            "airportEngName": "Phu Cat Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "THH",
+        "provinceName": "Thanh Hoá",
+        "provinceEngName": "Thanh Hoa",
+        "airportEntities": [
+          {
+            "airportCode": "THD",
+            "airportName": "Sân bay Thọ Xuân",
+            "airportEngName": "Tho Xuan Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "TBB",
+        "provinceName": "Tuy Hòa",
+        "provinceEngName": "Tuy Hoa",
+        "airportEntities": [
+          {
+            "airportCode": "TBB",
+            "airportName": "Sân bay Tuy Hoà",
+            "airportEngName": "Tuy Hoa Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      },
+      {
+        "provinceCode": "VII",
+        "provinceName": "Vinh",
+        "provinceEngName": "Vinh",
+        "airportEntities": [
+          {
+            "airportCode": "VII",
+            "airportName": "Sân bay Quốc tế Vinh",
+            "airportEngName": "Vinh International Airport",
+            "timeZone": null,
+            "utcOffset": null
+          }
+        ]
+      }
+    ]
+}

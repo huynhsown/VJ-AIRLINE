@@ -1,0 +1,99 @@
+{
+  "provinces": [
+    {
+      "provinceCode": "SGN",
+      "provinceName": "Tp. Hồ Chí Minh",
+      "provinceEngName": "Ho Chi Minh"
+    },
+    {
+      "provinceCode": "HAN",
+      "provinceName": "Hà Nội",
+      "provinceEngName": "Ha Noi"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Buôn Ma Thuột",
+      "provinceEngName": "Buon Ma Thuot"
+    },
+    {
+      "provinceCode": "CT",
+      "provinceName": "Cần Thơ",
+      "provinceEngName": "Can Tho"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Chu Lai",
+      "provinceEngName": "Chu Lai"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Đà Lạt",
+      "provinceEngName": "Da Lat"
+    },
+    {
+      "provinceCode": "DAD",
+      "provinceName": "Đà Nẵng",
+      "provinceEngName": "Da Nang"
+    },
+    {
+      "provinceCode": "DB",
+      "provinceName": "Điện Biên",
+      "provinceEngName": "Dien Bien"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Đồng Hới",
+      "provinceEngName": "Dong Hoi"
+    },
+    {
+      "provinceCode": "HPH",
+      "provinceName": "Hải Phòng",
+      "provinceEngName": "Hai Phong"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Hạ Long",
+      "provinceEngName": "Ha Long"
+    },
+    {
+      "provinceCode": "HUI",
+      "provinceName": "Huế",
+      "provinceEngName": "Hue"
+    },
+    {
+      "provinceCode": "CXR",
+      "provinceName": "Nha Trang",
+      "provinceEngName": "Nha Trang"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Phú Quốc",
+      "provinceEngName": "Phu Quoc"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Pleiku",
+      "provinceEngName": "Pleiku"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Quy Nhơn",
+      "provinceEngName": "Quy Nhon"
+    },
+    {
+      "provinceCode": "THH",
+      "provinceName": "Thanh Hoá",
+      "provinceEngName": "Thanh Hoa"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Tuy Hòa",
+      "provinceEngName": "Tuy Hoa"
+    },
+    {
+      "provinceCode": null,
+      "provinceName": "Vinh",
+      "provinceEngName": "Vinh"
+    }
+  ]
+}

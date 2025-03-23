@@ -1,7 +1,15 @@
 package com.vietjoke.vn.config.seeding;
 
+import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
+import com.vietjoke.vn.entity.fleet.AirlineEntity;
+import com.vietjoke.vn.entity.location.CountryEntity;
 import com.vietjoke.vn.entity.user.RoleEntity;
+import com.vietjoke.vn.repository.fleet.AircraftModelRepository;
+import com.vietjoke.vn.repository.fleet.AirlineRepository;
+import com.vietjoke.vn.repository.location.CountryRepository;
 import com.vietjoke.vn.repository.user.RoleRepository;
+import com.vietjoke.vn.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,35 +20,31 @@ import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DataSeeder implements CommandLineRunner {
 
-    @Autowired
-    private RoleRepository roleRepository;
+
+    private final AircraftModelRepository aircraftModelRepository;
+    private final AirlineRepository airlineRepository;
+
+    private final AircraftModelSeeder aircraftModelSeeder;
+    private final AirlineSeeder airlineSeeder;
 
     @Override
     public void run(String... args) throws Exception {
-        if (roleRepository.count() == 0) {
-            roleRepository.saveAll(generateRoles());
-            log.info("Roles saved");
+        seedAirlines();
+        seedAircraftModels();
+    }
+
+    private void seedAircraftModels() {
+        if(aircraftModelRepository.count() == 0) {
+            aircraftModelRepository.saveAll(aircraftModelSeeder.seedAircraftModels());
         }
     }
 
-    private List<RoleEntity> generateRoles() {
-        List<RoleEntity> roles = new ArrayList<>();
-
-        RoleEntity adminRole = RoleEntity.builder()
-                .roleName("ADMIN")
-                .roleCode("ADMIN")
-                .build();
-
-        RoleEntity customerRole = RoleEntity.builder()
-                .roleName("CUSTOMER")
-                .roleCode("CUSTOMER")
-                .build();
-
-        roles.add(adminRole);
-        roles.add(customerRole);
-
-        return roles;
+    private void seedAirlines() {
+        if(airlineRepository.count() == 0) {
+            airlineRepository.saveAll(airlineSeeder.seedAirlines());
+        }
     }
 }

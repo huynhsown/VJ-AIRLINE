@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -19,6 +20,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseDTO<String> handleDuplicateUsername(DuplicateUsernameException ex) {
         return ResponseDTO.error(HttpStatus.CONFLICT.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(AccountNotActivatedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseDTO<Map<String, Boolean>> handleAccountNotActive(AccountNotActivatedException ex) {
+        return ResponseDTO.error(HttpStatus.CONFLICT.value(), ex.getMessage(), Map.of("requires_activation", true));
     }
 
     @ExceptionHandler(UserNotFoundException.class)

@@ -1,0 +1,65 @@
+[
+  {
+    "modelCode": "A350-900",
+    "modelName": "Airbus A350-900",
+    "standardCapacity": 300,
+    "premiumCapacity": 21,
+    "businessCapacity": 48
+  },
+  {
+    "modelCode": "A350-1000",
+    "modelName": "Airbus A350-1000",
+    "standardCapacity": 350,
+    "premiumCapacity": 21,
+    "businessCapacity": 54
+  },
+  {
+    "modelCode": "A380-800",
+    "modelName": "Airbus A380-800",
+    "standardCapacity": 555,
+    "premiumCapacity": 0,
+    "businessCapacity": 96
+  },
+  {
+    "modelCode": "A330-900neo",
+    "modelName": "Airbus A330-900neo",
+    "standardCapacity": 260,
+    "premiumCapacity": 21,
+    "businessCapacity": 28
+  },
+  {
+    "modelCode": "A220-300",
+    "modelName": "Airbus A220-300",
+    "standardCapacity": 120,
+    "premiumCapacity": 0,
+    "businessCapacity": 12
+  },
+  {
+    "modelCode": "A320neo",
+    "modelName": "Airbus A320neo",
+    "standardCapacity": 180,
+    "premiumCapacity": 24,
+    "businessCapacity": 12
+  },
+  {
+    "modelCode": "A321XLR",
+    "modelName": "Airbus A321XLR",
+    "standardCapacity": 206,
+    "premiumCapacity": 30,
+    "businessCapacity": 20
+  },
+  {
+    "modelCode": "A330-300",
+    "modelName": "Airbus A330-300",
+    "standardCapacity": 277,
+    "premiumCapacity": 28,
+    "businessCapacity": 36
+  },
+  {
+    "modelCode": "A340-600",
+    "modelName": "Airbus A340-600",
+    "standardCapacity": 320,
+    "premiumCapacity": 32,
+    "businessCapacity": 50
+  }
+]

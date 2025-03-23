@@ -83,6 +83,10 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException("Wrong password");
         }
 
+        if(!existingUser.getIsActive()){
+            throw new AccountNotActivatedException("Account not activated");
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 user.getIdentifier(), user.getPassword(),
                 existingUser.getAuthorities()
