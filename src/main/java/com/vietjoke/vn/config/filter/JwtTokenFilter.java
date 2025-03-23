@@ -28,7 +28,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private static final List<EndpointMethod> BYPASS_ENDPOINTS = List.of(
             new EndpointMethod("/login", "GET"),
             new EndpointMethod("/register", "GET"),
-            new EndpointMethod("/v1/api/login", "POST"),
+            new EndpointMethod("/v1/api/auth/login", "POST"),
             new EndpointMethod("/v1/api/auth/register", "POST"),
             new EndpointMethod("/v1/api/admin/login", "POST")
     );
@@ -66,9 +66,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void authenticateToken(HttpServletRequest request, String token) {
-        String phoneNumber = jwtTokenUtil.extractUsername(token);
-        if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserEntity userDetails = (UserEntity) userDetailsService.loadUserByUsername(phoneNumber);
+        String username = jwtTokenUtil.extractUsername(token);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserEntity userDetails = (UserEntity) userDetailsService.loadUserByUsername(username);
             if (jwtTokenUtil.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(

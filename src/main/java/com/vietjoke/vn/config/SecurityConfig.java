@@ -1,7 +1,7 @@
 package com.vietjoke.vn.config;
 
 import com.vietjoke.vn.repository.user.UserRepository;
-import com.vietjoke.vn.exception.UserNotFoundException;
+import com.vietjoke.vn.exception.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

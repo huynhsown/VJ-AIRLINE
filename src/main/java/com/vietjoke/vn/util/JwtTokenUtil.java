@@ -26,7 +26,7 @@ public class JwtTokenUtil {
     @Value("${jwt.secretKey}")
     private String secretKey;
 
-    public String generateToken(UserEntity userEntity) throws Exception {
+    public String generateToken(UserEntity userEntity) {
         Map<String , Object> claims = new HashMap<>();
         claims.put("username", userEntity.getUsername());
         try{
