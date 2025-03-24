@@ -1,0 +1,118 @@
+[
+  {
+    "airlineCode": "VJ",
+    "airlineName": "VietJoke Airlines",
+    "aircraftEntities": [
+      {
+        "registrationNumber": "VN-A350",
+        "manufactureDate": "2019-04-15T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A350-900",
+          "modelName": "Airbus A350-900",
+          "standardCapacity": 300,
+          "premiumCapacity": 21,
+          "businessCapacity": 48
+        }
+      },
+      {
+        "registrationNumber": "VN-A312",
+        "manufactureDate": "2019-04-15T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A350-900",
+          "modelName": "Airbus A350-900",
+          "standardCapacity": 300,
+          "premiumCapacity": 21,
+          "businessCapacity": 48
+        }
+      },
+      {
+        "registrationNumber": "VN-A351",
+        "manufactureDate": "2021-06-20T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A350-1000",
+          "modelName": "Airbus A350-1000",
+          "standardCapacity": 350,
+          "premiumCapacity": 21,
+          "businessCapacity": 54
+        }
+      },
+      {
+        "registrationNumber": "VN-A380",
+        "manufactureDate": "2018-12-10T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A380-800",
+          "modelName": "Airbus A380-800",
+          "standardCapacity": 555,
+          "premiumCapacity": 0,
+          "businessCapacity": 96
+        }
+      },
+      {
+        "registrationNumber": "VN-A330",
+        "manufactureDate": "2020-09-05T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A330-900neo",
+          "modelName": "Airbus A330-900neo",
+          "standardCapacity": 260,
+          "premiumCapacity": 21,
+          "businessCapacity": 28
+        }
+      },
+      {
+        "registrationNumber": "VN-A220",
+        "manufactureDate": "2022-01-22T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A220-300",
+          "modelName": "Airbus A220-300",
+          "standardCapacity": 120,
+          "premiumCapacity": 0,
+          "businessCapacity": 12
+        }
+      },
+      {
+        "registrationNumber": "VN-A320",
+        "manufactureDate": "2017-07-14T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A320neo",
+          "modelName": "Airbus A320neo",
+          "standardCapacity": 180,
+          "premiumCapacity": 24,
+          "businessCapacity": 12
+        }
+      },
+      {
+        "registrationNumber": "VN-A321",
+        "manufactureDate": "2023-02-18T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A321XLR",
+          "modelName": "Airbus A321XLR",
+          "standardCapacity": 206,
+          "premiumCapacity": 30,
+          "businessCapacity": 20
+        }
+      },
+      {
+        "registrationNumber": "VN-A333",
+        "manufactureDate": "2016-05-30T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A330-300",
+          "modelName": "Airbus A330-300",
+          "standardCapacity": 277,
+          "premiumCapacity": 28,
+          "businessCapacity": 36
+        }
+      },
+      {
+        "registrationNumber": "VN-A346",
+        "manufactureDate": "2015-08-08T00:00:00",
+        "aircraftModelEntity": {
+          "modelCode": "A340-600",
+          "modelName": "Airbus A340-600",
+          "standardCapacity": 320,
+          "premiumCapacity": 32,
+          "businessCapacity": 50
+        }
+      }
+    ]
+  }
+]

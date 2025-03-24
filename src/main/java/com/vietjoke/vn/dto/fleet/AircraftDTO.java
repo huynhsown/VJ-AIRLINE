@@ -13,7 +13,7 @@ import java.util.List;
 public class AircraftDTO extends BaseDTO {
     private String registrationNumber;
     private LocalDateTime manufactureDate;
-    private Long modelId;
+    private AircraftModelDTO aircraftModelDTO;
     private Long airlineId;
     private List<FlightDTO> flights;
 }

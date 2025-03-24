@@ -32,19 +32,11 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        seedAirlines();
-        seedAircraftModels();
     }
 
     private void seedAircraftModels() {
         if(aircraftModelRepository.count() == 0) {
             aircraftModelRepository.saveAll(aircraftModelSeeder.seedAircraftModels());
-        }
-    }
-
-    private void seedAirlines() {
-        if(airlineRepository.count() == 0) {
-            airlineRepository.saveAll(airlineSeeder.seedAirlines());
         }
     }
 }
