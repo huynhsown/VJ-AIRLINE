@@ -1,4 +1,4 @@
-package com.vietjoke.vn.config.seeding;
+package com.vietjoke.vn.config.seeding.seeder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vietjoke.vn.entity.location.AirportEntity;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 

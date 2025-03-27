@@ -1,0 +1,142 @@
+[
+  {
+    "distance": 1160,
+    "estimatedDuration": 120,
+    "isActive": "true",
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "HAN"
+  },
+  {
+    "distance": 1160,
+    "estimatedDuration": 120,
+    "isActive": true,
+    "originAirportEntity": "HAN",
+    "destinationAirportEntity": "SGN"
+  },
+  {
+    "distance": 550,
+    "estimatedDuration": 70,
+    "isActive": true,
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "DAD"
+  },
+  {
+    "distance": 550,
+    "estimatedDuration": 70,
+    "isActive": true,
+    "originAirportEntity": "DAD",
+    "destinationAirportEntity": "SGN"
+  },
+  {
+    "distance": 880,
+    "estimatedDuration": 100,
+    "isActive": true,
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "CXR"
+  },
+  {
+    "distance": 880,
+    "estimatedDuration": 100,
+    "isActive": true,
+    "originAirportEntity": "CXR",
+    "destinationAirportEntity": "SGN"
+  },
+  {
+    "distance": 320,
+    "estimatedDuration": 50,
+    "isActive": true,
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "DLI"
+  },
+  {
+    "distance": 320,
+    "estimatedDuration": 50,
+    "isActive": true,
+    "originAirportEntity": "DLI",
+    "destinationAirportEntity": "SGN"
+  },
+  {
+    "distance": 300,
+    "estimatedDuration": 45,
+    "isActive": true,
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "VCA"
+  },
+  {
+    "distance": 300,
+    "estimatedDuration": 45,
+    "isActive": true,
+    "originAirportEntity": "VCA",
+    "destinationAirportEntity": "SGN"
+  },
+  {
+    "distance": 630,
+    "estimatedDuration": 75,
+    "isActive": true,
+    "originAirportEntity": "HAN",
+    "destinationAirportEntity": "DAD"
+  },
+  {
+    "distance": 630,
+    "estimatedDuration": 75,
+    "isActive": true,
+    "originAirportEntity": "DAD",
+    "destinationAirportEntity": "HAN"
+  },
+  {
+    "distance": 1280,
+    "estimatedDuration": 130,
+    "isActive": true,
+    "originAirportEntity": "HAN",
+    "destinationAirportEntity": "PQC"
+  },
+  {
+    "distance": 1280,
+    "estimatedDuration": 130,
+    "isActive": true,
+    "originAirportEntity": "PQC",
+    "destinationAirportEntity": "HAN"
+  },
+  {
+    "distance": 970,
+    "estimatedDuration": 110,
+    "isActive": true,
+    "originAirportEntity": "HAN",
+    "destinationAirportEntity": "HUI"
+  },
+  {
+    "distance": 970,
+    "estimatedDuration": 110,
+    "isActive": true,
+    "originAirportEntity": "HUI",
+    "destinationAirportEntity": "HAN"
+  },
+  {
+    "distance": 250,
+    "estimatedDuration": 40,
+    "isActive": true,
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "BMV"
+  },
+  {
+    "distance": 250,
+    "estimatedDuration": 40,
+    "isActive": true,
+    "originAirportEntity": "BMV",
+    "destinationAirportEntity": "SGN"
+  },
+  {
+    "distance": 680,
+    "estimatedDuration": 85,
+    "isActive": true,
+    "originAirportEntity": "SGN",
+    "destinationAirportEntity": "VCL"
+  },
+  {
+    "distance": 680,
+    "estimatedDuration": 85,
+    "isActive": true,
+    "originAirportEntity": "VCL",
+    "destinationAirportEntity": "SGN"
+  }
+]

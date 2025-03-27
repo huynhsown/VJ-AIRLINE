@@ -12,12 +12,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "flights")
 public class FlightEntity extends BaseEntity {
+
+    @Column(unique = true, nullable = false)
     private String flightNumber;
     private LocalDateTime scheduledDeparture;
     private LocalDateTime scheduledArrival;
@@ -45,4 +48,11 @@ public class FlightEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "flightEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatReservationEntity> seatReservationEntities;
+
+    @PrePersist
+    public void generateFlightNumber() {
+        if (this.flightNumber == null || this.flightNumber.isEmpty()) {
+            this.flightNumber = "VN" + UUID.randomUUID().toString().substring(0, 6).toUpperCase();
+        }
+    }
 }

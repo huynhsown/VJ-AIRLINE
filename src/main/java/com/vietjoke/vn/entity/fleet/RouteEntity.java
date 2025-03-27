@@ -12,8 +12,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "routes")
+@Table(name = "routes",
+        uniqueConstraints = { @UniqueConstraint(columnNames = { "origin_airport", "destination_airport" }) })
 public class RouteEntity extends BaseEntity {
+
+    private String routeCode;
+
     private Integer distance;
 
     private Integer estimatedDuration;

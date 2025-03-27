@@ -1,4 +1,4 @@
-package com.vietjoke.vn.config.seeding;
+package com.vietjoke.vn.config.seeding.seeder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vietjoke.vn.entity.user.RoleEntity;

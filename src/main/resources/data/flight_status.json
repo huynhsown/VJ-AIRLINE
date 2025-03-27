@@ -1,0 +1,22 @@
+[
+  {
+    "statusCode": "SCH",
+    "statusName": "Scheduled"
+  },
+  {
+    "statusCode": "BRD",
+    "statusName": "Boarding"
+  },
+  {
+    "statusCode": "DEP",
+    "statusName": "Departed"
+  },
+  {
+    "statusCode": "ARR",
+    "statusName": "Arrived"
+  },
+  {
+    "statusCode": "DEL",
+    "statusName": "Delayed"
+  }
+]

@@ -1,11 +1,9 @@
-package com.vietjoke.vn.config.seeding;
+package com.vietjoke.vn.config.seeding.seeder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vietjoke.vn.dto.fleet.AirlineDTO;
 import com.vietjoke.vn.entity.fleet.AircraftEntity;
 import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
 import com.vietjoke.vn.entity.fleet.AirlineEntity;
-import com.vietjoke.vn.entity.user.RoleEntity;
 import com.vietjoke.vn.repository.fleet.AircraftModelRepository;
 import com.vietjoke.vn.repository.fleet.AircraftRepository;
 import com.vietjoke.vn.repository.fleet.AirlineRepository;
@@ -39,6 +37,11 @@ public class AirlineSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
+        if(airlineRepository.count() != 0) {
+            return;
+        }
+
         List<AirlineEntity> airlines = seedAirlines();
 
         for (AirlineEntity airline : airlines) {
