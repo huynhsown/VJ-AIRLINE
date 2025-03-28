@@ -14,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "fare_classes")
 public class FareClassEntity extends BaseEntity {
+
+    @Column(unique = true, nullable = false)
     private String code;
     private String name;
     private String description;

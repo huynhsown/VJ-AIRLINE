@@ -1,0 +1,44 @@
+[
+  {
+    "code": "PRM",
+    "name": "Premium",
+    "description": "Premium class with full amenities",
+    "isActive": true,
+    "baggageAllowance": 40,
+    "seatSelection": true,
+    "mealIncluded": true,
+    "changeAllowed": true,
+    "refundAllowed": true,
+    "changeFee": 50.0,
+    "refundFee": 100.0,
+    "airlineCode": "VJ"
+  },
+  {
+    "code": "BUS",
+    "name": "Business",
+    "description": "Business class with enhanced services",
+    "isActive": true,
+    "baggageAllowance": 30,
+    "seatSelection": true,
+    "mealIncluded": true,
+    "changeAllowed": true,
+    "refundAllowed": false,
+    "changeFee": 75.0,
+    "refundFee": null,
+    "airlineCode": "VJ"
+  },
+  {
+    "code": "STD",
+    "name": "Standard",
+    "description": "Economy class with cost-saving options",
+    "isActive": true,
+    "baggageAllowance": 20,
+    "seatSelection": false,
+    "mealIncluded": false,
+    "changeAllowed": false,
+    "refundAllowed": false,
+    "changeFee": null,
+    "refundFee": null,
+    "airlineCode": "VJ"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "scheduledDeparture": "2025-07-15T08:00:00",
+    "scheduledArrival": "2025-07-15T10:30:00",
+    "gate": "A12",
+    "terminal": "T2",
+    "airlineCode": "VJ",
+    "routeCode": "SGN-HAN",
+    "registerNumber": "VN-A350",
+    "statusCode": "SCH"
+  },
+  {
+    "scheduledDeparture": "2025-07-16T14:00:00",
+    "scheduledArrival": "2025-07-16T15:30:00",
+    "gate": "B3",
+    "terminal": "T1",
+    "airlineCode": "VJ",
+    "routeCode": "HAN-DAD",
+    "registerNumber": "VN-A320",
+    "statusCode": "SCH"
+  },
+  {
+    "scheduledDeparture": "2025-07-17T09:30:00",
+    "scheduledArrival": "2025-07-17T11:00:00",
+    "gate": "C5",
+    "terminal": "T2",
+    "airlineCode": "VJ",
+    "routeCode": "SGN-DAD",
+    "registerNumber": "VN-A321",
+    "statusCode": "SCH"
+  },
+  {
+    "scheduledDeparture": "2025-07-18T06:30:00",
+    "scheduledArrival": "2025-07-18T08:00:00",
+    "gate": "A5",
+    "terminal": "T1",
+    "airlineCode": "VJ",
+    "routeCode": "SGN-CXR",
+    "registerNumber": "VN-A330",
+    "statusCode": "SCH"
+  },
+  {
+    "scheduledDeparture": "2025-07-19T12:00:00",
+    "scheduledArrival": "2025-07-19T14:30:00",
+    "gate": "D2",
+    "terminal": "T2",
+    "airlineCode": "VJ",
+    "routeCode": "HAN-PQC",
+    "registerNumber": "VN-A380",
+    "statusCode": "SCH"
+  },
+  {
+    "scheduledDeparture": "2025-07-20T16:00:00",
+    "scheduledArrival": "2025-07-20T17:15:00",
+    "gate": "B7",
+    "terminal": "T1",
+    "airlineCode": "VJ",
+    "routeCode": "DAD-SGN",
+    "registerNumber": "VN-A220",
+    "statusCode": "SCH"
+  }
+]

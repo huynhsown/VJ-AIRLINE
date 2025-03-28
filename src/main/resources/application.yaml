@@ -41,3 +41,11 @@ spring:
 jwt:
   expiration: 2592000
   secretKey: dc5c9d1c0879a9ea385bd31bec4ee7feb628a5ed6fdc5569426f90fad9294409
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    disable-swagger-default-url: true
