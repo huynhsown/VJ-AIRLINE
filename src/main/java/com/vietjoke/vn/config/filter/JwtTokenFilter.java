@@ -26,7 +26,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
 
     private static final List<EndpointMethod> BYPASS_ENDPOINTS = List.of(
-            new EndpointMethod("/login", "GET"),
             new EndpointMethod("/api/v1/airports", "GET"),
             new EndpointMethod("/api/v1/auth/login", "POST"),
             new EndpointMethod("/api/v1/auth/register", "POST"),
@@ -37,8 +36,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             new EndpointMethod("/swagger-ui", "GET"),
             new EndpointMethod("/swagger-ui.html", "GET"),
             new EndpointMethod("/swagger-resources", "GET"),
-            new EndpointMethod("/webjars", "GET")
+            new EndpointMethod("/webjars", "GET"),
+            new EndpointMethod("/test", "GET")
     );
+
+
+    private boolean isBypassEndpoint(HttpServletRequest request) {
+        return BYPASS_ENDPOINTS.stream().anyMatch(endpoint ->
+                request.getServletPath().contains(endpoint.path) &&
+                        request.getMethod().equals(endpoint.method)
+        );
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -96,13 +104,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         }
         return false;
-    }
-
-    private boolean isBypassEndpoint(HttpServletRequest request) {
-        return BYPASS_ENDPOINTS.stream().anyMatch(endpoint ->
-                request.getServletPath().contains(endpoint.path) &&
-                        request.getMethod().equals(endpoint.method)
-        );
     }
 
     private record EndpointMethod(String path, String method) {}

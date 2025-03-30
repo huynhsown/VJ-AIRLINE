@@ -5,6 +5,7 @@ import com.vietjoke.vn.entity.fleet.AirlineEntity;
 import com.vietjoke.vn.entity.fleet.RouteEntity;
 import com.vietjoke.vn.entity.core.BaseEntity;
 import com.vietjoke.vn.entity.booking.BookingDetailEntity;
+import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class FlightEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "airline_id")
     private AirlineEntity airlineEntity;
+
+    @OneToOne(mappedBy = "flightEntity", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private FareAvailabilityEntity fareAvailabilityEntity;
 
     @ManyToOne
     @JoinColumn(name = "route_id")
