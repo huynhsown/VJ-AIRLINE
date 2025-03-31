@@ -5,13 +5,15 @@ import com.vietjoke.vn.entity.core.BaseEntity;
 import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.util.enums.pricing.SeatStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "seat_reservations")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SeatReservationEntity extends BaseEntity {
     private String seatNumber;
 

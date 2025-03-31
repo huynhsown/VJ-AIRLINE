@@ -3,6 +3,8 @@ package com.vietjoke.vn.config.seeding.jsonObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class FareClass {
     private String code;

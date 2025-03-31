@@ -5,6 +5,8 @@ import com.vietjoke.vn.entity.fleet.AirlineEntity;
 import com.vietjoke.vn.entity.fleet.RouteEntity;
 import com.vietjoke.vn.entity.core.BaseEntity;
 import com.vietjoke.vn.entity.booking.BookingDetailEntity;
+import com.vietjoke.vn.entity.location.AirportEntity;
+import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,19 +30,22 @@ public class FlightEntity extends BaseEntity {
     private String terminal;
 
     @ManyToOne
-    @JoinColumn(name = "airline_id")
+    @JoinColumn(name = "airline_id", nullable = false)
     private AirlineEntity airlineEntity;
 
+    @OneToMany(mappedBy = "flightEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FareAvailabilityEntity> fareAvailabilityEntities;
+
     @ManyToOne
-    @JoinColumn(name = "route_id")
+    @JoinColumn(name = "route_id", nullable = false)
     private RouteEntity routeEntity;
 
     @ManyToOne
-    @JoinColumn(name = "aircraft_id")
+    @JoinColumn(name = "aircraft_id", nullable = false)
     private AircraftEntity aircraftEntity;
 
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private FlightStatusEntity flightStatusEntity;
 
     @OneToMany(mappedBy = "flightEntity", cascade = CascadeType.ALL, orphanRemoval = true)

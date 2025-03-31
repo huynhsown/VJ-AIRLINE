@@ -1,7 +1,5 @@
 package com.vietjoke.vn.controller.location;
 
-import com.vietjoke.vn.dto.location.AirportDTO;
-import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.entity.fleet.RouteEntity;
 import com.vietjoke.vn.repository.fleet.RouteRepository;
 import lombok.RequiredArgsConstructor;

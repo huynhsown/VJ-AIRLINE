@@ -2,12 +2,8 @@ package com.vietjoke.vn.entity.pricing;
 
 import com.vietjoke.vn.entity.core.BaseEntity;
 import com.vietjoke.vn.entity.flight.FlightEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -15,11 +11,14 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "flight_fare_availability")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FareAvailabilityEntity extends BaseEntity {
     private Integer availableSeats;
     private BigDecimal basePrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id", nullable = false)
     private FlightEntity flightEntity;
 

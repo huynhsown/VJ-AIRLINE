@@ -13,5 +13,4 @@ public class ProvinceDTO extends BaseDTO {
     private String provinceName;
     private String provinceEngName;
     private CountryDTO country;
-    private List<AirportDTO> airports;
 }

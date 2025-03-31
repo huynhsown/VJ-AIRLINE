@@ -7,7 +7,21 @@
     "airlineCode": "VJ",
     "routeCode": "SGN-HAN",
     "registerNumber": "VN-A350",
-    "statusCode": "SCH"
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 10000000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 8000000
+      },
+      {
+        "code": "STD",
+        "basePrice": 5000000
+      }
+    ]
   },
   {
     "scheduledDeparture": "2025-07-16T14:00:00",
@@ -17,7 +31,21 @@
     "airlineCode": "VJ",
     "routeCode": "HAN-DAD",
     "registerNumber": "VN-A320",
-    "statusCode": "SCH"
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 9000000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 7000000
+      },
+      {
+        "code": "STD",
+        "basePrice": 4500000
+      }
+    ]
   },
   {
     "scheduledDeparture": "2025-07-17T09:30:00",
@@ -27,7 +55,21 @@
     "airlineCode": "VJ",
     "routeCode": "SGN-DAD",
     "registerNumber": "VN-A321",
-    "statusCode": "SCH"
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 8500000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 6500000
+      },
+      {
+        "code": "STD",
+        "basePrice": 4000000
+      }
+    ]
   },
   {
     "scheduledDeparture": "2025-07-18T06:30:00",
@@ -37,7 +79,21 @@
     "airlineCode": "VJ",
     "routeCode": "SGN-CXR",
     "registerNumber": "VN-A330",
-    "statusCode": "SCH"
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 12000000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 9500000
+      },
+      {
+        "code": "STD",
+        "basePrice": 6000000
+      }
+    ]
   },
   {
     "scheduledDeparture": "2025-07-19T12:00:00",
@@ -47,7 +103,21 @@
     "airlineCode": "VJ",
     "routeCode": "HAN-PQC",
     "registerNumber": "VN-A380",
-    "statusCode": "SCH"
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 15000000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 11000000
+      },
+      {
+        "code": "STD",
+        "basePrice": 7500000
+      }
+    ]
   },
   {
     "scheduledDeparture": "2025-07-20T16:00:00",
@@ -57,6 +127,20 @@
     "airlineCode": "VJ",
     "routeCode": "DAD-SGN",
     "registerNumber": "VN-A220",
-    "statusCode": "SCH"
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 8000000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 6000000
+      },
+      {
+        "code": "STD",
+        "basePrice": 3500000
+      }
+    ]
   }
 ]

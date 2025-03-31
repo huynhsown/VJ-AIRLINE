@@ -13,5 +13,4 @@ public class CountryDTO extends BaseDTO {
     private String countryName;
     private String countryEngName;
     private String areaCode;
-    private List<ProvinceDTO> provinces;
 }

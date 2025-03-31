@@ -25,6 +25,7 @@ import com.vietjoke.vn.repository.location.AirportRepository;
 import com.vietjoke.vn.repository.location.CountryRepository;
 import com.vietjoke.vn.repository.pricing.FareClassRepository;
 import com.vietjoke.vn.repository.user.RoleRepository;
+import com.vietjoke.vn.service.flight.FlightService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -51,6 +52,8 @@ public class MasterSeeder implements CommandLineRunner {
     private final RouteRepository routeRepository;
     private final AirportRepository airportRepository;
     private final RoleRepository roleRepository;
+
+    private final FlightService flightService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -199,28 +202,7 @@ public class MasterSeeder implements CommandLineRunner {
         InputStream inputStream = new ClassPathResource("/data/flights.json").getInputStream();
         List<Flight> flights = List.of(objectMapper.readValue(inputStream, Flight[].class));
         for (Flight flight : flights) {
-            FlightEntity flightEntity = new FlightEntity();
-            AirlineEntity airlineEntity = airlineRepository.findByAirlineCode(flight.getAirlineCode())
-                    .orElseThrow(() -> new RuntimeException("Airline not found: " + flight.getAirlineCode()));
-            RouteEntity routeEntity = routeRepository.findByRouteCode(flight.getRouteCode())
-                    .orElseThrow(() -> new RuntimeException("Route not found: " + flight.getRouteCode()));
-            flightEntity.setScheduledDeparture(flight.getScheduledDeparture());
-            flightEntity.setScheduledArrival(flight.getScheduledArrival());
-            flightEntity.setGate(flight.getGate());
-            flightEntity.setTerminal(flight.getTerminal());
-            flightEntity.setAirlineEntity(airlineEntity);
-            flightEntity.setRouteEntity(routeEntity);
-            if (flight.getStatusCode() != null) {
-                FlightStatusEntity statusEntity = flightStatusRepository.findByStatusCode(flight.getStatusCode())
-                        .orElseThrow(() -> new RuntimeException("Flight status not found: " + flight.getStatusCode()));
-                flightEntity.setFlightStatusEntity(statusEntity);
-            }
-            if (flight.getRegisterNumber() != null) {
-                AircraftEntity aircraftEntity = aircraftRepository.findByRegistrationNumber(flight.getRegisterNumber())
-                        .orElseThrow(() -> new RuntimeException("Aircraft not found: " + flight.getRegisterNumber()));
-                flightEntity.setAircraftEntity(aircraftEntity);
-            }
-            flightRepository.save(flightEntity);
+            flightService.createOrUpdateFlight(flight);
         }
     }
 

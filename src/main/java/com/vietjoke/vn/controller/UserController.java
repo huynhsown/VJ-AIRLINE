@@ -3,17 +3,12 @@ package com.vietjoke.vn.controller;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.user.UserLoginRequestDTO;
 import com.vietjoke.vn.dto.user.UserRegisterRequestDTO;
-import com.vietjoke.vn.exception.user.DuplicateUsernameException;
 import com.vietjoke.vn.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
