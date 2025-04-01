@@ -14,7 +14,9 @@ public class FlightConverter {
     private final ModelMapper modelMapper;
 
     public FlightResponseDTO convertToResponseDTO(FlightEntity flightEntity) {
-        return modelMapper.map(flightEntity, FlightResponseDTO.class);
+        FlightResponseDTO flightResponseDTO = modelMapper.map(flightEntity, FlightResponseDTO.class);
+        flightResponseDTO.setFlightModelCode(flightEntity.getAircraftEntity().getAircraftModelEntity().getModelCode());
+        return flightResponseDTO;
     }
 
 }

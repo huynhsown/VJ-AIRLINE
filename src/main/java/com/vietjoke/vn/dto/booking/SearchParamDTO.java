@@ -1,17 +1,20 @@
 package com.vietjoke.vn.dto.booking;
 
+import com.vietjoke.vn.constant.PassengerConstants;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 public class SearchParamDTO {
 
     @NotNull(message = "Trip type is required")
+    @Pattern(regexp = "oneway|round_trip", message = "Trip type must be either 'oneway' or 'round_trip'")
     private String tripType;
 
     @NotNull(message = "Departure location is required")
@@ -21,35 +24,63 @@ public class SearchParamDTO {
     private String tripTo;
 
     @NotNull(message = "Start date is required")
-    private LocalDateTime tripStartDate;
+    private LocalDate tripStartDate;
 
-    private LocalDateTime tripReturnDate;
+    private LocalDate tripReturnDate;
 
-    @Min(value = 1, message = "At least 1 passenger is required")
-    private Integer tripPassengers = 1;
+    @Min(value = PassengerConstants.MIN_PASSENGERS, message = "At least 1 passenger is required")
+    @Max(value = PassengerConstants.MAX_PASSENGERS, message = "Total passengers cannot exceed " + PassengerConstants.MAX_PASSENGERS)
+    private Integer tripPassengers = PassengerConstants.MIN_PASSENGERS;
 
-    @Min(value = 1, message = "At least 1 adult passenger is required")
-    private Integer tripPassengersAdult = 1;
+    @Min(value = PassengerConstants.MIN_ADULT_PASSENGERS, message = "At least 1 adult passenger is required")
+    @Max(value = PassengerConstants.MAX_ADULT_PASSENGERS, message = "Adult passengers cannot exceed " + PassengerConstants.MAX_ADULT_PASSENGERS)
+    private Integer tripPassengersAdult = PassengerConstants.MIN_ADULT_PASSENGERS;
 
-    @Min(value = 0, message = "Number of child passengers cannot be negative")
-    private Integer tripPassengersChild = 0;
+    @Min(value = PassengerConstants.MIN_CHILD_PASSENGERS, message = "Number of child passengers cannot be negative")
+    @Max(value = PassengerConstants.MAX_CHILD_PASSENGERS, message = "Child passengers cannot exceed " + PassengerConstants.MAX_CHILD_PASSENGERS)
+    private Integer tripPassengersChild = PassengerConstants.MIN_CHILD_PASSENGERS;
 
-    @Min(value = 0, message = "Number of infant passengers cannot be negative")
-    private Integer tripPassengersInfant = 0;
+    @Min(value = PassengerConstants.MIN_INFANT_PASSENGERS, message = "Number of infant passengers cannot be negative")
+    private Integer tripPassengersInfant = PassengerConstants.MIN_INFANT_PASSENGERS;
+
     private String coupon;
     private boolean is_find_cheapest = false;
 
     @AssertTrue(message = "Start date must be today or in the future")
     public boolean isStartDateValid() {
-        if (tripStartDate == null) {
-            return true;
-        }
-        try{
-            LocalDate startDate = tripStartDate.toLocalDate();
-            return !startDate.isBefore(LocalDate.now());
-        }
-        catch (Exception e) {
-            return false;
-        }
+        return !tripStartDate.isBefore(LocalDate.now());
+    }
+
+    @AssertTrue(message = "Return date must be equal to or after start date")
+    public boolean isReturnDateValid() {
+        return tripReturnDate == null || !tripReturnDate.isBefore(tripStartDate);
+    }
+
+    @AssertTrue(message = "Departure and destination locations must be different")
+    public boolean isTripLocationsValid() {
+        return !tripFrom.equalsIgnoreCase(tripTo);
+    }
+
+    @AssertTrue(message = "Total passengers must match the sum of adults, children, and infants")
+    public boolean isTotalPassengersValid() {
+        int adults = tripPassengersAdult != null ? tripPassengersAdult : 0;
+        int children = tripPassengersChild != null ? tripPassengersChild : 0;
+        int infants = tripPassengersInfant != null ? tripPassengersInfant : 0;
+        int total = tripPassengers != null ? tripPassengers : 0;
+        return adults + children + infants == total;
+    }
+
+    @AssertTrue(message = "Number of infants must not exceed number of adults")
+    public boolean isChildrenVsAdultsValid() {
+        int adults = tripPassengersAdult != null ? tripPassengersAdult : 0;
+        int children = tripPassengersChild != null ? tripPassengersChild : 0;
+        return adults + children <= PassengerConstants.MAX_PASSENGERS;
+    }
+
+    @AssertTrue(message = "Number of infants must not exceed the limit per adult")
+    public boolean isInfantsPerAdultValid() {
+        int adults = tripPassengersAdult != null ? tripPassengersAdult : 0;
+        int infants = tripPassengersInfant != null ? tripPassengersInfant : 0;
+        return infants <= adults * PassengerConstants.MAX_INFANT_PER_ADULT;
     }
 }

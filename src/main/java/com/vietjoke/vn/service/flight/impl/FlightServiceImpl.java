@@ -3,6 +3,7 @@ package com.vietjoke.vn.service.flight.impl;
 import com.vietjoke.vn.config.seeding.jsonObject.Flight;
 import com.vietjoke.vn.converter.FareClassConverter;
 import com.vietjoke.vn.converter.FlightConverter;
+import com.vietjoke.vn.converter.RouteConverter;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.response.FareClassDTO;
 import com.vietjoke.vn.dto.response.FlightResponseDTO;
@@ -19,13 +20,14 @@ import com.vietjoke.vn.service.flight.FlightService;
 import com.vietjoke.vn.service.flight.FlightStatusService;
 import com.vietjoke.vn.service.pricing.FareAvailabilityService;
 import com.vietjoke.vn.service.pricing.SeatReservationService;
+import com.vietjoke.vn.util.enums.flight.TripType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -44,6 +46,7 @@ public class FlightServiceImpl implements FlightService {
 
     private final FlightConverter flightConverter;
     private final FareClassConverter fareClassConverter;
+    private final RouteConverter routeConverter;
 
     @Override
     @Transactional
@@ -85,15 +88,35 @@ public class FlightServiceImpl implements FlightService {
     @Override
     @Transactional
     public ResponseDTO<SearchFlightResponseDTO> searchFlight(SearchParamDTO searchParam) {
-
-        String outbound = searchParam.getTripFrom() + '-' + searchParam.getTripTo();
-
-        List<FlightEntity> flightEntities = flightRepository.findFlightsBySearchParam(outbound,
-                searchParam.getTripStartDate().toLocalDate());
-
         int neededSeats = searchParam.getTripPassengersChild() + searchParam.getTripPassengersAdult();
 
-        List<FlightResponseDTO> flightResponseDTOS = flightEntities.stream()
+        Map<String, List<FlightResponseDTO>> routeMap = new LinkedHashMap<>();
+
+        String outbound = searchParam.getTripFrom() + '-' + searchParam.getTripTo();
+        List<FlightResponseDTO> outboundFlights = toFlightResponseDTO(outbound, searchParam.getTripStartDate(), neededSeats);
+        if(outboundFlights.isEmpty()){
+            return ResponseDTO.error(404, "No flight found");
+        }
+        routeMap.put(outbound, outboundFlights);
+
+        if(Objects.equals(searchParam.getTripType(), TripType.ROUND_TRIP.getValue())){
+            String inbound = searchParam.getTripTo() + '-' + searchParam.getTripFrom();
+            List<FlightResponseDTO> inboundFlights = toFlightResponseDTO(inbound, searchParam.getTripReturnDate(), neededSeats);
+            if(inboundFlights.isEmpty()){
+                return ResponseDTO.error(404, "No flight found");
+            }
+            routeMap.put(inbound, inboundFlights);
+        }
+
+        SearchFlightResponseDTO result = SearchFlightResponseDTO.builder()
+                .travelOptions(List.of(routeMap)).build();
+
+        return ResponseDTO.success(result);
+    }
+
+    private List<FlightResponseDTO> toFlightResponseDTO(String tripType, LocalDate date, int neededSeats) {
+        List<FlightEntity> flightEntities = flightRepository.findFlightsBySearchParam(tripType, date);
+        return flightEntities.stream()
                 .map(flightEntity -> {
                     FlightResponseDTO flightResponseDTO = flightConverter.convertToResponseDTO(flightEntity);
 
@@ -109,14 +132,5 @@ public class FlightServiceImpl implements FlightService {
                     return flightResponseDTO;
                 })
                 .collect(Collectors.toList());
-
-        SearchFlightResponseDTO result = SearchFlightResponseDTO.builder()
-                .travelOptions(flightResponseDTOS).build();
-
-        if(flightResponseDTOS.isEmpty()){
-            return ResponseDTO.error(404, "No flight found");
-        }
-
-        return ResponseDTO.success(result);
     }
 }

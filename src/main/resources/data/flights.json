@@ -142,5 +142,29 @@
         "basePrice": 3500000
       }
     ]
+  },
+  {
+    "scheduledDeparture": "2025-07-21T10:00:00",
+    "scheduledArrival": "2025-07-21T12:30:00",
+    "gate": "A8",
+    "terminal": "T2",
+    "airlineCode": "VJ",
+    "routeCode": "HAN-SGN",
+    "registerNumber": "VN-A350",
+    "statusCode": "SCH",
+    "fareAvailability": [
+      {
+        "code": "PRM",
+        "basePrice": 11000000
+      },
+      {
+        "code": "BUS",
+        "basePrice": 8500000
+      },
+      {
+        "code": "STD",
+        "basePrice": 5500000
+      }
+    ]
   }
 ]

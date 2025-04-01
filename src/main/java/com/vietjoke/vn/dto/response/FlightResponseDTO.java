@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 public class FlightResponseDTO {
-    private String routeCode;
     private String flightNumber;
     private String flightModelCode;
     private LocalDateTime scheduledDeparture;

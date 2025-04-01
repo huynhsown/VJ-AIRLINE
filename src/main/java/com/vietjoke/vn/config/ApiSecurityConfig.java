@@ -23,7 +23,9 @@ public class ApiSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
-                    requests.anyRequest().permitAll();
+                    requests
+                            .requestMatchers("/api/v1/search/select-flight", "/book-ticket").authenticated()
+                            .anyRequest().permitAll();
                 });
         return http.build();
     }

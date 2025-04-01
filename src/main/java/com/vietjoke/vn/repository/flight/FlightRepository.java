@@ -18,4 +18,10 @@ public interface FlightRepository extends JpaRepository<FlightEntity, Long> {
             @Param("routeCode") String routeCode,
             @Param("tripStartDate") LocalDate tripStartDate);
 
+    @Query("SELECT f FROM FlightEntity f " +
+            "JOIN f.routeEntity r " +
+            "WHERE r.routeCode = :routeCode")
+    List<FlightEntity> test(
+            @Param("routeCode") String routeCode);
+
 }

@@ -10,7 +10,5 @@ public class AirportDTO extends BaseDTO {
     private String airportCode;
     private String airportName;
     private String airportEngName;
-    private String timeZone;
-    private String utcOffset;
     private ProvinceDTO province;
 }
