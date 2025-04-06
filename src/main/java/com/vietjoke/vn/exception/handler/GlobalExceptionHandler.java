@@ -1,7 +1,11 @@
 package com.vietjoke.vn.exception.handler;
 
-import com.vietjoke.vn.dto.response.ResponseDTO;
+import com.vietjoke.vn.constant.ErrorConstaints;
+import com.vietjoke.vn.dto.response.ErrorResponseDTO;
+import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.data.DataNotFoundException;
+import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
+import com.vietjoke.vn.exception.session.SessionExpiredException;
 import com.vietjoke.vn.exception.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,56 +26,86 @@ public class GlobalExceptionHandler {
     //DataException
     @ExceptionHandler(DataNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseDTO<String> handleDataNotFound(DataNotFoundException ex) {
-        return ResponseDTO.error(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+    public ErrorResponseDTO handleDataNotFound(DataNotFoundException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("data", ex.getMessage(), "error"))
+        );
     }
 
     //SecurityException
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseDTO<String> handleBadCredentials(BadCredentialsException ex) {
-        return ResponseDTO.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+    public ErrorResponseDTO handleBadCredentials(BadCredentialsException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.UNAUTHORIZED.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("credentials", ex.getMessage(), "error"))
+        );
     }
 
     @ExceptionHandler(PermissionDenyException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseDTO<String> handlePermissionDeny(PermissionDenyException ex) {
-        return ResponseDTO.error(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+    public ErrorResponseDTO handlePermissionDeny(PermissionDenyException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.FORBIDDEN.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("permission", ex.getMessage(), "error"))
+        );
     }
 
     //UserException
 
     @ExceptionHandler(DuplicateUsernameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseDTO<String> handleDuplicateUsername(DuplicateUsernameException ex) {
-        return ResponseDTO.error(HttpStatus.CONFLICT.value(), ex.getMessage());
+    public ErrorResponseDTO handleDuplicateUsername(DuplicateUsernameException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("username", ex.getMessage(), "error"))
+        );
     }
 
     @ExceptionHandler(DuplicateEmailException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseDTO<String> handleDuplicateEmail(DuplicateEmailException ex) {
-        return ResponseDTO.error(HttpStatus.CONFLICT.value(), ex.getMessage());
+    public ErrorResponseDTO handleDuplicateEmail(DuplicateEmailException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("email", ex.getMessage(), "error"))
+        );
     }
 
     @ExceptionHandler(DuplicatePhoneException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseDTO<String> handleDuplicatePhone(DuplicatePhoneException ex) {
-        return ResponseDTO.error(HttpStatus.CONFLICT.value(), ex.getMessage());
+    public ErrorResponseDTO handleDuplicatePhone(DuplicatePhoneException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("phone", ex.getMessage(), "error"))
+        );
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseDTO<String> handleUserNotFound(UserNotFoundException ex) {
-        return ResponseDTO.error(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+    public ErrorResponseDTO handleUserNotFound(UserNotFoundException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("user", ex.getMessage(), "error"))
+        );
     }
 
     @ExceptionHandler(AccountNotActivatedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseDTO<Map<String, Boolean>> handleAccountNotActive(AccountNotActivatedException ex) {
-        return ResponseDTO.error(HttpStatus.CONFLICT.value(), ex.getMessage(), Map.of("requires_activation", true));
+    public ErrorResponseDTO handleAccountNotActive(AccountNotActivatedException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                List.of(new ErrorResponseDTO.ErrorDetail("account", ex.getMessage(), "error"))
+        );
     }
-
-
 
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -85,19 +119,75 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseDTO<List<String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult()
+    public ErrorResponseDTO handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<ErrorResponseDTO.ErrorDetail> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .map(error -> new ErrorResponseDTO.ErrorDetail(
+                        error.getField(),
+                        error.getDefaultMessage(),
+                        "validation"
+                ))
                 .collect(Collectors.toList());
-        return ResponseDTO.error(HttpStatus.BAD_REQUEST.value(), "Validation failed", errors);
+
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation failed",
+                errors,
+                ErrorConstaints.SESSION_EXPIRED
+        );
     }
 
-    // Xử lý lỗi không mong muốn (fallback)
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseDTO<String> handleGeneralException(Exception ex) {
-        return ResponseDTO.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Lỗi hệ thống, thử lại sau");
+    @ExceptionHandler(SessionExpiredException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseDTO handleSessionException(SessionExpiredException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                "Session expired or not found",
+                List.of(new ErrorResponseDTO.ErrorDetail("session", "Session expired or not found", "error")),
+                ErrorConstaints.SESSION_EXPIRED
+        );
+    }
+
+    @ExceptionHandler(PassengerTypeRequiredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handlePassengerTypeRequiredException(PassengerTypeRequiredException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation failed",
+                List.of(new ErrorResponseDTO.ErrorDetail("passengerType", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(PassengerInfomationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handlePassengerTypeRequiredException(PassengerInfomationException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation failed",
+                List.of(new ErrorResponseDTO.ErrorDetail("passengerType", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(MissingBookingStepException.class)
+    @ResponseStatus(HttpStatus.PRECONDITION_REQUIRED)
+    public ErrorResponseDTO handleMessingBookingStepException(MissingBookingStepException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.PRECONDITION_REQUIRED.value(),
+                "Error",
+                List.of(new ErrorResponseDTO.ErrorDetail("Booking", ex.getMessage(), "error")),
+                ErrorConstaints.MISSING_BOOKING_STEP
+        );
+    }
+
+    @ExceptionHandler(InvalidTripSelectionException.class)
+    @ResponseStatus(HttpStatus.PRECONDITION_REQUIRED)
+    public ErrorResponseDTO handleInvalidTripSelectionException(InvalidTripSelectionException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.PRECONDITION_REQUIRED.value(),
+                "Error",
+                List.of(new ErrorResponseDTO.ErrorDetail("Select Flight", ex.getMessage(), "error")),
+                ErrorConstaints.ERROR_BOOKING_STEP
+        );
     }
 }

@@ -1,29 +1,42 @@
 package com.vietjoke.vn.service.pricing.impl;
 
+import com.vietjoke.vn.converter.SeatConverter;
+import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
+import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
+import com.vietjoke.vn.dto.response.pricing.SeatResponseDTO;
+import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.entity.fleet.AircraftEntity;
 import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
 import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
+import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.repository.pricing.SeatReservationRepository;
+import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.service.flight.FlightService;
 import com.vietjoke.vn.service.pricing.FareClassService;
 import com.vietjoke.vn.service.pricing.SeatReservationService;
 import com.vietjoke.vn.util.enums.pricing.FareClassCode;
 import com.vietjoke.vn.util.enums.pricing.SeatStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SeatReservationServiceImpl implements SeatReservationService {
 
     private final SeatReservationRepository seatReservationRepository;
+
     private final FareClassService fareClassService;
+
+    private final SeatConverter seatConverter;
 
     @Override
     @Transactional
@@ -49,6 +62,16 @@ public class SeatReservationServiceImpl implements SeatReservationService {
     @Override
     public Integer countAvailableSeat(FlightEntity flightEntity, FareClassEntity fareClassEntity) {
         return seatReservationRepository.countBySeatStatusAndFlightEntityAndFareClassEntity(SeatStatus.AVAILABLE, flightEntity, fareClassEntity);
+    }
+
+    @Override
+    public List<SeatResponseDTO> getSeats(String flightNumber, String fareCode) {
+        return seatReservationRepository.findByFlightNumberAndFareCode(
+                flightNumber,
+                fareCode
+        ).stream()
+                .map(seatConverter::toSeatResponseDTO)
+                .toList();
     }
 
     private static AircraftModelEntity getAircraftModelEntity(FlightEntity flightEntity) {

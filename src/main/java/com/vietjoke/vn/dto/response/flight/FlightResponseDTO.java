@@ -1,7 +1,7 @@
-package com.vietjoke.vn.dto.response;
+package com.vietjoke.vn.dto.response.flight;
 
 import com.vietjoke.vn.dto.fleet.RouteDTO;
-import com.vietjoke.vn.dto.location.AirportDTO;
+import com.vietjoke.vn.dto.response.FareClassDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;

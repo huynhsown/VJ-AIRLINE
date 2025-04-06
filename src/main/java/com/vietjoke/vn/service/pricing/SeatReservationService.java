@@ -1,5 +1,6 @@
 package com.vietjoke.vn.service.pricing;
 
+import com.vietjoke.vn.dto.response.pricing.SeatResponseDTO;
 import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
@@ -10,5 +11,5 @@ public interface SeatReservationService {
 
     List<SeatReservationEntity> createSeatReservations(FlightEntity flightEntity);
     Integer countAvailableSeat(FlightEntity flightEntity, FareClassEntity fareClassEntity);
-
+    List<SeatResponseDTO> getSeats(String flightNumber, String fareCode);
 }

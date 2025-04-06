@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +45,11 @@ public class FareAvailabilityServiceImpl implements FareAvailabilityService {
 
 
         return fareAvailabilityRepository.saveAll(fareAvailabilityEntities);
+    }
+
+    @Override
+    public FareAvailabilityEntity getFareAvailability(FlightEntity flightEntity, FareClassEntity fareClassEntity) {
+        return fareAvailabilityRepository.findByFlightEntityAndFareClassEntity(flightEntity, fareClassEntity)
+                .orElseThrow(() -> new RuntimeException("FareAvailability not found"));
     }
 }

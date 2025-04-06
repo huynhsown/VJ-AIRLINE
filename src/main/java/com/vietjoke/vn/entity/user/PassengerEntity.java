@@ -2,12 +2,15 @@ package com.vietjoke.vn.entity.user;
 
 import com.vietjoke.vn.entity.booking.BookingDetailEntity;
 import com.vietjoke.vn.entity.core.BaseEntity;
+import com.vietjoke.vn.entity.location.CountryEntity;
 import com.vietjoke.vn.util.enums.user.Gender;
 import com.vietjoke.vn.util.enums.user.IdType;
 import com.vietjoke.vn.util.enums.user.PassengerType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,8 +34,13 @@ public class PassengerEntity extends BaseEntity {
     @Column(name = "gender", length = 10)
     private Gender gender;
 
-    @Column(name = "nationality", length = 50)
-    private String nationality;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(
+            name = "country_code",
+            referencedColumnName = "country_code"
+    )
+    private CountryEntity nationality;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "id_type", length = 20)

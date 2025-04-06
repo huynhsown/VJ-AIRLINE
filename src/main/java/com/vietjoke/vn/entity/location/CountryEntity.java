@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "countries")
 public class CountryEntity extends BaseEntity {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "country_code")
     private String countryCode;
 
     @Column(nullable = false)
@@ -21,7 +21,6 @@ public class CountryEntity extends BaseEntity {
 
     private String countryEngName;
 
-    @Column(nullable = false, unique = true)
     private String areaCode;
 
     @OneToMany(mappedBy = "countryEntity", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)

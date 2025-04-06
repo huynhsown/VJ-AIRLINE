@@ -1,4 +1,4 @@
-package com.vietjoke.vn.controller;
+package com.vietjoke.vn.controller.user;
 
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.user.UserLoginRequestDTO;

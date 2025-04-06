@@ -26,17 +26,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
 
     private static final List<EndpointMethod> BYPASS_ENDPOINTS = List.of(
-            new EndpointMethod("/login", "GET"),
-            new EndpointMethod("/api/v1/auth/login", "POST"),
-            new EndpointMethod("/api/v1/auth/register", "POST"),
-            new EndpointMethod("/api/v1/admin/login", "POST"),
-            new EndpointMethod("/api/v1/location/routes", "GET"),
-            new EndpointMethod("/v3/api-docs", "GET"),
-            new EndpointMethod("/v3/api-docs/swagger-config", "GET"),
-            new EndpointMethod("/swagger-ui", "GET"),
-            new EndpointMethod("/swagger-ui.html", "GET"),
-            new EndpointMethod("/swagger-resources", "GET"),
-            new EndpointMethod("/webjars", "GET")
+            new EndpointMethod("/api", "POST"),
+            new EndpointMethod("/api", "GET")
     );
 
     @Override
