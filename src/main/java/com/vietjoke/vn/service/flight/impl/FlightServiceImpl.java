@@ -22,6 +22,7 @@ import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import com.vietjoke.vn.exception.booking.MissingBookingStepException;
+import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
 import com.vietjoke.vn.repository.flight.FlightRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
@@ -119,7 +120,7 @@ public class FlightServiceImpl implements FlightService {
         String outbound = searchParam.getTripFrom() + '-' + searchParam.getTripTo();
         List<FlightResponseDTO> outboundFlights = toFlightResponseDTO(outbound, searchParam.getTripStartDate(), neededSeats);
         if(outboundFlights.isEmpty()){
-            return ResponseDTO.error(404, "No flight found");
+            throw new FlightNotFoundException("Flight " + outbound + " not found");
         }
         routeMap.put(outbound, outboundFlights);
 
@@ -127,7 +128,7 @@ public class FlightServiceImpl implements FlightService {
             String inbound = searchParam.getTripTo() + '-' + searchParam.getTripFrom();
             List<FlightResponseDTO> inboundFlights = toFlightResponseDTO(inbound, searchParam.getTripReturnDate(), neededSeats);
             if(inboundFlights.isEmpty()){
-                return ResponseDTO.error(404, "No flight found");
+                throw new FlightNotFoundException("Flight " + inbound + " not found");
             }
             routeMap.put(inbound, inboundFlights);
         }

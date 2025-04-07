@@ -11,9 +11,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RedisHash("booking_session")
 @Getter
@@ -25,6 +23,7 @@ public class BookingSession {
     private SearchParamDTO searchCriteria;
     private SelectFlightRequestDTO selectedFlight;
     private PassengersInfoParamDTO passengersInfoParamDTO;
+    private Set<String> lockedSeats = new HashSet<>();
     private LocalDateTime createdAt;
 
     @TimeToLive

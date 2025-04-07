@@ -2,7 +2,6 @@ package com.vietjoke.vn.service.booking.impl;
 
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
@@ -12,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -28,6 +24,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     private Long sessionTimeToLive;
 
     @Override
+    @Transactional
     public BookingSession createSession(SearchParamDTO searchCriteria) {
         BookingSession session = new BookingSession();
         session.setSearchCriteria(searchCriteria);
@@ -39,6 +36,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     }
 
     @Override
+    @Transactional
     public BookingSession getSession(String sessionId) {
         BookingSession session = bookingSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new SessionExpiredException("Session not found"));
@@ -47,6 +45,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     }
 
     @Override
+    @Transactional
     public BookingSession updateSelectedFlight(String sessionId, SelectFlightRequestDTO selectedFlights) {
         BookingSession session = getSession(sessionId);
         session.setSelectedFlight(selectedFlights);
@@ -54,6 +53,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     }
 
     @Override
+    @Transactional
     public BookingSession updatePassengerInfo(String sessionId, PassengersInfoParamDTO passengerInfo) {
         BookingSession session = getSession(sessionId);
         session.setPassengersInfoParamDTO(passengerInfo);
@@ -61,6 +61,23 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     }
 
     @Override
+    @Transactional
+    public BookingSession addLocketSeat(String sessionId,String lockKey) {
+        BookingSession session = getSession(sessionId);
+        session.getLockedSeats().add(lockKey);
+        return bookingSessionRepository.save(session);
+    }
+
+    @Override
+    @Transactional
+    public BookingSession removeLocketSeat(String sessionId, String lockKey) {
+        BookingSession session = getSession(sessionId);
+        session.getLockedSeats().remove(lockKey);
+        return bookingSessionRepository.save(session);
+    }
+
+    @Override
+    @Transactional
     public void deleteSession(String sessionId) {
         bookingSessionRepository.deleteById(sessionId);
     }

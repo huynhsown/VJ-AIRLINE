@@ -4,7 +4,9 @@ import com.vietjoke.vn.constant.ErrorConstaints;
 import com.vietjoke.vn.dto.response.ErrorResponseDTO;
 import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.data.DataNotFoundException;
+import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
+import com.vietjoke.vn.exception.pricing.SeatAlreadyReservedException;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
 import com.vietjoke.vn.exception.user.*;
 import org.springframework.http.HttpStatus;
@@ -188,6 +190,28 @@ public class GlobalExceptionHandler {
                 "Error",
                 List.of(new ErrorResponseDTO.ErrorDetail("Select Flight", ex.getMessage(), "error")),
                 ErrorConstaints.ERROR_BOOKING_STEP
+        );
+    }
+
+    @ExceptionHandler(FlightNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleFlightNotFound(FlightNotFoundException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Conflict",
+                List.of(new ErrorResponseDTO.ErrorDetail("Search flight", ex.getMessage(), "error")),
+                ErrorConstaints.ERROR_SEARCH
+        );
+    }
+
+    @ExceptionHandler(SeatAlreadyReservedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handleSeatAlreadyReserved(SeatAlreadyReservedException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                "Conflict",
+                List.of(new ErrorResponseDTO.ErrorDetail("Search flight", ex.getMessage(), "error")),
+                ErrorConstaints.SEAT_ALREADY_RESERVED
         );
     }
 }
