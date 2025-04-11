@@ -21,7 +21,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -52,3 +52,9 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
     disable-swagger-default-url: true
+
+cloudinary:
+  cloudName: ${CLOUD_NAME}
+  apiKey: ${CLOUD_API_KEY}
+  apiSecret: ${CLOUD_API_SECRET}
+

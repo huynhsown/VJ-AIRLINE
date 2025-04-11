@@ -13,13 +13,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class AddonDTO extends BaseDTO {
-    private String addonCode;
     private String name;
     private String description;
     private BigDecimal price;
     private Currency currency;
-    private Boolean isActive;
-    private AddonType addonType;
+    private Boolean isActive = true;
+    private String addonType;
     private String imgUrl;
-    private List<BookingAddonDTO> bookingAddons;
 }

@@ -22,4 +22,8 @@ public class SeatController {
         return ResponseEntity.ok(seatRedisService.reserveSeat(seatRequest));
     }
 
+    @DeleteMapping("/booking/release-seat")
+    public ResponseEntity<?> releaseSeat(@RequestBody @Valid SeatReservationRequestDTO seatRequest) {
+        return ResponseEntity.ok(seatRedisService.releaseSeat(seatRequest));
+    }
 }

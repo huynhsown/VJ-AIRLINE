@@ -10,8 +10,11 @@ import com.vietjoke.vn.service.booking.BookingSessionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -19,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookingSessionServiceImpl implements BookingSessionService {
 
     private final BookingSessionRepository bookingSessionRepository;
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Value("${session.ttl}")
     private Long sessionTimeToLive;
@@ -40,7 +45,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     public BookingSession getSession(String sessionId) {
         BookingSession session = bookingSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new SessionExpiredException("Session not found"));
-        session.setTimeToLive(sessionTimeToLive);
+        resetSessionTTL(session);
         return bookingSessionRepository.save(session);
     }
 
@@ -80,5 +85,12 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     @Transactional
     public void deleteSession(String sessionId) {
         bookingSessionRepository.deleteById(sessionId);
+    }
+
+    private void resetSessionTTL(BookingSession session){
+        session.setTimeToLive(sessionTimeToLive);
+        for(String seatLockKey : session.getLockedSeats()){
+            stringRedisTemplate.expire(seatLockKey, sessionTimeToLive, TimeUnit.SECONDS);
+        }
     }
 }

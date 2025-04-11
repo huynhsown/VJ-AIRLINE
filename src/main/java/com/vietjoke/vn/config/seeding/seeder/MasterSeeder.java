@@ -5,6 +5,7 @@
 //import com.vietjoke.vn.config.seeding.jsonObject.FareClass;
 //import com.vietjoke.vn.config.seeding.jsonObject.Flight;
 //import com.vietjoke.vn.config.seeding.jsonObject.Route;
+//import com.vietjoke.vn.dto.pricing.AddonDTO;
 //import com.vietjoke.vn.entity.fleet.AircraftEntity;
 //import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
 //import com.vietjoke.vn.entity.fleet.AirlineEntity;
@@ -14,6 +15,8 @@
 //import com.vietjoke.vn.entity.location.AirportEntity;
 //import com.vietjoke.vn.entity.location.CountryEntity;
 //import com.vietjoke.vn.entity.location.ProvinceEntity;
+//import com.vietjoke.vn.entity.pricing.AddonEntity;
+//import com.vietjoke.vn.entity.pricing.AddonTypeEntity;
 //import com.vietjoke.vn.entity.pricing.FareClassEntity;
 //import com.vietjoke.vn.entity.user.RoleEntity;
 //import com.vietjoke.vn.repository.fleet.AircraftModelRepository;
@@ -24,6 +27,8 @@
 //import com.vietjoke.vn.repository.flight.FlightStatusRepository;
 //import com.vietjoke.vn.repository.location.AirportRepository;
 //import com.vietjoke.vn.repository.location.CountryRepository;
+//import com.vietjoke.vn.repository.pricing.AddonRepository;
+//import com.vietjoke.vn.repository.pricing.AddonTypeRepository;
 //import com.vietjoke.vn.repository.pricing.FareClassRepository;
 //import com.vietjoke.vn.repository.user.RoleRepository;
 //import com.vietjoke.vn.service.flight.FlightService;
@@ -35,6 +40,7 @@
 //
 //import java.io.IOException;
 //import java.io.InputStream;
+//import java.util.ArrayList;
 //import java.util.List;
 //import java.util.Optional;
 //
@@ -67,6 +73,8 @@
 //        seedRoutes();
 //        seedFlights();
 //        seedRoles();
+//        seedAddonTypes();
+//        seedAddons();
 //    }
 //
 //    private void seedCountries() throws IOException {
@@ -234,6 +242,47 @@
 //        try {
 //            InputStream inputStream = new ClassPathResource("/data/roles.json").getInputStream();
 //            return List.of(objectMapper.readValue(inputStream, RoleEntity[].class));
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error loading role data", e);
+//        }
+//    }
+//
+//    private final AddonTypeRepository addonTypeRepository;
+//
+//    // Add-on Type
+//    private void seedAddonTypes(){
+//        try {
+//            if(addonTypeRepository.count() != 0) return;
+//            InputStream inputStream = new ClassPathResource("/data/addon_type.json").getInputStream();
+//            List<AddonTypeEntity> addonTypeEntities = List.of(objectMapper.readValue(inputStream, AddonTypeEntity[].class));
+//            addonTypeRepository.saveAll(addonTypeEntities);
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error loading role data", e);
+//        }
+//    }
+//
+//    // Add-on
+//    private final AddonRepository addonRepository;
+//    private void seedAddons(){
+//        try {
+//            InputStream inputStream = new ClassPathResource("/data/addons.json").getInputStream();
+//            List<AddonDTO> addonTypeEntities = List.of(objectMapper.readValue(inputStream, AddonDTO[].class));
+//            List<AddonEntity> addonEntities = new ArrayList<>();
+//            for(AddonDTO addonDTO : addonTypeEntities){
+//                AddonEntity addonEntity = new AddonEntity();
+//                AddonTypeEntity addonTypeEntity = addonTypeRepository.findByAddonCode(addonDTO.getAddonType()).orElseThrow(
+//                        () -> new RuntimeException("AddonType not found")
+//                );
+//                addonEntity.setAddonTypeEntity(addonTypeEntity);
+//                addonEntity.setName(addonDTO.getName());
+//                addonEntity.setDescription(addonDTO.getDescription());
+//                addonEntity.setPrice(addonDTO.getPrice());
+//                addonEntity.setImgUrl(addonDTO.getImgUrl());
+//                addonEntity.setCurrency(addonDTO.getCurrency());
+//
+//                addonEntities.add(addonEntity);
+//            }
+//            addonRepository.saveAll(addonEntities);
 //        } catch (Exception e) {
 //            throw new RuntimeException("Error loading role data", e);
 //        }

@@ -17,6 +17,4 @@ public interface BookingSessionService {
     BookingSession addLocketSeat(String sessionId, String lockKey);
     BookingSession removeLocketSeat(String sessionId, String lockKey);
     void deleteSession(String sessionId);
-
-
 }

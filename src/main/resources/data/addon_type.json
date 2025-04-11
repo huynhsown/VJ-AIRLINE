@@ -1,0 +1,22 @@
+[
+  {
+    "addonCode": "LUGGAGE",
+    "addonName": "Hành lý"
+  },
+  {
+    "addonCode": "MEAL",
+    "addonName": "Bữa ăn"
+  },
+  {
+    "addonCode": "INSURANCE",
+    "addonName": "Bảo hiểm"
+  },
+  {
+    "addonCode": "DRINK",
+    "addonName": "Nước uống"
+  },
+  {
+    "addonCode": "OTHER",
+    "addonName": "Khác"
+  }
+]
