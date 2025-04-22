@@ -20,5 +20,6 @@ public class PromoCodeDTO extends BaseDTO {
     private Integer currentUsage;
     private Boolean isActive;
     private BigDecimal minBookingAmount;
-    private String applicableAirlines;
+    private Integer minPassengers;
+    private Boolean isFirstTime;
 }

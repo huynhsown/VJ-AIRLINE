@@ -18,6 +18,6 @@ public class AddonDTO extends BaseDTO {
     private BigDecimal price;
     private Currency currency;
     private Boolean isActive = true;
-    private String addonType;
+    private String addonTypeCode;
     private String imgUrl;
 }

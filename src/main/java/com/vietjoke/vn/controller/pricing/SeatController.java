@@ -1,9 +1,6 @@
 package com.vietjoke.vn.controller.pricing;
 
-import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
 import com.vietjoke.vn.dto.request.pricing.SeatReservationRequestDTO;
-import com.vietjoke.vn.dto.response.ResponseDTO;
-import com.vietjoke.vn.service.flight.FlightService;
 import com.vietjoke.vn.service.pricing.SeatRedisService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

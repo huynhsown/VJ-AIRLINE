@@ -1,5 +1,6 @@
 package com.vietjoke.vn.entity.pricing;
 
+import com.vietjoke.vn.entity.booking.BookingEntity;
 import com.vietjoke.vn.entity.core.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,6 +46,12 @@ public class PromoCodeEntity extends BaseEntity {
     @Column(name = "min_booking_amount", precision = 10, scale = 2)
     private BigDecimal minBookingAmount;
 
-    @Column(name = "applicable_airlines", length = 255)
-    private String applicableAirlines;
+    @Column(name = "min_passenger")
+    private Integer minPassenger = 0;
+
+    @Column(name = "is_first_time")
+    private Boolean isFirstTime = false;
+
+    @OneToMany(mappedBy = "promoCodeEntity")
+    private List<BookingEntity> bookingEntities;
 }

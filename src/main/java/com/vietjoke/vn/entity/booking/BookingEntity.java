@@ -1,6 +1,7 @@
 package com.vietjoke.vn.entity.booking;
 
 import com.vietjoke.vn.entity.core.BaseEntity;
+import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,9 +39,6 @@ public class BookingEntity extends BaseEntity {
     @Column(name = "payment_reference", length = 50)
     private String paymentReference;
 
-    @Column(name = "promo_code", length = 20)
-    private String promoCode;
-
     @Column(name = "discount_amount", precision = 10, scale = 2)
     private BigDecimal discountAmount;
 
@@ -65,4 +63,8 @@ public class BookingEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "bookingEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<BookingPaymentEntity> bookingPaymentEntities;
+
+    @ManyToOne
+    @JoinColumn(name = "promode_id")
+    private PromoCodeEntity promoCodeEntity;
 }
