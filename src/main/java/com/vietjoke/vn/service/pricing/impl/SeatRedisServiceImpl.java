@@ -1,15 +1,21 @@
 package com.vietjoke.vn.service.pricing.impl;
 
+import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
 import com.vietjoke.vn.dto.request.pricing.SeatReservationRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
+import com.vietjoke.vn.entity.pricing.FareClassEntity;
+import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.pricing.SeatAlreadyReservedException;
+import com.vietjoke.vn.exception.pricing.SeatSelectionNotAllowedException;
 import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.service.pricing.FareClassService;
 import com.vietjoke.vn.service.pricing.SeatRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -19,10 +25,21 @@ public class SeatRedisServiceImpl implements SeatRedisService {
 
     private final BookingSessionService bookingSessionService;
     private final StringRedisTemplate stringRedisTemplate;
+    private final FareClassService fareClassService;
 
     @Override
     public ResponseDTO<?> reserveSeat(SeatReservationRequestDTO seatRequest) {
         BookingSession session = bookingSessionService.getSession(seatRequest.getSessionToken());
+
+        List<SelectFlightDTO> flights = session.getSelectedFlight().getFlights();
+        if(flights.isEmpty()) {
+            throw new FlightNotFoundException("Flight not found");
+        }
+        FareClassEntity fareClassEntity = fareClassService.getFareClass(flights.get(0).getFareCode());
+        if(!fareClassEntity.getSeatSelection()){
+            throw new SeatSelectionNotAllowedException("Seat selection not allowed");
+        }
+
         String seatLockKey = buildSeatLockKey(seatRequest);
 
         Boolean isSaved = stringRedisTemplate.opsForValue()

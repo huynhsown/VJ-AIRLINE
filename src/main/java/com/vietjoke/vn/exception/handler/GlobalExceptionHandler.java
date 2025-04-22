@@ -7,6 +7,7 @@ import com.vietjoke.vn.exception.data.DataNotFoundException;
 import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
 import com.vietjoke.vn.exception.pricing.SeatAlreadyReservedException;
+import com.vietjoke.vn.exception.pricing.SeatSelectionNotAllowedException;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
 import com.vietjoke.vn.exception.user.*;
 import org.springframework.http.HttpStatus;
@@ -212,6 +213,17 @@ public class GlobalExceptionHandler {
                 "Conflict",
                 List.of(new ErrorResponseDTO.ErrorDetail("Search flight", ex.getMessage(), "error")),
                 ErrorConstaints.SEAT_ALREADY_RESERVED
+        );
+    }
+
+    @ExceptionHandler(SeatSelectionNotAllowedException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponseDTO handleSeatSelectionNotAllow(SeatSelectionNotAllowedException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                "Not Acceptable",
+                List.of(new ErrorResponseDTO.ErrorDetail("Select Seat", ex.getMessage(), "error")),
+                ErrorConstaints.SEAT_NOT_ALLOWED
         );
     }
 }
