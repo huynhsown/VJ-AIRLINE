@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface AddonTypeRepository extends JpaRepository<AddonTypeEntity, Long> {
 
-    Optional<AddonTypeEntity> findByAddonCode(String addonCode);
+    Optional<AddonTypeEntity> findByAddonCode(AddonType addonCode);
 
 }

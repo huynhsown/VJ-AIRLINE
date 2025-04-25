@@ -17,13 +17,20 @@ public class AddonController {
     private final AddonService addonService;
 
     @GetMapping("/addons")
-    public ResponseEntity<?> getAddons(@RequestParam String addonCode,
+    public ResponseEntity<?> getAddonsDuringBooking(@RequestParam String addonCode,
                                        @RequestParam(defaultValue = "name") String sortBy,
                                        @RequestParam(defaultValue = "asc") String sortOrder,
                                        @RequestParam(defaultValue = "1") int pageNumber,
                                        @RequestParam(defaultValue = "10") int pageSize,
-                                       @RequestParam(defaultValue = "ACTIVE") AddonStatus status) {
-        return ResponseEntity.ok(addonService.getAddonsByType(addonCode, sortBy, sortOrder, pageNumber, pageSize, status));
+                                       @RequestParam(defaultValue = "ACTIVE") AddonStatus status,
+                                       @RequestParam String sessionToken) {
+        return ResponseEntity.ok(addonService.getAddonsByType(addonCode,
+                sortBy,
+                sortOrder,
+                pageNumber,
+                pageSize,
+                status,
+                sessionToken));
     }
 
 }

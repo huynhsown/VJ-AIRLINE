@@ -14,7 +14,8 @@ import java.util.List;
 @Table(name = "addon_type")
 public class AddonTypeEntity extends BaseEntity {
     @Column(unique = true, nullable = false)
-    private String addonCode;
+    @Enumerated(EnumType.STRING)
+    private AddonType addonCode;
 
     private String addonName;
 

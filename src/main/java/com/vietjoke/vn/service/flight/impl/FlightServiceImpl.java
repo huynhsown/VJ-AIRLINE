@@ -6,7 +6,6 @@ import com.vietjoke.vn.converter.FlightConverter;
 import com.vietjoke.vn.converter.RouteConverter;
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
 import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
@@ -14,7 +13,7 @@ import com.vietjoke.vn.dto.response.*;
 import com.vietjoke.vn.dto.response.flight.FlightResponseDTO;
 import com.vietjoke.vn.dto.response.flight.SearchFlightResponseDTO;
 import com.vietjoke.vn.dto.response.flight.SelectFlightResponseDTO;
-import com.vietjoke.vn.dto.response.pricing.FlightSeatResponseDTO;
+import com.vietjoke.vn.dto.response.pricing.FlightServiceResponseDTO;
 import com.vietjoke.vn.dto.response.pricing.SeatResponseDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.entity.flight.FlightEntity;
@@ -209,7 +208,7 @@ public class FlightServiceImpl implements FlightService {
 
         List<SelectFlightDTO> selectFlightDTOs = selectFlightRequestDTO.getFlights();
 
-        Map<String, List<SeatResponseDTO>> flightSeats = new LinkedHashMap<>();
+        List<FlightResponseDTO> flightResponseDTOs = new ArrayList<>();
 
         for(SelectFlightDTO selectFlight : selectFlightDTOs){
             FlightEntity flightEntity = this.getFlightByFlightNumber(selectFlight.getFlightNumber());
@@ -227,12 +226,14 @@ public class FlightServiceImpl implements FlightService {
                 throw new InvalidTripSelectionException("Not enough seats available for the number of passengers");
             }
 
-            flightSeats.put(flightEntity.getRouteEntity().getRouteCode(), seats);
+            FlightResponseDTO flightResponseDTO = flightConverter.convertToResponseDTO(flightEntity);
+            flightResponseDTO.setFlightSeats(seats);
+            flightResponseDTOs.add(flightResponseDTO);
         }
 
-        FlightSeatResponseDTO flightSeat = FlightSeatResponseDTO.builder()
+        FlightServiceResponseDTO flightSeat = FlightServiceResponseDTO.builder()
                 .sessionToken(session.getSessionId())
-                .flightSeats(flightSeats)
+                .flight(flightResponseDTOs)
                 .build();
 
         return ResponseDTO.success(flightSeat);
@@ -241,7 +242,9 @@ public class FlightServiceImpl implements FlightService {
     private List<FlightResponseDTO> toFlightResponseDTO(String tripType, LocalDate date, int neededSeats) {
         List<FlightEntity> flightEntities = flightRepository.findFlightsBySearchParam(tripType, date);
         return flightEntities.stream()
+                .filter(flightEntity -> flightEntity.getFlightStatusEntity().getStatusCode().equals("SCH"))
                 .map(flightEntity -> {
+
                     FlightResponseDTO flightResponseDTO = flightConverter.convertToResponseDTO(flightEntity);
 
                     List<FareClassDTO> fareClassDTOS = flightEntity.getFareAvailabilityEntities().stream()

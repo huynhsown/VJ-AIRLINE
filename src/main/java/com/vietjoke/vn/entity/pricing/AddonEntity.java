@@ -2,8 +2,8 @@ package com.vietjoke.vn.entity.pricing;
 
 import com.vietjoke.vn.entity.booking.BookingAddonEntity;
 import com.vietjoke.vn.entity.core.BaseEntity;
+import com.vietjoke.vn.repository.pricing.FareClassAddonRepository;
 import com.vietjoke.vn.util.enums.pricing.Currency;
-import com.vietjoke.vn.util.enums.pricing.AddonType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,10 +36,17 @@ public class AddonEntity extends BaseEntity {
     @Column(name = "img_url", length = 255)
     private String imgUrl;
 
+    @Column(name = "max_quantity", nullable = false)
+    private Integer maxQuantity = 1;
+
     @ManyToOne
     @JoinColumn(name = "addon_type_id", nullable = false)
     private AddonTypeEntity addonTypeEntity;
 
     @OneToMany(mappedBy = "addonEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<BookingAddonEntity> bookingAddonEntities;
+
+    @OneToMany(mappedBy = "addonEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FareClassAddonEntity> fareClassIncludedAddonEntities;
+
 }

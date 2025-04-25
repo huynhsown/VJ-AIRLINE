@@ -11,6 +11,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RouteDTO extends BaseDTO {
+    private String routeCode;
     private Integer distance;
     private Integer estimatedDuration;
     private AirportDTO originAirport;

@@ -17,10 +17,7 @@ import com.vietjoke.vn.entity.flight.FlightStatusEntity;
 import com.vietjoke.vn.entity.location.AirportEntity;
 import com.vietjoke.vn.entity.location.CountryEntity;
 import com.vietjoke.vn.entity.location.ProvinceEntity;
-import com.vietjoke.vn.entity.pricing.AddonEntity;
-import com.vietjoke.vn.entity.pricing.AddonTypeEntity;
-import com.vietjoke.vn.entity.pricing.FareClassEntity;
-import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
+import com.vietjoke.vn.entity.pricing.*;
 import com.vietjoke.vn.entity.user.RoleEntity;
 import com.vietjoke.vn.repository.fleet.AircraftModelRepository;
 import com.vietjoke.vn.repository.fleet.AircraftRepository;
@@ -30,12 +27,10 @@ import com.vietjoke.vn.repository.flight.FlightRepository;
 import com.vietjoke.vn.repository.flight.FlightStatusRepository;
 import com.vietjoke.vn.repository.location.AirportRepository;
 import com.vietjoke.vn.repository.location.CountryRepository;
-import com.vietjoke.vn.repository.pricing.AddonRepository;
-import com.vietjoke.vn.repository.pricing.AddonTypeRepository;
-import com.vietjoke.vn.repository.pricing.FareClassRepository;
-import com.vietjoke.vn.repository.pricing.PromoRepository;
+import com.vietjoke.vn.repository.pricing.*;
 import com.vietjoke.vn.repository.user.RoleRepository;
 import com.vietjoke.vn.service.flight.FlightService;
+import com.vietjoke.vn.util.enums.pricing.AddonType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -45,6 +40,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +75,7 @@ public class MasterSeeder implements CommandLineRunner {
         seedRoles();
         seedAddonTypes();
         seedAddons();
+        seedFreeMeal();
         seedPromos();
     }
 
@@ -255,14 +252,22 @@ public class MasterSeeder implements CommandLineRunner {
     private final AddonTypeRepository addonTypeRepository;
 
     // Add-on Type
-    private void seedAddonTypes(){
+    private void seedAddonTypes() {
         try {
-            if(addonTypeRepository.count() != 0) return;
-            InputStream inputStream = new ClassPathResource("/data/addon_type.json").getInputStream();
-            List<AddonTypeEntity> addonTypeEntities = List.of(objectMapper.readValue(inputStream, AddonTypeEntity[].class));
-            addonTypeRepository.saveAll(addonTypeEntities);
+            if (addonTypeRepository.count() != 0) {
+                return;
+            }
+
+            ClassPathResource resource = new ClassPathResource("/data/addon_type.json");
+            try (InputStream inputStream = resource.getInputStream()) {
+                AddonTypeEntity[] addonTypeArray = objectMapper.readValue(inputStream, AddonTypeEntity[].class);
+                List<AddonTypeEntity> addonTypeEntities = Arrays.asList(addonTypeArray);
+                addonTypeRepository.saveAll(addonTypeEntities);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading addon_type data from JSON", e);
         } catch (Exception e) {
-            throw new RuntimeException("Error loading addon_type data", e);
+            throw new RuntimeException("Unexpected error while seeding addon_type data", e);
         }
     }
 
@@ -278,7 +283,7 @@ public class MasterSeeder implements CommandLineRunner {
             List<AddonEntity> addonEntities = new ArrayList<>();
             for(AddonDTO addonDTO : addonTypeEntities){
                 AddonEntity addonEntity = new AddonEntity();
-                AddonTypeEntity addonTypeEntity = addonTypeRepository.findByAddonCode(addonDTO.getAddonTypeCode()).orElseThrow(
+                AddonTypeEntity addonTypeEntity = addonTypeRepository.findByAddonCode(AddonType.valueOf(addonDTO.getAddonTypeCode())).orElseThrow(
                         () -> new RuntimeException("AddonType not found")
                 );
                 addonEntity.setAddonTypeEntity(addonTypeEntity);
@@ -287,13 +292,39 @@ public class MasterSeeder implements CommandLineRunner {
                 addonEntity.setPrice(addonDTO.getPrice());
                 addonEntity.setImgUrl(addonDTO.getImgUrl());
                 addonEntity.setCurrency(addonDTO.getCurrency());
-
+                addonEntity.setMaxQuantity(addonDTO.getMaxQuantity());
                 addonEntities.add(addonEntity);
             }
             addonRepository.saveAll(addonEntities);
         } catch (Exception e) {
             throw new RuntimeException("Error loading addon data", e);
         }
+    }
+
+    //Free meal
+    private final FareClassAddonRepository fareClassAddonRepository;
+
+    private void seedFreeMeal(){
+
+        if(fareClassAddonRepository.count() != 0) return;
+
+        List<FareClassEntity> fareClassEntities = fareClassRepository.findByMealIncluded(true);
+        List<AddonEntity> mealAddon = addonRepository.findByNameIn(List.of(
+           "Phở với thịt bò nguyên miếng",
+           "Miến gà hầm măng",
+           "Cháo chay"
+        ));
+
+        for(FareClassEntity fareClassEntity : fareClassEntities){
+            for(AddonEntity addonEntity : mealAddon){
+                FareClassAddonEntity fareClassAddonEntity = new FareClassAddonEntity();
+                fareClassAddonEntity.setAddonEntity(addonEntity);
+                fareClassAddonEntity.setFareClassEntity(fareClassEntity);
+                fareClassAddonEntity.setAddonType(AddonType.MEAL);
+                fareClassAddonRepository.save(fareClassAddonEntity);
+            }
+        }
+
     }
 
     // Promo

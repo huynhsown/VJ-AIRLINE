@@ -5,7 +5,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313692/pkvbu2trv1ptl7vfhmsh.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Sữa tươi (có đường)",
@@ -13,7 +14,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313693/l65lkgqcs5wws9k8jl8e.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Trà đen",
@@ -21,7 +23,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313694/edcc8tunznpvuel3gyzt.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Trà gừng",
@@ -29,7 +32,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313695/eko1fcjdt6zwkqm3rutf.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Trà xanh",
@@ -37,7 +41,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313696/p69xddnuxctz5wut1hai.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Milo dầm",
@@ -45,7 +50,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313696/b6liw4otuhvoveqqcdax.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Trà sữa trân châu",
@@ -53,7 +59,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313697/h3l9adfctfcbf5tcrhy9.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Cacao uống liền",
@@ -61,7 +68,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313698/hdkbpp2jbbzgmnp5nw9e.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Cà phê không đường",
@@ -69,7 +77,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313699/kccytglth23j9wozsryr.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Cà phê đen",
@@ -77,7 +86,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313699/qp1xnyoutxggdho6zgx5.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Cà phê sữa",
@@ -85,7 +95,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313700/xba4fmzgnhgcoje2vs4v.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Rượu vang đỏ",
@@ -93,7 +104,8 @@
     "price": 150000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313701/alnicgq2tofane5rbv7c.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Bia",
@@ -101,7 +113,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313702/wkbzjtpwrnqykosyguxx.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Red Bull",
@@ -109,7 +122,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313702/afgyzcixx3njpllzzo4x.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Nước cam Teppy",
@@ -117,7 +131,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313703/gzvaoygnckeeetsb2l8l.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Trà đào hạt chia",
@@ -125,7 +140,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313704/d9ijshywynxxrcumy5br.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Sprite",
@@ -133,7 +149,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313705/zh43a9djj7rpuhczl8pb.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Coca Cola Zero",
@@ -141,7 +158,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313706/yoymwdhajmfetxgi9s5m.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Coca Cola",
@@ -149,7 +167,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313706/opakbyqsu9tar6yle9rl.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Trà thanh giải",
@@ -157,7 +176,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313707/iwtf3zwdrx67xngchx2q.jpg",
-    "addonTypeCode": "DRINK"
+    "addonTypeCode": "DRINK",
+    "maxQuantity": 1
   },
   {
     "name": "Hạt macca",
@@ -165,7 +185,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313708/ajykwkothzjtq89d8z57.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Phở với thịt bò nguyên miếng",
@@ -173,7 +194,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313708/u0ffam6ekmd4hmcqworz.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Miến gà hầm măng",
@@ -181,7 +203,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313709/hwq7a8il0kayxjj60hf4.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cháo chay",
@@ -189,7 +212,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313710/icab9gveg1dgekcnbnyd.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Mì chay",
@@ -197,7 +221,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313711/ctauwyclezs1ytirvin1.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Kẹo dẻo",
@@ -205,7 +230,8 @@
     "price": 15000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313712/sx26d78wptlksvbxpprl.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bánh que Sô-cô-la",
@@ -213,7 +239,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313713/hj9hc1xqv4twfpts02zi.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Hạt điều",
@@ -221,7 +248,8 @@
     "price": 30000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313714/tpjroyvswaiddn62nbdp.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bánh khoai tây chiên",
@@ -229,7 +257,8 @@
     "price": 55000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313715/fdzlvwml1cnicfbfrpix.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Kẹo dừa nguyên chất",
@@ -237,7 +266,8 @@
     "price": 25000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313716/lfxrlv8gcf256kllzrem.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Sô-cô-la thanh",
@@ -245,7 +275,8 @@
     "price": 35000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313716/zvj58ebklzndnyu8zv6x.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Snack chả giò",
@@ -253,7 +284,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313717/rlcmp6d3lxqeekcr0n8m.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xoài lắc muối ớt",
@@ -261,7 +293,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313718/jmieg8fq36nrhggwp96l.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Trái cây sấy",
@@ -269,7 +302,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313719/uaavchpl1t4h7neonomz.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Khô gà lá chanh",
@@ -277,7 +311,8 @@
     "price": 40000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313719/itaddbext85yt9rki9xa.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo Mỳ Ý và Nước suối và Hạt điều",
@@ -285,7 +320,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313721/jr2rx7pmmdce9oqkbnu2.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Phở Thìn Đặc Biệt",
@@ -293,7 +329,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313721/dxlsst8fphztsrdeoibv.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Dimsum Tam Bảo",
@@ -301,7 +338,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313722/a50pqpoosgwihs2kifye.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm chiên Thái",
@@ -309,7 +347,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313723/seyicpivqe2a76awkd15.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bún xào Singapore",
@@ -317,7 +356,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313724/qz4yxjkbuzzusxq97q1t.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Mì ý",
@@ -325,7 +365,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313725/xgllpbwaosylzxldilgr.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bánh chưng chà bông",
@@ -333,7 +374,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313726/qroix6ce9kcbybfk17fy.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xôi khúc giò",
@@ -341,7 +383,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313728/rxefubfbrageztphhvli.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xôi mặn",
@@ -349,7 +392,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313729/h03ksqle4ot5ihvjdvsn.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm dừa Malaysia",
@@ -357,7 +401,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313730/qdpk6uxgvp0xvxz6s0qh.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm thịt bò",
@@ -365,7 +410,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313730/n2yoli2akpvejfolmcah.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Miến xào tôm cua",
@@ -373,7 +419,8 @@
     "price": 80000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313732/d20abl035znsq2utk1i5.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bánh mì",
@@ -381,7 +428,8 @@
     "price": 50000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313733/uklze1zww3sjmawdramy.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Trứng luộc",
@@ -389,7 +437,8 @@
     "price": 15000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313734/dizfq85ot2tu7b8rgmcj.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo Cơm chiên dương châu chay và Nước suối và Hạt điều",
@@ -397,7 +446,8 @@
     "price": 100000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313735/wsx6usoy4w7x5rnekvc8.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm basmati cari chay và Nước suối và Hạt điều",
@@ -405,7 +455,8 @@
     "price": 150000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313740/fbrn1tti9n2dloy7s2m8.png",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xôi mặn + hạt điều + nước",
@@ -413,7 +464,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313742/btw7kwd6v2yxcbrbr7kv.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm thịt bò + hạt điều + nước",
@@ -421,7 +473,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313743/ovprw7vw3ynmyddzl5ha.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Phở Thìn Đặc Biệt  + Bánh que Sô-cô-la + Coca Cola",
@@ -429,7 +482,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313744/bfwgwi9c91ontncb3nqs.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Dimsum Tam Bảo  + Bánh que Sô-cô-la + Coca Cola",
@@ -437,7 +491,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313745/r1p1bevdb8dc9diczvmy.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bún xào Singapore  + Bánh que Sô-cô-la + Coca Cola",
@@ -445,7 +500,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313746/ddm1qcrsrcm3uvsemy2f.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Mì ý  + Bánh que Sô-cô-la + Coca Cola",
@@ -453,7 +509,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313747/w2vw7lvzidnghk15bfa0.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bánh chưng chà bông + Bánh que Sô cô la + Cocacola",
@@ -461,7 +518,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313748/ptgpimpvwr2nbptx9ne3.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xôi khúc giò + Bánh que Sô-cô-la + Coca Cola",
@@ -469,7 +527,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313748/sxw3ktcsannpinor0rfx.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xôi mặn  + Bánh que Sô-cô-la + Coca Cola",
@@ -477,7 +536,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313749/hmj5fdwt0nzlr9p2auy2.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm dừa Malaysia + Bánh que Sô-cô-la + Coca Cola",
@@ -485,7 +545,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313750/q1brwhjmy0hhxt0wcpkv.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm thịt bò + Bánh que Sô-cô-la + Coca Cola",
@@ -493,7 +554,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313751/zbrcjuacao7upo9b26dk.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Miến xào tôm cua  + Bánh que Sô-cô-la + Coca Cola",
@@ -501,7 +563,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313751/xhmjrmsdlgzfdtzrme27.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Mì ý  + hạt điều + nước",
@@ -509,7 +572,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313753/hfux1vzrfdqlnieopuv2.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo: Mì Hàn Quốc + Trứng luộc",
@@ -517,7 +581,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313753/hp9etefsditjkm9kwocm.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo: Mì xốt bò hầm + Trứng luộc",
@@ -525,7 +590,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313754/fcez57lyzzuomufn989b.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo: Mì Lẩu Thái + Trứng luộc",
@@ -533,7 +599,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313755/nnleaont6hcrrdify6ft.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo: Mì Hàn Quốc + xúc xích",
@@ -541,7 +608,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313756/tjbi6uoizd69gbhgv93m.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo: Mì xốt bò hầm + xúc xích",
@@ -549,7 +617,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313757/d0x6emij6jnsklvsyees.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo: Mì Lẩu Thái + xúc xích",
@@ -557,7 +626,8 @@
     "price": 60000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313757/jpuvmapqnw0whidxeiou.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo bánh mì + hạt điều + cà phê sữa",
@@ -565,7 +635,8 @@
     "price": 90000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313758/au0dq0wk7r7isf62styt.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm chiên Thái + hạt điều + nước",
@@ -573,7 +644,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313759/g0jsxe96zimluaiuskid.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Dimsum Tam Bảo + hạt điều + nước",
@@ -581,7 +653,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313760/omsdsplwvmpeoyx5zslv.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bún xào Singapore + hạt điều + nước",
@@ -589,7 +662,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313761/gyltpa3yhe7n64jbjfvi.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Phở Thìn Đặc Biệt + hạt điều + nước",
@@ -597,7 +671,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313762/jwma2nj2ecfdmyt9a7cq.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Happy Combo Bia + Khô gà",
@@ -605,7 +680,8 @@
     "price": 85000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313762/eexhzwbg74duthr2x7ne.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm dừa Malaysia + hạt điều + nước",
@@ -613,7 +689,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313763/wtwtk4xjm1ajiiujrwxz.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Bánh chưng chà bông  + hạt điều + nước",
@@ -621,7 +698,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313764/cqjnegx0ewvwhb8lbopt.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Xôi khúc giò + hạt điều + nước",
@@ -629,7 +707,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313765/n1saqt20ex8hyspsioeh.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Cơm chiên Thái + Bánh que Sô-cô-la + Coca Cola",
@@ -637,7 +716,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313766/mixwtxddc0a8cmtoctyl.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Combo bánh mì + hạt điều + nước",
@@ -645,7 +725,8 @@
     "price": 90000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313768/otgorhddydk31c9rdcsu.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Miến xào tôm cua  + hạt điều + nước",
@@ -653,7 +734,8 @@
     "price": 120000,
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313769/veocybe7hugvhijm8myx.jpg",
-    "addonTypeCode": "MEAL"
+    "addonTypeCode": "MEAL",
+    "maxQuantity": 2
   },
   {
     "name": "Hành lý 10kg",
@@ -661,7 +743,8 @@
     "price": 250000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "LUGGAGE"
+    "addonTypeCode": "LUGGAGE",
+    "maxQuantity": 1
   },
   {
     "name": "Hành lý 20kg",
@@ -669,7 +752,8 @@
     "price": 450000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "LUGGAGE"
+    "addonTypeCode": "LUGGAGE",
+    "maxQuantity": 1
   },
   {
     "name": "Hành lý 30kg",
@@ -677,7 +761,8 @@
     "price": 650000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "LUGGAGE"
+    "addonTypeCode": "LUGGAGE",
+    "maxQuantity": 1
   },
   {
     "name": "Hành lý xách tay 5kg",
@@ -685,7 +770,8 @@
     "price": 150000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "LUGGAGE"
+    "addonTypeCode": "LUGGAGE",
+    "maxQuantity": 1
   },
   {
     "name": "Hành lý đặc biệt (Thể thao)",
@@ -693,7 +779,8 @@
     "price": 800000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "LUGGAGE"
+    "addonTypeCode": "LUGGAGE",
+    "maxQuantity": 1
   },
   {
     "name": "Bảo hiểm trễ chuyến",
@@ -701,7 +788,8 @@
     "price": 150000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "INSURANCE"
+    "addonTypeCode": "INSURANCE",
+    "maxQuantity": 1
   },
   {
     "name": "Bảo hiểm hủy chuyến",
@@ -709,7 +797,8 @@
     "price": 200000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "INSURANCE"
+    "addonTypeCode": "INSURANCE",
+    "maxQuantity": 1
   },
   {
     "name": "Bảo hiểm y tế du lịch",
@@ -717,7 +806,8 @@
     "price": 300000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "INSURANCE"
+    "addonTypeCode": "INSURANCE",
+    "maxQuantity": 1
   },
   {
     "name": "Bảo hiểm mất hành lý",
@@ -725,7 +815,8 @@
     "price": 250000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "INSURANCE"
+    "addonTypeCode": "INSURANCE",
+    "maxQuantity": 1
   },
   {
     "name": "Bảo hiểm toàn diện",
@@ -733,7 +824,8 @@
     "price": 500000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "INSURANCE"
+    "addonTypeCode": "INSURANCE",
+    "maxQuantity": 1
   },
   {
     "name": "Gối cổ du lịch",
@@ -741,7 +833,8 @@
     "price": 150000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "OTHER"
+    "addonTypeCode": "OTHER",
+    "maxQuantity": 1
   },
   {
     "name": "Dịch vụ Wi-Fi trên máy bay",
@@ -749,7 +842,8 @@
     "price": 200000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "OTHER"
+    "addonTypeCode": "OTHER",
+    "maxQuantity": 1
   },
   {
     "name": "Bộ tai nghe chống ồn",
@@ -757,7 +851,8 @@
     "price": 300000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "OTHER"
+    "addonTypeCode": "OTHER",
+    "maxQuantity": 1
   },
   {
     "name": "Dịch vụ chuyển phát nhanh hành lý",
@@ -765,6 +860,7 @@
     "price": 400000,
     "currency": "VND",
     "imgUrl": null,
-    "addonTypeCode": "OTHER"
+    "addonTypeCode": "OTHER",
+    "maxQuantity": 1
   }
 ]

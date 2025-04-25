@@ -50,4 +50,7 @@ public class FareClassEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "fareClassEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatReservationEntity> seatReservationEntities;
+
+    @OneToMany(mappedBy = "fareClassEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FareClassAddonEntity> fareClassIncludedAddonEntities;
 }
