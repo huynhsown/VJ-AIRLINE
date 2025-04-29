@@ -1,5 +1,6 @@
 package com.vietjoke.vn.dto.request.flight;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,6 +12,7 @@ import java.util.List;
 public class SelectFlightRequestDTO {
 
     @NotBlank(message = "Session is required")
+    @JsonIgnore
     private String sessionToken;
 
     @Valid

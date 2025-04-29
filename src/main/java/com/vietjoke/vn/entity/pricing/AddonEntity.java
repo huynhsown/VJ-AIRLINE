@@ -48,5 +48,4 @@ public class AddonEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "addonEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FareClassAddonEntity> fareClassIncludedAddonEntities;
-
 }

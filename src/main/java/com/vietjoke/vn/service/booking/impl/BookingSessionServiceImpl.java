@@ -1,8 +1,11 @@
 package com.vietjoke.vn.service.booking.impl;
 
+import com.vietjoke.vn.converter.BookingSessionConverter;
+import com.vietjoke.vn.dto.booking.BookingSessionDTO;
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
+import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
 import com.vietjoke.vn.repository.booking.BookingSessionRepository;
@@ -22,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 public class BookingSessionServiceImpl implements BookingSessionService {
 
     private final BookingSessionRepository bookingSessionRepository;
+
+    private final BookingSessionConverter bookingSessionConverter;
 
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -85,6 +90,14 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     @Transactional
     public void deleteSession(String sessionId) {
         bookingSessionRepository.deleteById(sessionId);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDTO<BookingSessionDTO> getBookingSessionInfo(String sessionToken) {
+        BookingSession session = getSession(sessionToken);
+        BookingSessionDTO bookingSessionDTO = bookingSessionConverter.toBookingSessionDTO(session);
+        return ResponseDTO.success(bookingSessionDTO);
     }
 
     private void resetSessionTTL(BookingSession session){

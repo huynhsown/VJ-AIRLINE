@@ -1,6 +1,7 @@
 package com.vietjoke.vn.controller.booking;
 
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
+import com.vietjoke.vn.service.booking.BookingSessionService;
 import com.vietjoke.vn.service.cloudinary.CloudinaryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +16,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class BookingController {
 
-    private final CloudinaryService cloudinaryService;
+    private final BookingSessionService bookingSessionService;
 
-    @PostMapping
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            String fileUrl = cloudinaryService.uploadFile(file);
-            return ResponseEntity.ok(fileUrl);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
-        }
+    @GetMapping("/booking/flight-info")
+    public ResponseEntity<?> getBookingFlightInfo(@RequestParam String sessionToken) {
+        return ResponseEntity.ok(bookingSessionService.getBookingSessionInfo(sessionToken));
     }
 
 }

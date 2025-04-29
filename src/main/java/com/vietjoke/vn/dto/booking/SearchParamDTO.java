@@ -1,5 +1,6 @@
 package com.vietjoke.vn.dto.booking;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vietjoke.vn.constant.PassengerConstants;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
@@ -43,24 +44,31 @@ public class SearchParamDTO {
     @Min(value = PassengerConstants.MIN_INFANT_PASSENGERS, message = "Number of infant passengers cannot be negative")
     private Integer tripPassengersInfant = PassengerConstants.MIN_INFANT_PASSENGERS;
 
+    @JsonIgnore
     private String coupon;
+
+    @JsonIgnore
     private boolean is_find_cheapest = false;
 
+    @JsonIgnore
     @AssertTrue(message = "Start date must be today or in the future")
     public boolean isStartDateValid() {
         return !tripStartDate.isBefore(LocalDate.now());
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Return date must be equal to or after start date")
     public boolean isReturnDateValid() {
         return tripReturnDate == null || !tripReturnDate.isBefore(tripStartDate);
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Departure and destination locations must be different")
     public boolean isTripLocationsValid() {
         return !tripFrom.equalsIgnoreCase(tripTo);
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Total passengers must match the sum of adults, children, and infants")
     public boolean isTotalPassengersValid() {
         int adults = tripPassengersAdult != null ? tripPassengersAdult : 0;
@@ -70,6 +78,7 @@ public class SearchParamDTO {
         return adults + children + infants == total;
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Number of infants must not exceed number of adults")
     public boolean isChildrenVsAdultsValid() {
         int adults = tripPassengersAdult != null ? tripPassengersAdult : 0;
@@ -77,6 +86,7 @@ public class SearchParamDTO {
         return adults + children <= PassengerConstants.MAX_PASSENGERS;
     }
 
+    @JsonIgnore
     @AssertTrue(message = "Number of infants must not exceed the limit per adult")
     public boolean isInfantsPerAdultValid() {
         int adults = tripPassengersAdult != null ? tripPassengersAdult : 0;
