@@ -75,7 +75,6 @@ public class MasterSeeder implements CommandLineRunner {
         seedRoles();
         seedAddonTypes();
         seedAddons();
-        seedFreeMeal();
         seedPromos();
     }
 
@@ -299,32 +298,6 @@ public class MasterSeeder implements CommandLineRunner {
         } catch (Exception e) {
             throw new RuntimeException("Error loading addon data", e);
         }
-    }
-
-    //Free meal
-    private final FareClassAddonRepository fareClassAddonRepository;
-
-    private void seedFreeMeal(){
-
-        if(fareClassAddonRepository.count() != 0) return;
-
-        List<FareClassEntity> fareClassEntities = fareClassRepository.findByMealIncluded(true);
-        List<AddonEntity> mealAddon = addonRepository.findByNameIn(List.of(
-           "Phở với thịt bò nguyên miếng",
-           "Miến gà hầm măng",
-           "Cháo chay"
-        ));
-
-        for(FareClassEntity fareClassEntity : fareClassEntities){
-            for(AddonEntity addonEntity : mealAddon){
-                FareClassAddonEntity fareClassAddonEntity = new FareClassAddonEntity();
-                fareClassAddonEntity.setAddonEntity(addonEntity);
-                fareClassAddonEntity.setFareClassEntity(fareClassEntity);
-                fareClassAddonEntity.setAddonType(AddonType.MEAL);
-                fareClassAddonRepository.save(fareClassAddonEntity);
-            }
-        }
-
     }
 
     // Promo

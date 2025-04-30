@@ -3,6 +3,8 @@ package com.vietjoke.vn.service.pricing.impl;
 import com.vietjoke.vn.converter.SeatConverter;
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
+import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
+import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.pricing.SeatResponseDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.entity.fleet.AircraftEntity;
@@ -11,6 +13,7 @@ import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import com.vietjoke.vn.exception.booking.MissingBookingStepException;
+import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.repository.pricing.SeatReservationRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
 import com.vietjoke.vn.service.flight.FlightService;
@@ -24,6 +27,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,6 +41,7 @@ public class SeatReservationServiceImpl implements SeatReservationService {
     private final FareClassService fareClassService;
 
     private final SeatConverter seatConverter;
+    private final BookingSessionService bookingSessionService;
 
     @Override
     @Transactional
@@ -72,6 +77,24 @@ public class SeatReservationServiceImpl implements SeatReservationService {
         ).stream()
                 .map(seatConverter::toSeatResponseDTO)
                 .toList();
+    }
+
+    @Override
+    public ResponseDTO<Map<String, String>> checkSeatSelection(String sessionToken, String flightNumber) {
+        BookingSession session = bookingSessionService.getSession(sessionToken);
+        SelectFlightDTO selectedFlight = session.getSelectedFlight().getFlights().stream()
+                .filter(flight -> flight.getFlightNumber().equals(flightNumber))
+                .findFirst()
+                .orElse(null);
+
+        if (selectedFlight == null) {
+            throw new FlightNotFoundException("Flight with number " + flightNumber + " not found.");
+        }
+        FareClassEntity fareClassEntity = fareClassService.getFareClass(selectedFlight.getFareCode());
+        Map<String, String> result = new HashMap<>();
+        result.put("flightNumber", flightNumber);
+        result.put("seatSelectionAllowed", String.valueOf(fareClassEntity.getSeatSelection()));
+        return ResponseDTO.success(result);
     }
 
     private static AircraftModelEntity getAircraftModelEntity(FlightEntity flightEntity) {
