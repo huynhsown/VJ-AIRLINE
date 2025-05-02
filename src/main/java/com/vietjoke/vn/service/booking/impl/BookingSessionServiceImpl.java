@@ -10,6 +10,7 @@ import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
 import com.vietjoke.vn.repository.booking.BookingSessionRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,10 +40,9 @@ public class BookingSessionServiceImpl implements BookingSessionService {
         BookingSession session = new BookingSession();
         session.setSearchCriteria(searchCriteria);
         session.setTimeToLive(sessionTimeToLive);
-        log.info("Creating session with ID: {}, TTL: {}", session.getSessionId(), session.getTimeToLive());
-        BookingSession savedSession = bookingSessionRepository.save(session);
-        log.info("Session saved with ID: {}", savedSession.getSessionId());
-        return savedSession;
+        session.setCurrentStep(BookingSessionStep.SELECT_FLIGHT);
+        session.setNextStep(session.getCurrentStep().next());
+        return bookingSessionRepository.save(session);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     public BookingSession updateSelectedFlight(String sessionId, SelectFlightRequestDTO selectedFlights) {
         BookingSession session = getSession(sessionId);
         session.setSelectedFlight(selectedFlights);
+        updateSessionStep(session);
         return bookingSessionRepository.save(session);
     }
 
@@ -67,6 +68,7 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     public BookingSession updatePassengerInfo(String sessionId, PassengersInfoParamDTO passengerInfo) {
         BookingSession session = getSession(sessionId);
         session.setPassengersInfoParamDTO(passengerInfo);
+        updateSessionStep(session);
         return bookingSessionRepository.save(session);
     }
 
@@ -103,6 +105,13 @@ public class BookingSessionServiceImpl implements BookingSessionService {
         BookingSession session = getSession(sessionToken);
         BookingSessionDTO bookingSessionDTO = bookingSessionConverter.toBookingSessionDTO(session);
         return ResponseDTO.success(bookingSessionDTO);
+    }
+
+    @Override
+    public void updateSessionStep(BookingSession session) {
+        if(session.getNextStep() == null) return;
+        session.setCurrentStep(session.getNextStep());
+        session.setNextStep(session.getCurrentStep().next());
     }
 
     private void resetSessionTTL(BookingSession session){

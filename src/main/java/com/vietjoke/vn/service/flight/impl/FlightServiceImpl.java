@@ -3,8 +3,6 @@ package com.vietjoke.vn.service.flight.impl;
 import com.vietjoke.vn.config.seeding.jsonObject.Flight;
 import com.vietjoke.vn.converter.FareClassConverter;
 import com.vietjoke.vn.converter.FlightConverter;
-import com.vietjoke.vn.converter.RouteConverter;
-import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
@@ -20,7 +18,6 @@ import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
-import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
 import com.vietjoke.vn.repository.flight.FlightRepository;
@@ -30,6 +27,7 @@ import com.vietjoke.vn.service.fleet.AirlineService;
 import com.vietjoke.vn.service.fleet.RouteService;
 import com.vietjoke.vn.service.flight.FlightService;
 import com.vietjoke.vn.service.flight.FlightStatusService;
+import com.vietjoke.vn.service.helper.BookingSessionHelper;
 import com.vietjoke.vn.service.pricing.FareAvailabilityService;
 import com.vietjoke.vn.service.pricing.FareClassService;
 import com.vietjoke.vn.service.pricing.SeatReservationService;
@@ -63,7 +61,6 @@ public class FlightServiceImpl implements FlightService {
 
     private final FlightConverter flightConverter;
     private final FareClassConverter fareClassConverter;
-    private final RouteConverter routeConverter;
 
     @Override
     public FlightEntity getFlightByFlightNumber(String flightNumber) {
@@ -139,6 +136,8 @@ public class FlightServiceImpl implements FlightService {
                 .travelOptions(List.of(routeMap))
                 .sessionToken(session.getSessionId())
                 .expireAt(session.getExpireAt())
+                .currentStep(session.getCurrentStep())
+                .nextStep(session.getNextStep())
                 .build();
 
         return ResponseDTO.success(result);
@@ -149,11 +148,8 @@ public class FlightServiceImpl implements FlightService {
     public ResponseDTO<?> selectFlight(SelectFlightRequestDTO selectParam) {
 
         BookingSession session = bookingSessionService.getSession(selectParam.getSessionToken());
+        BookingSessionHelper.validateSelectFlightsSteps(session);
         SearchParamDTO searchParam = session.getSearchCriteria();
-
-        if (searchParam == null) {
-            return ResponseDTO.error(404, "An error occurred please return to flight search page");
-        }
 
         if(Objects.equals(searchParam.getTripType(), TripType.ONEWAY.getValue())){
             if(selectParam.getFlights().size() > 1){
@@ -184,6 +180,8 @@ public class FlightServiceImpl implements FlightService {
                 .tripPassengersAdult(searchParam.getTripPassengersAdult())
                 .tripPassengersChildren(searchParam.getTripPassengersChild())
                 .tripPassengersInfant(searchParam.getTripPassengersInfant())
+                .currentStep(session.getCurrentStep())
+                .nextStep(session.getNextStep())
                 .build();
 
         return ResponseDTO.success(selectFlight);
@@ -192,20 +190,10 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public ResponseDTO<?> getSeatOfFlight(SessionTokenRequestDTO sessionToken) {
         BookingSession session = bookingSessionService.getSession(sessionToken.getSessionToken());
+        BookingSessionHelper.validateServiceBookingSteps(session);
 
-        PassengersInfoParamDTO passengersInfoParamDTO = session.getPassengersInfoParamDTO();
-        if(passengersInfoParamDTO == null){
-            throw new MissingBookingStepException("No passengers info found");
-        }
         SelectFlightRequestDTO selectFlightRequestDTO = session.getSelectedFlight();
-        if(selectFlightRequestDTO == null){
-            throw new MissingBookingStepException("No flight found");
-        }
         SearchParamDTO searchParamDTO = session.getSearchCriteria();
-        if(searchParamDTO == null){
-            throw new MissingBookingStepException("No search criteria found");
-        }
-
         List<SelectFlightDTO> selectFlightDTOs = selectFlightRequestDTO.getFlights();
 
         List<FlightResponseDTO> flightResponseDTOs = new ArrayList<>();

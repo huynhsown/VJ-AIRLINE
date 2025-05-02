@@ -2,19 +2,17 @@ package com.vietjoke.vn.service.user.impl;
 
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
 import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
-import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.user.PassengerInfoResponseDTO;
 import com.vietjoke.vn.dto.response.user.SimplifiedPassengerDTO;
 import com.vietjoke.vn.dto.user.PassengerDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
-import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.user.PassengerInfomationException;
 import com.vietjoke.vn.exception.user.PassengerTypeRequiredException;
 import com.vietjoke.vn.repository.user.PassengerRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.service.helper.BookingSessionHelper;
 import com.vietjoke.vn.service.user.PassengerService;
 import com.vietjoke.vn.util.enums.user.PassengerType;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +32,8 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public ResponseDTO<Map<String, String>> inputPassengerInfo(PassengersInfoParamDTO infoParamDTO) {
         BookingSession session = bookingSessionService.getSession(infoParamDTO.getBookingSession());
-        SelectFlightRequestDTO selectFlightParamDTO = session.getSelectedFlight();
+        BookingSessionHelper.validateInputPassengerSteps(session);
         SearchParamDTO searchParamDTO = session.getSearchCriteria();
-        if (selectFlightParamDTO == null) {
-            throw new MissingBookingStepException("Flight selection step is missing");
-        }
 
         List<PassengerDTO> allPassengers = new ArrayList<PassengerDTO>();
         allPassengers.addAll(infoParamDTO.getPassengersAdult());
@@ -55,16 +50,16 @@ public class PassengerServiceImpl implements PassengerService {
 
         session = bookingSessionService.updatePassengerInfo(session.getSessionId(), infoParamDTO);
 
-        return ResponseDTO.success(Map.of("sessionToken", session.getSessionId()));
+        return ResponseDTO.success(Map.of("sessionToken", session.getSessionId(),
+                "nextStep", session.getNextStep().toString(),
+                "currentStep", session.getCurrentStep().toString()));
     }
 
     @Override
     public PassengerInfoResponseDTO getPassengerInfo(SessionTokenRequestDTO sessionToken) {
         BookingSession session = bookingSessionService.getSession(sessionToken.getSessionToken());
+        BookingSessionHelper.validateServiceBookingSteps(session);
         PassengersInfoParamDTO passengersInfoParamDTO = session.getPassengersInfoParamDTO();
-        if (passengersInfoParamDTO == null) {
-            throw new MissingBookingStepException("Passengers info step is missing");
-        }
         List<PassengerDTO> allPassengers = new ArrayList<PassengerDTO>();
         allPassengers.addAll(passengersInfoParamDTO.getPassengersAdult());
         allPassengers.addAll(passengersInfoParamDTO.getPassengersChild());

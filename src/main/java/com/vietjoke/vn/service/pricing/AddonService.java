@@ -13,15 +13,6 @@ import java.util.List;
 public interface AddonService {
     AddonEntity getAddonById(long id);
 
-    ResponseDTO<FlightServiceResponseDTO> getAddonsByType(
-            String addonCode,
-            String sortBy,
-            String sortOrder,
-            int pageNumber,
-            int pageSize,
-            AddonStatus addonStatus,
-            String sessionToken);
-
     ResponseDTO<FlightServiceResponseDTO> getAddonsForFlight(
             String addonCode,
             String sortBy,

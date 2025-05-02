@@ -21,4 +21,5 @@ public interface BookingSessionService {
     BookingSession removeLocketSeat(String sessionId, String lockKey);
     void deleteSession(String sessionId);
     ResponseDTO<BookingSessionDTO> getBookingSessionInfo(String sessionToken);
+    void updateSessionStep(BookingSession session);
 }

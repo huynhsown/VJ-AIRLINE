@@ -6,6 +6,7 @@ import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.user.PassengerDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.exception.booking.MissingBookingStepException;
+import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -70,6 +71,20 @@ public final class BookingSessionHelper {
         }
         return selected;
     }
+
+    /**
+     * Ensures the search criteria has been provided in the booking session.
+     *
+     * @param session the booking session to validate
+     * @throws MissingBookingStepException if the search criteria is missing
+     */
+    public static void requireSearchCriteria(BookingSession session) {
+        requireValidSession(session); // đảm bảo session tồn tại và chưa hết hạn
+        if (session.getSearchCriteria() == null) {
+            throw new MissingBookingStepException("Chưa thực hiện bước tìm kiếm chuyến bay.");
+        }
+    }
+
 
     /**
      * Retrieves the passengers info DTO from the session and ensures it exists and contains at least one adult.
@@ -153,6 +168,43 @@ public final class BookingSessionHelper {
                 ));
     }
 
+    public static void validateSeatBookingSteps(BookingSession session,
+                                                String flightNumber,
+                                                String passengerUuid,
+                                                String seatNumber) {
+        if (session == null) {
+            throw new MissingBookingStepException("Booking session does not exist.");
+        }
+        if (!StringUtils.hasText(flightNumber)) {
+            throw new IllegalArgumentException("Flight number must not be null or empty.");
+        }
+        if (!StringUtils.hasText(passengerUuid)) {
+            throw new IllegalArgumentException("Passenger UUID must not be null or empty.");
+        }
+        requireValidSession(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.SELECT_SERVICE){
+            throw new MissingBookingStepException("Cannot select service: The booking session is not in the correct state. Expected step is SELECT_SERVICE");
+        }
+
+        SelectFlightRequestDTO selectedFlight = requireSelectedFlight(session);
+        boolean flightFound = selectedFlight.getFlights().stream()
+                .anyMatch(f -> flightNumber.equals(f.getFlightNumber()));
+        if (!flightFound) {
+            throw new MissingBookingStepException(
+                    String.format("Flight with number '%s' not found in session.", flightNumber)
+            );
+        }
+
+        PassengersInfoParamDTO passengersInfo = requirePassengersInfo(session);
+        boolean passengerFound = getAllPassengers(passengersInfo).stream()
+                .anyMatch(p -> passengerUuid.equals(p.getUuid()));
+        if (!passengerFound) {
+            throw new MissingBookingStepException(
+                    String.format("Passenger with UUID '%s' not found in session.", passengerUuid)
+            );
+        }
+    }
+
     public static void validateServiceBookingSteps(BookingSession session, String flightNumber, String passengerUuid) {
         if (session == null) {
             throw new MissingBookingStepException("Booking session does not exist.");
@@ -164,6 +216,9 @@ public final class BookingSessionHelper {
             throw new IllegalArgumentException("Passenger UUID must not be null or empty.");
         }
         requireValidSession(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.SELECT_SERVICE){
+            throw new MissingBookingStepException("Cannot select service: The booking session is not in the correct state. Expected step is SELECT_SERVICE");
+        }
 
         SelectFlightRequestDTO selectedFlight = requireSelectedFlight(session);
         boolean flightFound = selectedFlight.getFlights().stream()
@@ -192,6 +247,9 @@ public final class BookingSessionHelper {
             throw new IllegalArgumentException("Flight number must not be null or empty.");
         }
         requireValidSession(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.SELECT_SERVICE){
+            throw new MissingBookingStepException("Cannot select service: The booking session is not in the correct state. Expected step is SELECT_SERVICE");
+        }
 
         SelectFlightRequestDTO selectedFlight = requireSelectedFlight(session);
         boolean flightFound = selectedFlight.getFlights().stream()
@@ -200,6 +258,30 @@ public final class BookingSessionHelper {
             throw new MissingBookingStepException(
                     String.format("Flight with number '%s' not found in session.", flightNumber)
             );
+        }
+    }
+
+    public static void validateServiceBookingSteps(BookingSession session) {
+        requireSearchCriteria(session);
+        requireSelectedFlight(session);
+        requirePassengersInfo(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.SELECT_SERVICE){
+            throw new MissingBookingStepException("Cannot select service: The booking session is not in the correct state. Expected step is SELECT_SERVICE");
+        }
+    }
+
+    public static void validateInputPassengerSteps(BookingSession session) {
+        requireSearchCriteria(session);
+        requireSelectedFlight(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.INPUT_PASSENGERS){
+            throw new MissingBookingStepException("Cannot input passenger information: The booking session is not in the correct state. Expected step is INPUT_PASSENGERS");
+        }
+    }
+
+    public static void validateSelectFlightsSteps(BookingSession session) {
+        requireSearchCriteria(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.SELECT_FLIGHT){
+            throw new MissingBookingStepException("Cannot select flight: The booking session is not in the correct state. Expected step is SELECT_FLIGHT");
         }
     }
 }

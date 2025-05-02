@@ -2,11 +2,9 @@ package com.vietjoke.vn.service.pricing.impl;
 
 import com.vietjoke.vn.converter.AddonConverter;
 import com.vietjoke.vn.converter.FlightConverter;
-import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.pricing.AddonDTO;
 import com.vietjoke.vn.dto.pricing.AddonSelectionDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
-import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.request.pricing.AddonBookingRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.flight.FlightResponseDTO;
@@ -16,7 +14,6 @@ import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.AddonEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
-import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.pricing.InvalidAddonQuantityException;
 import com.vietjoke.vn.exception.user.PermissionDenyException;
 import com.vietjoke.vn.repository.pricing.AddonRepository;
@@ -65,38 +62,6 @@ public class AddonServiceImpl implements AddonService {
     public AddonEntity getAddonById(long id) {
         return addonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Addon " + id + " not found"));
-    }
-
-    @Override
-    public ResponseDTO<FlightServiceResponseDTO> getAddonsByType(String addonCode, String sortBy, String sortOrder,
-                                                       int pageNumber, int pageSize, AddonStatus addonStatus,
-                                                       String sessionToken) {
-        if(addonStatus != AddonStatus.ACTIVE && !isUserAdmin()) {
-            throw new PermissionDenyException("FORBIDDEN");
-        }
-
-        BookingSession session = bookingSessionService.getSession(sessionToken);
-        SelectFlightRequestDTO selectFlightRequestDTO = session.getSelectedFlight();
-        if(selectFlightRequestDTO == null) {
-            throw new MissingBookingStepException("Flight selection step is missing");
-        }
-        PassengersInfoParamDTO paramDTO = session.getPassengersInfoParamDTO();
-        if(paramDTO == null) {
-            throw new MissingBookingStepException("Passengers info step is missing");
-        }
-
-        List<SelectFlightDTO> selectFlightDTO = selectFlightRequestDTO.getFlights();
-
-        Sort sort = sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
-
-        Page<AddonEntity> pageAddons = switch (addonStatus) {
-            case ACTIVE -> addonRepository.findByAddonTypeEntity_AddonCodeAndIsActive(AddonType.valueOf(addonCode), true, pageable);
-            case INACTIVE -> addonRepository.findByAddonTypeEntity_AddonCodeAndIsActive(AddonType.valueOf(addonCode), false, pageable);
-            default -> addonRepository.findByAddonTypeEntity_AddonCode(AddonType.valueOf(addonCode), pageable);
-        };
-
-        return null;
     }
 
     @Override

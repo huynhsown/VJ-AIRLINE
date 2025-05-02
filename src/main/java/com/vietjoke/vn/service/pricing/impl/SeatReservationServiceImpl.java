@@ -1,8 +1,6 @@
 package com.vietjoke.vn.service.pricing.impl;
 
 import com.vietjoke.vn.converter.SeatConverter;
-import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
-import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.pricing.SeatResponseDTO;
@@ -12,25 +10,22 @@ import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
 import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
-import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.repository.pricing.SeatReservationRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
-import com.vietjoke.vn.service.flight.FlightService;
+import com.vietjoke.vn.service.helper.BookingSessionHelper;
 import com.vietjoke.vn.service.pricing.FareClassService;
 import com.vietjoke.vn.service.pricing.SeatReservationService;
 import com.vietjoke.vn.util.enums.pricing.FareClassCode;
 import com.vietjoke.vn.util.enums.pricing.SeatStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -82,14 +77,12 @@ public class SeatReservationServiceImpl implements SeatReservationService {
     @Override
     public ResponseDTO<Map<String, String>> checkSeatSelection(String sessionToken, String flightNumber) {
         BookingSession session = bookingSessionService.getSession(sessionToken);
+        BookingSessionHelper.validateServiceBookingSteps(session);
         SelectFlightDTO selectedFlight = session.getSelectedFlight().getFlights().stream()
                 .filter(flight -> flight.getFlightNumber().equals(flightNumber))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new FlightNotFoundException("Flight with number " + flightNumber + " not found."));
 
-        if (selectedFlight == null) {
-            throw new FlightNotFoundException("Flight with number " + flightNumber + " not found.");
-        }
         FareClassEntity fareClassEntity = fareClassService.getFareClass(selectedFlight.getFareCode());
         Map<String, String> result = new HashMap<>();
         result.put("flightNumber", flightNumber);

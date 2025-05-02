@@ -9,8 +9,10 @@ import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.pricing.SeatAlreadyReservedException;
 import com.vietjoke.vn.exception.pricing.SeatSelectionNotAllowedException;
 import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.service.helper.BookingSessionHelper;
 import com.vietjoke.vn.service.pricing.FareClassService;
 import com.vietjoke.vn.service.pricing.SeatRedisService;
+import com.vietjoke.vn.service.pricing.SeatReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -26,24 +28,28 @@ public class SeatRedisServiceImpl implements SeatRedisService {
     private final BookingSessionService bookingSessionService;
     private final StringRedisTemplate stringRedisTemplate;
     private final FareClassService fareClassService;
+    private final SeatReservationService seatReservationService;
 
     @Override
     public ResponseDTO<?> reserveSeat(SeatReservationRequestDTO seatRequest) {
         BookingSession session = bookingSessionService.getSession(seatRequest.getSessionToken());
 
-        List<SelectFlightDTO> flights = session.getSelectedFlight().getFlights();
-        if(flights.isEmpty()) {
-            throw new FlightNotFoundException("Flight not found");
-        }
-        FareClassEntity fareClassEntity = fareClassService.getFareClass(flights.get(0).getFareCode());
-        if(!fareClassEntity.getSeatSelection()){
+        boolean seatSelection = Boolean.parseBoolean(
+                seatReservationService.checkSeatSelection(
+                        seatRequest.getSessionToken(),
+                                seatRequest.getFlightNumber()
+                        )
+                .getData()
+                .get("seatSelectionAllowed"));
+
+        if(!seatSelection) {
             throw new SeatSelectionNotAllowedException("Seat selection not allowed");
         }
 
         String seatLockKey = buildSeatLockKey(seatRequest);
 
         Boolean isSaved = stringRedisTemplate.opsForValue()
-                .setIfAbsent(seatLockKey, session.getSessionId(), session.getTimeToLive(), TimeUnit.SECONDS);
+                .setIfAbsent(seatLockKey, seatRequest.getPassengerUUID(), session.getTimeToLive(), TimeUnit.SECONDS);
 
         if (isSaved == null) {
             throw new RuntimeException("Failed to lock seat: Redis operation returned null");
@@ -76,7 +82,6 @@ public class SeatRedisServiceImpl implements SeatRedisService {
 
     private String buildSeatLockKey(SeatReservationRequestDTO seatRequest) {
         return "seat:" + seatRequest.getFlightNumber() +
-                ":" + seatRequest.getSeatNumber() +
-                ":" + seatRequest.getPassengerUUID();
+                ":" + seatRequest.getSeatNumber();
     }
 }
