@@ -71,6 +71,11 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     }
 
     @Override
+    public BookingSession updateBookingSession(BookingSession session) {
+        return bookingSessionRepository.save(session);
+    }
+
+    @Override
     @Transactional
     public BookingSession addLocketSeat(String sessionId,String lockKey) {
         BookingSession session = getSession(sessionId);
