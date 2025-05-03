@@ -150,7 +150,9 @@ public class AddonServiceImpl implements AddonService {
         currentAddons.removeIf(addon -> !newAddonIds.contains(addon.getAddonId()));
 
         session = bookingSessionService.updateBookingSession(session);
-        return ResponseDTO.success(Map.of("sessionToken", session.getSessionId()));
+        return ResponseDTO.success(Map.of("sessionToken", session.getSessionId(),
+                "currentStep", session.getCurrentStep(),
+                "nextStep", session.getNextStep()));
     }
 
     @Override

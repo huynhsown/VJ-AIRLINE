@@ -65,7 +65,9 @@ public class SeatRedisServiceImpl implements SeatRedisService {
         }
 
         session = bookingSessionService.addLocketSeat(session.getSessionId(), seatLockKey);
-        return ResponseDTO.success(Map.of("sessionToken", session.getSessionId()));
+        return ResponseDTO.success(Map.of("sessionToken", session.getSessionId(),
+                "currentStep", session.getCurrentStep(),
+                "nextStep", session.getNextStep()));
     }
 
     @Override

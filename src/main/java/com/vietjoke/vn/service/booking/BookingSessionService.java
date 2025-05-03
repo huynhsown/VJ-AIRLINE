@@ -22,4 +22,5 @@ public interface BookingSessionService {
     void deleteSession(String sessionId);
     ResponseDTO<BookingSessionDTO> getBookingSessionInfo(String sessionToken);
     void updateSessionStep(BookingSession session);
+    void completeServiceSelection(String sessionToken);
 }

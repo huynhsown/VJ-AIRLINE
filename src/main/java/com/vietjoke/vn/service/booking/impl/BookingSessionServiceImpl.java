@@ -10,6 +10,7 @@ import com.vietjoke.vn.entity.booking.BookingSession;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
 import com.vietjoke.vn.repository.booking.BookingSessionRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.service.helper.BookingSessionHelper;
 import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -112,6 +113,14 @@ public class BookingSessionServiceImpl implements BookingSessionService {
         if(session.getNextStep() == null) return;
         session.setCurrentStep(session.getNextStep());
         session.setNextStep(session.getCurrentStep().next());
+    }
+
+    @Override
+    @Transactional
+    public void completeServiceSelection(String sessionToken) {
+        BookingSession session = getSession(sessionToken);
+        BookingSessionHelper.validateServiceBookingSteps(session);
+        updateSessionStep(session);
     }
 
     private void resetSessionTTL(BookingSession session){
