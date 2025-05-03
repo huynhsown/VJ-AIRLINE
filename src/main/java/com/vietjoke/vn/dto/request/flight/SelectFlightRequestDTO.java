@@ -10,9 +10,7 @@ import java.util.List;
 
 @Data
 public class SelectFlightRequestDTO {
-
     @NotBlank(message = "Session is required")
-    @JsonIgnore
     private String sessionToken;
 
     @Valid

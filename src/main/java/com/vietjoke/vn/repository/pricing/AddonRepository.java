@@ -11,5 +11,10 @@ import java.util.List;
 public interface AddonRepository extends JpaRepository<AddonEntity, Long> {
     Page<AddonEntity> findByAddonTypeEntity_AddonCodeAndIsActive(AddonType addonCode, Boolean isActive, Pageable pageable);
     Page<AddonEntity> findByAddonTypeEntity_AddonCode(AddonType addonCode, Pageable pageable);
+    Page<AddonEntity> findByAddonTypeEntity_AddonCodeAndIsActiveAndIsFree(AddonType addonCode,
+                                                                          Boolean isActive,
+                                                                          boolean isFree,
+                                                                          Pageable pageable
+                                                                          );
     List<AddonEntity> findByNameIn(List<String> names);
 }

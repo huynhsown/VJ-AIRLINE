@@ -2,8 +2,9 @@ package com.vietjoke.vn.entity.booking;
 
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
+import com.vietjoke.vn.dto.pricing.AddonSelectionDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
+import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -24,6 +25,9 @@ public class BookingSession {
     private SelectFlightRequestDTO selectedFlight;
     private PassengersInfoParamDTO passengersInfoParamDTO;
     private Set<String> lockedSeats = new HashSet<>();
+    private Map<String, Map<String, List<AddonSelectionDTO>>> passengerAddons = new HashMap<>();
+    private BookingSessionStep currentStep;
+    private BookingSessionStep nextStep;
     private LocalDateTime createdAt;
 
     @TimeToLive

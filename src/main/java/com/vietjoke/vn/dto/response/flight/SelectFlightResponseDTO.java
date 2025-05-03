@@ -1,5 +1,6 @@
 package com.vietjoke.vn.dto.response.flight;
 
+import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,6 @@ public class SelectFlightResponseDTO {
     private Integer tripPassengersAdult;
     private Integer tripPassengersChildren;
     private Integer tripPassengersInfant;
+    private BookingSessionStep currentStep;
+    private BookingSessionStep nextStep;
 }

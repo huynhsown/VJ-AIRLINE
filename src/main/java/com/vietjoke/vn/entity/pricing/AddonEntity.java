@@ -2,7 +2,6 @@ package com.vietjoke.vn.entity.pricing;
 
 import com.vietjoke.vn.entity.booking.BookingAddonEntity;
 import com.vietjoke.vn.entity.core.BaseEntity;
-import com.vietjoke.vn.repository.pricing.FareClassAddonRepository;
 import com.vietjoke.vn.util.enums.pricing.Currency;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,6 +37,9 @@ public class AddonEntity extends BaseEntity {
 
     @Column(name = "max_quantity", nullable = false)
     private Integer maxQuantity = 1;
+
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isFree = false;
 
     @ManyToOne
     @JoinColumn(name = "addon_type_id", nullable = false)

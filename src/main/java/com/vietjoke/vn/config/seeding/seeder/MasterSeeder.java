@@ -39,6 +39,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -292,6 +293,11 @@ public class MasterSeeder implements CommandLineRunner {
                 addonEntity.setImgUrl(addonDTO.getImgUrl());
                 addonEntity.setCurrency(addonDTO.getCurrency());
                 addonEntity.setMaxQuantity(addonDTO.getMaxQuantity());
+                if(addonDTO.isFree()){
+                    addonEntity.setPrice(BigDecimal.ZERO);
+                    addonEntity.setIsFree(true);
+                    addonEntity.setMaxQuantity(1);
+                }
                 addonEntities.add(addonEntity);
             }
             addonRepository.saveAll(addonEntities);

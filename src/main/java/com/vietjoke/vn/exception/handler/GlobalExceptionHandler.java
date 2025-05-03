@@ -6,6 +6,7 @@ import com.vietjoke.vn.exception.booking.MissingBookingStepException;
 import com.vietjoke.vn.exception.data.DataNotFoundException;
 import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
+import com.vietjoke.vn.exception.pricing.InvalidAddonQuantityException;
 import com.vietjoke.vn.exception.pricing.SeatAlreadyReservedException;
 import com.vietjoke.vn.exception.pricing.SeatSelectionNotAllowedException;
 import com.vietjoke.vn.exception.session.SessionExpiredException;
@@ -224,6 +225,17 @@ public class GlobalExceptionHandler {
                 "Not Acceptable",
                 List.of(new ErrorResponseDTO.ErrorDetail("Select Seat", ex.getMessage(), "error")),
                 ErrorConstaints.SEAT_NOT_ALLOWED
+        );
+    }
+
+    @ExceptionHandler(InvalidAddonQuantityException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleAddonQuantity(InvalidAddonQuantityException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                List.of(new ErrorResponseDTO.ErrorDetail("Select Addons", ex.getMessage(), "error")),
+                ErrorConstaints.INVALID_ADDON_QUANTITY
         );
     }
 }

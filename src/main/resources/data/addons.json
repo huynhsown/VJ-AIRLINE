@@ -195,7 +195,8 @@
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313708/u0ffam6ekmd4hmcqworz.jpg",
     "addonTypeCode": "MEAL",
-    "maxQuantity": 2
+    "maxQuantity": 2,
+    "isFree": true
   },
   {
     "name": "Miến gà hầm măng",
@@ -204,7 +205,8 @@
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313709/hwq7a8il0kayxjj60hf4.jpg",
     "addonTypeCode": "MEAL",
-    "maxQuantity": 2
+    "maxQuantity": 2,
+    "isFree": true
   },
   {
     "name": "Cháo chay",
@@ -213,7 +215,8 @@
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313710/icab9gveg1dgekcnbnyd.jpg",
     "addonTypeCode": "MEAL",
-    "maxQuantity": 2
+    "maxQuantity": 2,
+    "isFree": true
   },
   {
     "name": "Mì chay",
@@ -222,7 +225,8 @@
     "currency": "VND",
     "imgUrl": "https://res.cloudinary.com/dfjqteia2/image/upload/v1744313711/ctauwyclezs1ytirvin1.jpg",
     "addonTypeCode": "MEAL",
-    "maxQuantity": 2
+    "maxQuantity": 2,
+    "isFree": true
   },
   {
     "name": "Kẹo dẻo",

@@ -1,5 +1,6 @@
 package com.vietjoke.vn.dto.pricing;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vietjoke.vn.dto.core.BaseDTO;
 import com.vietjoke.vn.util.enums.pricing.Currency;
 import lombok.Data;
@@ -18,4 +19,7 @@ public class AddonDTO extends BaseDTO {
     private String addonTypeCode;
     private String imgUrl;
     private Integer maxQuantity;
+    
+    @JsonProperty("isFree")
+    private boolean isFree;
 }

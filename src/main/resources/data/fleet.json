@@ -9,7 +9,7 @@
         "aircraftModelEntity": {
           "modelCode": "A350-900",
           "modelName": "Airbus A350-900",
-          "standardCapacity": 300,
+          "standardCapacity": 50,
           "premiumCapacity": 21,
           "businessCapacity": 48
         }
@@ -20,7 +20,7 @@
         "aircraftModelEntity": {
           "modelCode": "A350-900",
           "modelName": "Airbus A350-900",
-          "standardCapacity": 300,
+          "standardCapacity": 50,
           "premiumCapacity": 21,
           "businessCapacity": 48
         }
@@ -31,7 +31,7 @@
         "aircraftModelEntity": {
           "modelCode": "A350-1000",
           "modelName": "Airbus A350-1000",
-          "standardCapacity": 350,
+          "standardCapacity": 75,
           "premiumCapacity": 21,
           "businessCapacity": 54
         }
@@ -42,7 +42,7 @@
         "aircraftModelEntity": {
           "modelCode": "A380-800",
           "modelName": "Airbus A380-800",
-          "standardCapacity": 555,
+          "standardCapacity": 75,
           "premiumCapacity": 0,
           "businessCapacity": 96
         }
@@ -53,7 +53,7 @@
         "aircraftModelEntity": {
           "modelCode": "A330-900neo",
           "modelName": "Airbus A330-900neo",
-          "standardCapacity": 260,
+          "standardCapacity": 35,
           "premiumCapacity": 21,
           "businessCapacity": 28
         }
@@ -64,7 +64,7 @@
         "aircraftModelEntity": {
           "modelCode": "A220-300",
           "modelName": "Airbus A220-300",
-          "standardCapacity": 120,
+          "standardCapacity": 35,
           "premiumCapacity": 0,
           "businessCapacity": 12
         }
@@ -75,7 +75,7 @@
         "aircraftModelEntity": {
           "modelCode": "A320neo",
           "modelName": "Airbus A320neo",
-          "standardCapacity": 180,
+          "standardCapacity": 30,
           "premiumCapacity": 24,
           "businessCapacity": 12
         }
@@ -86,7 +86,7 @@
         "aircraftModelEntity": {
           "modelCode": "A321XLR",
           "modelName": "Airbus A321XLR",
-          "standardCapacity": 206,
+          "standardCapacity": 32,
           "premiumCapacity": 30,
           "businessCapacity": 20
         }
@@ -97,7 +97,7 @@
         "aircraftModelEntity": {
           "modelCode": "A330-300",
           "modelName": "Airbus A330-300",
-          "standardCapacity": 277,
+          "standardCapacity": 33,
           "premiumCapacity": 28,
           "businessCapacity": 36
         }
@@ -108,7 +108,7 @@
         "aircraftModelEntity": {
           "modelCode": "A340-600",
           "modelName": "Airbus A340-600",
-          "standardCapacity": 320,
+          "standardCapacity": 35,
           "premiumCapacity": 32,
           "businessCapacity": 50
         }
