@@ -31,7 +31,7 @@ public class SeatController {
     })
     public ResponseEntity<?> getSeatSelectionStatus(@RequestParam String sessionToken,
                                                     @RequestParam String flightNumber) {
-        return ResponseEntity.ok(seatReservationService.checkSeatSelection(sessionToken, flightNumber));
+        return ResponseEntity.ok(seatReservationService.checkFareClassSeatSelection(sessionToken, flightNumber));
     }
 
     @PostMapping("/booking/reserve-seat")

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SeatReservationRepository extends JpaRepository<SeatReservationEntity, Long> {
     Integer countBySeatStatusAndFlightEntityAndFareClassEntity(SeatStatus seatStatus, FlightEntity flightEntity,
@@ -20,4 +21,5 @@ public interface SeatReservationRepository extends JpaRepository<SeatReservation
             @Param("fareCode") String code
     );
 
+    Optional<SeatReservationEntity> findByFlightEntity_FlightNumberAndSeatNumber(String flightNumber, String seatNumber);
 }

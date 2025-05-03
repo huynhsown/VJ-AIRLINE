@@ -75,7 +75,7 @@ public class SeatReservationServiceImpl implements SeatReservationService {
     }
 
     @Override
-    public ResponseDTO<Map<String, String>> checkSeatSelection(String sessionToken, String flightNumber) {
+    public ResponseDTO<Map<String, String>> checkFareClassSeatSelection(String sessionToken, String flightNumber) {
         BookingSession session = bookingSessionService.getSession(sessionToken);
         BookingSessionHelper.validateServiceBookingSteps(session);
         SelectFlightDTO selectedFlight = session.getSelectedFlight().getFlights().stream()
@@ -88,6 +88,20 @@ public class SeatReservationServiceImpl implements SeatReservationService {
         result.put("flightNumber", flightNumber);
         result.put("seatSelectionAllowed", String.valueOf(fareClassEntity.getSeatSelection()));
         return ResponseDTO.success(result);
+    }
+
+    @Override
+    public boolean isSeatServiced(String sessionToken, String flightNumber, String seatNumber) {
+        BookingSession session = bookingSessionService.getSession(sessionToken);
+        BookingSessionHelper.validateServiceBookingSteps(session);
+        SeatReservationEntity seatEntity = getSeatReservation(flightNumber, seatNumber);
+        return seatEntity.getSeatStatus() != SeatStatus.AVAILABLE;
+    }
+
+    @Override
+    public SeatReservationEntity getSeatReservation(String flightNumber, String seatNumber) {
+        return seatReservationRepository.findByFlightEntity_FlightNumberAndSeatNumber(flightNumber, seatNumber)
+                .orElseThrow(() -> new FlightNotFoundException("Flight with number " + flightNumber + " not found."));
     }
 
     private static AircraftModelEntity getAircraftModelEntity(FlightEntity flightEntity) {

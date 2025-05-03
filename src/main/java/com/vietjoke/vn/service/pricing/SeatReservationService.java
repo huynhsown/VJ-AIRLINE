@@ -14,6 +14,7 @@ public interface SeatReservationService {
     List<SeatReservationEntity> createSeatReservations(FlightEntity flightEntity);
     Integer countAvailableSeat(FlightEntity flightEntity, FareClassEntity fareClassEntity);
     List<SeatResponseDTO> getSeats(String flightNumber, String fareCode);
-    ResponseDTO<Map<String, String>> checkSeatSelection(String sessionToken, String flightNumber);
-
+    ResponseDTO<Map<String, String>> checkFareClassSeatSelection(String sessionToken, String flightNumber);
+    boolean isSeatServiced(String sessionToken, String flightNumber, String seatNumber);
+    SeatReservationEntity getSeatReservation(String flightNumber, String seatNumber);
 }

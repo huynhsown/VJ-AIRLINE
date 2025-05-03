@@ -35,14 +35,19 @@ public class SeatRedisServiceImpl implements SeatRedisService {
         BookingSession session = bookingSessionService.getSession(seatRequest.getSessionToken());
 
         boolean seatSelection = Boolean.parseBoolean(
-                seatReservationService.checkSeatSelection(
+                seatReservationService.checkFareClassSeatSelection(
                         seatRequest.getSessionToken(),
                                 seatRequest.getFlightNumber()
                         )
                 .getData()
                 .get("seatSelectionAllowed"));
 
-        if(!seatSelection) {
+        boolean isSeatAvailable = seatReservationService.isSeatServiced(
+                seatRequest.getSessionToken(),
+                seatRequest.getFlightNumber(),
+                seatRequest.getSeatNumber());
+
+        if(!seatSelection || isSeatAvailable) {
             throw new SeatSelectionNotAllowedException("Seat selection not allowed");
         }
 
