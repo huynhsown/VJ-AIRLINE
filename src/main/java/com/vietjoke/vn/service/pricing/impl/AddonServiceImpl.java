@@ -147,6 +147,7 @@ public class AddonServiceImpl implements AddonService {
         Set<Long> newAddonIds = newAddons.stream()
                 .map(AddonSelectionDTO::getAddonId)
                 .collect(Collectors.toSet());
+
         currentAddons.removeIf(addon -> !newAddonIds.contains(addon.getAddonId()));
 
         session = bookingSessionService.updateBookingSession(session);

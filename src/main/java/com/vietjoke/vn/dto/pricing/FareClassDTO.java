@@ -1,6 +1,5 @@
 package com.vietjoke.vn.dto.pricing;
 
-import com.vietjoke.vn.dto.booking.BookingDetailDTO;
 import com.vietjoke.vn.dto.core.BaseDTO;
 import com.vietjoke.vn.dto.fleet.AirlineDTO;
 import lombok.Data;
@@ -23,6 +22,5 @@ public class FareClassDTO extends BaseDTO {
     private Float changeFee;
     private Float refundFee;
     private AirlineDTO airline;
-    private List<BookingDetailDTO> bookingDetails;
     private List<SeatReservationDTO> seatReservations;
 }

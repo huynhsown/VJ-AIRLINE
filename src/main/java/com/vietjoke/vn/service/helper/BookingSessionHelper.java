@@ -270,6 +270,15 @@ public final class BookingSessionHelper {
         }
     }
 
+    public static void validatePreviewBookingSteps(BookingSession session) {
+        requireSearchCriteria(session);
+        requireSelectedFlight(session);
+        requirePassengersInfo(session);
+        if(session.getCurrentStep() == null || session.getCurrentStep() != BookingSessionStep.PREVIEW){
+            throw new MissingBookingStepException("Cannot select service: The booking session is not in the correct state. Expected step is SELECT_SERVICE");
+        }
+    }
+
     public static void validateInputPassengerSteps(BookingSession session) {
         requireSearchCriteria(session);
         requireSelectedFlight(session);

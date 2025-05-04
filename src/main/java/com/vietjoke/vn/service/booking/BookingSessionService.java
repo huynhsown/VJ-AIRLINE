@@ -6,6 +6,7 @@ import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
+import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 
 import java.util.List;
@@ -22,5 +23,6 @@ public interface BookingSessionService {
     void deleteSession(String sessionId);
     ResponseDTO<BookingSessionDTO> getBookingSessionInfo(String sessionToken);
     void updateSessionStep(BookingSession session);
-    void completeServiceSelection(String sessionToken);
+    ResponseDTO<?> completeServiceSelection(String sessionToken);
+    ResponseDTO<BookingPreviewDTO> getBookingPreview(String sessionToken);
 }

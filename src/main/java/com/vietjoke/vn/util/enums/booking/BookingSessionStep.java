@@ -5,7 +5,7 @@ public enum BookingSessionStep {
     SELECT_FLIGHT,     // Select a flight
     INPUT_PASSENGERS,  // Enter passenger information
     SELECT_SERVICE,    // Select services: seats, addons
-    REVIEW,            // Review booking
+    PREVIEW,            // Review booking
     PAYMENT;           // Make payment
 
     public BookingSessionStep next() {
@@ -13,8 +13,8 @@ public enum BookingSessionStep {
             case SEARCH -> SELECT_FLIGHT;
             case SELECT_FLIGHT -> INPUT_PASSENGERS;
             case INPUT_PASSENGERS -> SELECT_SERVICE;
-            case SELECT_SERVICE -> REVIEW;
-            case REVIEW -> PAYMENT;
+            case SELECT_SERVICE -> PREVIEW;
+            case PREVIEW -> PAYMENT;
             case PAYMENT -> null;
         };
     }
@@ -25,8 +25,8 @@ public enum BookingSessionStep {
             case SELECT_FLIGHT -> SEARCH;
             case INPUT_PASSENGERS -> SELECT_FLIGHT;
             case SELECT_SERVICE -> INPUT_PASSENGERS;
-            case REVIEW -> SELECT_SERVICE;
-            case PAYMENT -> REVIEW;
+            case PREVIEW -> SELECT_SERVICE;
+            case PAYMENT -> PREVIEW;
         };
     }
 }

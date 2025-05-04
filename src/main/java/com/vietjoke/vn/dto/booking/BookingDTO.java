@@ -12,7 +12,6 @@ import java.util.List;
 @Data
 public class BookingDTO extends BaseDTO {
     private String bookingReference;
-    private Long userId;
     private LocalDateTime bookingDate;
     private BigDecimal totalAmount;
     private String currency;
@@ -24,7 +23,7 @@ public class BookingDTO extends BaseDTO {
     private int childCount;
     private int infantCount;
     private String tripType;
-    private Long statusId;
+    private BookingStatusDTO status;
     private List<BookingDetailDTO> bookingDetails;
     private List<BookingPaymentDTO> bookingPayments;
 }

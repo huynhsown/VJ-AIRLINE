@@ -58,3 +58,8 @@ cloudinary:
   apiKey: ${CLOUD_API_KEY}
   apiSecret: ${CLOUD_API_SECRET}
 
+zalo_pay:
+  app_id: ${APP_ID}
+  mac_key: ${MAC_KEY}
+  url_create_order: ${URL_CREATE_ORDER}
+

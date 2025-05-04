@@ -26,8 +26,12 @@ public class BookingController {
 
     @PostMapping("/booking/service/complete")
     public ResponseEntity<?> completeServiceSelection(@RequestParam String sessionToken) {
-        bookingSessionService.completeServiceSelection(sessionToken);
-        return ResponseEntity.ok(ResponseDTO.success("Service selection completed"));
+        return ResponseEntity.ok(bookingSessionService.completeServiceSelection(sessionToken));
+    }
+
+    @GetMapping("/booking/preview")
+    public ResponseEntity<?> getBookingPreview(@RequestParam String sessionToken) {
+        return ResponseEntity.ok(bookingSessionService.getBookingPreview(sessionToken));
     }
 
 }

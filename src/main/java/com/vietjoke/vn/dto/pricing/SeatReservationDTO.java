@@ -1,6 +1,5 @@
 package com.vietjoke.vn.dto.pricing;
 
-import com.vietjoke.vn.dto.booking.BookingDetailDTO;
 import com.vietjoke.vn.dto.core.BaseDTO;
 import com.vietjoke.vn.dto.flight.FlightDTO;
 import com.vietjoke.vn.util.enums.pricing.SeatStatus;
@@ -14,5 +13,4 @@ public class SeatReservationDTO extends BaseDTO {
     private SeatStatus seatStatus;
     private FlightDTO flight;
     private FareClassDTO fareClass;
-    private BookingDetailDTO bookingDetail;
 }
