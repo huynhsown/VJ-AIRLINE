@@ -2,7 +2,6 @@ package com.vietjoke.vn.service.user.impl;
 
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.user.PassengerInfoResponseDTO;
 import com.vietjoke.vn.dto.response.user.SimplifiedPassengerDTO;
@@ -56,8 +55,8 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public PassengerInfoResponseDTO getPassengerInfo(SessionTokenRequestDTO sessionToken) {
-        BookingSession session = bookingSessionService.getSession(sessionToken.getSessionToken());
+    public PassengerInfoResponseDTO getPassengerInfo(String sessionToken) {
+        BookingSession session = bookingSessionService.getSession(sessionToken);
         BookingSessionHelper.validateServiceBookingSteps(session);
         PassengersInfoParamDTO passengersInfoParamDTO = session.getPassengersInfoParamDTO();
         List<PassengerDTO> allPassengers = new ArrayList<PassengerDTO>();

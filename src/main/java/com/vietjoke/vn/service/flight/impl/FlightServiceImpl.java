@@ -4,7 +4,6 @@ import com.vietjoke.vn.config.seeding.jsonObject.Flight;
 import com.vietjoke.vn.converter.FareClassConverter;
 import com.vietjoke.vn.converter.FlightConverter;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.response.*;
@@ -188,8 +187,8 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public ResponseDTO<?> getSeatOfFlight(SessionTokenRequestDTO sessionToken) {
-        BookingSession session = bookingSessionService.getSession(sessionToken.getSessionToken());
+    public ResponseDTO<?> getSeatOfFlight(String sessionToken) {
+        BookingSession session = bookingSessionService.getSession(sessionToken);
         BookingSessionHelper.validateServiceBookingSteps(session);
 
         SelectFlightRequestDTO selectFlightRequestDTO = session.getSelectedFlight();

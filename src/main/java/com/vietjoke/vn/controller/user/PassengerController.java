@@ -1,8 +1,6 @@
 package com.vietjoke.vn.controller.user;
 
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
-import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
-import com.vietjoke.vn.dto.user.PassengerDTO;
 import com.vietjoke.vn.service.user.PassengerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,7 @@ public class PassengerController {
     }
 
     @GetMapping("/booking/passenger-info")
-    public ResponseEntity<?> getPassengerInfo(@Valid @RequestBody SessionTokenRequestDTO sessionToken){
+    public ResponseEntity<?> getPassengerInfo(@RequestParam String sessionToken){
         return ResponseEntity.ok(passengerService.getPassengerInfo(sessionToken));
     }
 

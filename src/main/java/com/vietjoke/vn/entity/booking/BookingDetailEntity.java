@@ -35,9 +35,6 @@ public class BookingDetailEntity extends BaseEntity {
     @JoinColumn(name = "fare_class_id", nullable = false)
     private FareClassEntity fareClassEntity;
 
-    @Column(name = "seat_number", length = 10)
-    private String seatNumber;
-
     @Column(name = "fare_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal fareAmount;
 

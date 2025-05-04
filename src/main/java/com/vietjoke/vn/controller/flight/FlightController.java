@@ -1,8 +1,6 @@
 package com.vietjoke.vn.controller.flight;
 
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
-import com.vietjoke.vn.dto.booking.SelectFlightParamDTO;
-import com.vietjoke.vn.dto.booking.SessionTokenRequestDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.flight.SearchFlightResponseDTO;
@@ -36,7 +34,7 @@ public class FlightController {
 
 
     @GetMapping("/booking/get-seats")
-    public ResponseEntity<?> getSeatsByToken(@Valid @RequestBody SessionTokenRequestDTO token){
-        return ResponseEntity.ok(flightService.getSeatOfFlight(token));
+    public ResponseEntity<?> getSeatsByToken(@RequestParam String sessionToken){
+        return ResponseEntity.ok(flightService.getSeatOfFlight(sessionToken));
     }
 }
