@@ -1,0 +1,20 @@
+[
+  {
+    "code": "ZALOPAY",
+    "name": "ZaloPay",
+    "logoUrl": "https://cdn.brandfetch.io/id_T-oXJkN/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B",
+    "enabled": true
+  },
+  {
+    "code": "VNPAY",
+    "name": "VNPAY",
+    "logoUrl": "https://cdn.brandfetch.io/idV02t6WJs/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B",
+    "enabled": false
+  },
+  {
+    "code": "POSTPAY",
+    "name": "Thanh toán sau",
+    "logoUrl": null,
+    "enabled": true
+  }
+]

@@ -25,9 +25,12 @@ import com.vietjoke.vn.service.pricing.AddonService;
 import com.vietjoke.vn.service.pricing.FareAvailabilityService;
 import com.vietjoke.vn.service.pricing.FareClassService;
 import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,19 +42,28 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class BookingSessionServiceImpl implements BookingSessionService {
 
-    private final BookingSessionRepository bookingSessionRepository;
+    @Autowired
+    private BookingSessionRepository bookingSessionRepository;
+    @Autowired
+    private BookingSessionConverter bookingSessionConverter;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private FareClassService fareClassService;
+    @Autowired
+    private BookingPreviewConverter bookingPreviewConverter;
 
-    private final BookingSessionConverter bookingSessionConverter;
-
-    private final StringRedisTemplate stringRedisTemplate;
-    private final FlightService flightService;
-    private final FareClassService fareClassService;
-    private final FareAvailabilityService fareAvailabilityService;
-    private final AddonService addonService;
-    private final BookingPreviewConverter bookingPreviewConverter;
+    @Autowired
+    @Lazy
+    private FlightService flightService;
+    @Autowired
+    @Lazy
+    private FareAvailabilityService fareAvailabilityService;
+    @Autowired
+    @Lazy
+    private AddonService addonService;
 
     @Value("${session.ttl}")
     private Long sessionTimeToLive;

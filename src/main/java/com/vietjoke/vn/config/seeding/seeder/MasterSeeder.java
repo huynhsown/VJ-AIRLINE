@@ -7,6 +7,7 @@ import com.vietjoke.vn.config.seeding.jsonObject.Flight;
 import com.vietjoke.vn.config.seeding.jsonObject.Route;
 import com.vietjoke.vn.converter.PromoConverter;
 import com.vietjoke.vn.dto.pricing.AddonDTO;
+import com.vietjoke.vn.dto.pricing.PaymentMethodDTO;
 import com.vietjoke.vn.dto.pricing.PromoCodeDTO;
 import com.vietjoke.vn.entity.fleet.AircraftEntity;
 import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
@@ -77,6 +78,7 @@ public class MasterSeeder implements CommandLineRunner {
         seedAddonTypes();
         seedAddons();
         seedPromos();
+        seedPaymentMethod();
     }
 
     private void seedCountries() throws IOException {
@@ -322,6 +324,27 @@ public class MasterSeeder implements CommandLineRunner {
             promoRepository.saveAll(promoCodeEntities);
         } catch (Exception e) {
             throw new RuntimeException("Error loading promo data", e);
+        }
+    }
+
+    private final PaymentMethodRepository paymentMethodRepository;
+    private void seedPaymentMethod(){
+        try {
+            if(paymentMethodRepository.count() != 0) return;
+            InputStream inputStream = new ClassPathResource("/data/payment.json").getInputStream();
+            List<PaymentMethodDTO> paymentMethodDTOS = List.of(objectMapper.readValue(inputStream, PaymentMethodDTO[].class));
+            List<PaymentMethodEntity> paymentMethodEntities = new ArrayList<>();
+            for(PaymentMethodDTO paymentMethodDTO : paymentMethodDTOS){
+                PaymentMethodEntity paymentMethodEntity = new PaymentMethodEntity();
+                paymentMethodEntity.setCode(paymentMethodDTO.getCode());
+                paymentMethodEntity.setName(paymentMethodDTO.getName());
+                paymentMethodEntity.setLogoUrl(paymentMethodDTO.getLogoUrl());
+                paymentMethodEntity.setEnabled(paymentMethodDTO.getEnabled());
+                paymentMethodEntities.add(paymentMethodEntity);
+            }
+            paymentMethodRepository.saveAll(paymentMethodEntities);
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading payment data", e);
         }
     }
 }

@@ -29,7 +29,7 @@ public class BookingController {
         return ResponseEntity.ok(bookingSessionService.completeServiceSelection(sessionToken));
     }
 
-    @GetMapping("/booking/preview")
+    @GetMapping("/booking/preview") // Ở bước preview
     public ResponseEntity<?> getBookingPreview(@RequestParam String sessionToken) {
         return ResponseEntity.ok(bookingSessionService.getBookingPreview(sessionToken));
     }
