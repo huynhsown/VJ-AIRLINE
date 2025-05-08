@@ -63,3 +63,9 @@ zalo_pay:
   mac_key: ${MAC_KEY}
   url_create_order: ${URL_CREATE_ORDER}
 
+paypal:
+  client-id: ${PAYPAL_CLIENT_ID}
+  secret: ${PAYPAL_SECRET}
+  api-url: ${PAYPAL_API_URL}
+
+
