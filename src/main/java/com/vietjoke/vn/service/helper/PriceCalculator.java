@@ -4,6 +4,8 @@ import com.vietjoke.vn.dto.pricing.PromoDTO;
 import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,11 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class PriceCalculator {
-    private final FlightProcessor flightProcessor;
-    private final PassengerProcessor passengerProcessor;
-    private final PromoValidator promoValidator;
+    @Autowired
+    @Lazy
+    private FlightProcessor flightProcessor;
+    @Autowired
+    private PassengerProcessor passengerProcessor;
+    @Autowired
+    private PromoValidator promoValidator;
 
     public BigDecimal calculateTotalPrice(List<BookingPreviewDTO.FlightSummaryDTO> flightSummaries) {
         return flightSummaries.stream()

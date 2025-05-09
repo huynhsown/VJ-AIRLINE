@@ -4,6 +4,7 @@ import com.vietjoke.vn.converter.BookingSessionConverter;
 import com.vietjoke.vn.dto.booking.BookingSessionDTO;
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
+import com.vietjoke.vn.dto.pricing.AddonSelectionDTO;
 import com.vietjoke.vn.dto.pricing.PromoDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
@@ -17,6 +18,7 @@ import com.vietjoke.vn.util.enums.booking.BookingSessionStep;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,16 +38,26 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
+    @Lazy
     private PriceCalculator priceCalculator;
     @Autowired
     private PromoValidator promoValidator;
     @Autowired
     private FlightProcessor flightProcessor;
     @Autowired
+    @Lazy
     private PassengerProcessor passengerProcessor;
 
     @Value("${session.ttl}")
     private Long sessionTimeToLive;
+
+    @Override
+    @Transactional
+    public BookingSession updateSelectedService(String sessionId, Map<String, Map<String, List<AddonSelectionDTO>>> passengerAddons) {
+        BookingSession session = getSession(sessionId);
+        session.setPassengerAddons(passengerAddons);
+        return bookingSessionRepository.save(session);
+    }
 
     @Override
     @Transactional
@@ -86,8 +98,12 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     }
 
     @Override
+    @Transactional
     public BookingSession updateBookingSession(BookingSession session) {
-        return bookingSessionRepository.save(session);
+        System.out.println(session.getPassengerAddons());
+        BookingSession session1 = bookingSessionRepository.save(session);
+        System.out.println(session1.getPassengerAddons());
+        return session1;
     }
 
     @Override

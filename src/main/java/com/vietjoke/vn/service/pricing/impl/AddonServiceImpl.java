@@ -118,6 +118,10 @@ public class AddonServiceImpl implements AddonService {
         String passengerUuid = requestDTO.getPassengerUuid();
         String flightNumber = requestDTO.getFlightNumber();
 
+        if (session.getPassengerAddons() == null) {
+            session.setPassengerAddons(new HashMap<>());
+        }
+
         Map<String, List<AddonSelectionDTO>> flightAddons = session.getPassengerAddons()
                 .computeIfAbsent(passengerUuid, k -> new HashMap<>());
 
@@ -150,7 +154,11 @@ public class AddonServiceImpl implements AddonService {
 
         currentAddons.removeIf(addon -> !newAddonIds.contains(addon.getAddonId()));
 
-        session = bookingSessionService.updateBookingSession(session);
+        session = bookingSessionService.updateSelectedService(session.getSessionId(), session.getPassengerAddons());
+        
+        BookingSession verifySession = bookingSessionService.getSession(requestDTO.getSessionToken());
+        System.out.println("Verify session: " + verifySession.getPassengerAddons());
+        
         return ResponseDTO.success(Map.of("sessionToken", session.getSessionId(),
                 "currentStep", session.getCurrentStep(),
                 "nextStep", session.getNextStep()));
@@ -164,8 +172,30 @@ public class AddonServiceImpl implements AddonService {
                 passengerUuid);
 
         Map<String, Map<String, List<AddonSelectionDTO>>> passengerAddons = session.getPassengerAddons();
+        if (passengerAddons == null) {
+            System.out.println("passengerAddons is null");
+            return ResponseDTO.success(PassengerAddonsResponseDTO.builder()
+                    .passengerUuid(passengerUuid)
+                    .flightNumber(flightNumber)
+                    .addons(new ArrayList<>())
+                    .build());
+        }
+        
         Map<String, List<AddonSelectionDTO>> flightAddons = passengerAddons.get(passengerUuid);
+        if (flightAddons == null) {
+            System.out.println("flightAddons is null for passenger: " + passengerUuid);
+            return ResponseDTO.success(PassengerAddonsResponseDTO.builder()
+                    .passengerUuid(passengerUuid)
+                    .flightNumber(flightNumber)
+                    .addons(new ArrayList<>())
+                    .build());
+        }
+        
         List<AddonSelectionDTO> addons = flightAddons.get(flightNumber);
+        if (addons == null) {
+            System.out.println("addons is null for flight: " + flightNumber);
+            addons = new ArrayList<>();
+        }
 
         PassengerAddonsResponseDTO responseDTO = PassengerAddonsResponseDTO.builder()
                 .passengerUuid(passengerUuid)

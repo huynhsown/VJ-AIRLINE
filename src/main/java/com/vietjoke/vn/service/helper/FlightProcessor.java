@@ -1,14 +1,8 @@
 package com.vietjoke.vn.service.helper;
 
-import com.vietjoke.vn.converter.BookingPreviewConverter;
 import com.vietjoke.vn.dto.request.flight.SelectFlightDTO;
 import com.vietjoke.vn.dto.request.flight.SelectFlightRequestDTO;
 import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
-import com.vietjoke.vn.service.flight.FlightService;
-import com.vietjoke.vn.service.pricing.AddonService;
-import com.vietjoke.vn.service.pricing.FareAvailabilityService;
-import com.vietjoke.vn.service.pricing.FareClassService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,14 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class FlightProcessor {
-    private final FlightService flightService;
-    private final FareClassService fareClassService;
-    private final FareAvailabilityService fareAvailabilityService;
-    private final AddonService addonService;
-    private final BookingPreviewConverter bookingPreviewConverter;
-
     public List<BookingPreviewDTO.FlightSummaryDTO> processFlights(
             SelectFlightRequestDTO selectedFlight,
             List<BookingPreviewDTO.PassengerBookingDetailDTO> passengerDetails) {

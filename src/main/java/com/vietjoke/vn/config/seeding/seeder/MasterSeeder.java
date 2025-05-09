@@ -34,7 +34,9 @@ import com.vietjoke.vn.service.flight.FlightService;
 import com.vietjoke.vn.util.enums.pricing.AddonType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +65,9 @@ public class MasterSeeder implements CommandLineRunner {
     private final AirportRepository airportRepository;
     private final RoleRepository roleRepository;
 
-    private final FlightService flightService;
+    @Autowired
+    @Lazy
+    private FlightService flightService;
 
     @Override
     public void run(String... args) throws Exception {
