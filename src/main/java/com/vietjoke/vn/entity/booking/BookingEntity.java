@@ -3,6 +3,7 @@ package com.vietjoke.vn.entity.booking;
 import com.vietjoke.vn.entity.core.BaseEntity;
 import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
+import com.vietjoke.vn.util.enums.flight.TripType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,12 +34,6 @@ public class BookingEntity extends BaseEntity {
     @Column(name = "currency", length = 10, nullable = false)
     private String currency = "VND";
 
-    @Column(name = "payment_method", length = 50)
-    private String paymentMethod;
-
-    @Column(name = "payment_reference", length = 50)
-    private String paymentReference;
-
     @Column(name = "discount_amount", precision = 10, scale = 2)
     private BigDecimal discountAmount;
 
@@ -51,8 +46,9 @@ public class BookingEntity extends BaseEntity {
     @Column(name = "infant_count", nullable = false)
     private int infantCount = 0;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "trip_type", length = 20)
-    private String tripType;
+    private TripType tripType;
 
     @ManyToOne
     @JoinColumn(name = "status_id")

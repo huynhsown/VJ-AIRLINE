@@ -36,13 +36,13 @@ public class BookingDetailEntity extends BaseEntity {
     private FareClassEntity fareClassEntity;
 
     @Column(name = "fare_amount", precision = 10, scale = 2, nullable = false)
-    private BigDecimal fareAmount;
+    private BigDecimal fareAmount = BigDecimal.ZERO;
 
     @Column(name = "tax_amount", precision = 10, scale = 2, nullable = false)
-    private BigDecimal taxAmount;
+    private BigDecimal taxAmount = BigDecimal.ZERO;
 
     @Column(name = "fee_amount", precision = 10, scale = 2, nullable = false)
-    private BigDecimal feeAmount;
+    private BigDecimal feeAmount = BigDecimal.ZERO;
 
     @Column(name = "discount_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal discountAmount = BigDecimal.ZERO;

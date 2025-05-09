@@ -21,7 +21,7 @@ public class PaymentMethodEntity extends BaseEntity {
     private PaymentMethodCode code;
 
     @Column(name = "name", nullable = false, length = 100)
-    private String name; // e.g., ZaloPay, VNPAY
+    private String name;
 
     @Column(name = "logo_url")
     private String logoUrl;

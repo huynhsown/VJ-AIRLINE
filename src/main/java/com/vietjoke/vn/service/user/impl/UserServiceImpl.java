@@ -96,4 +96,10 @@ public class UserServiceImpl implements UserService {
         String token = jwtTokenUtil.generateToken(existingUser);
         return ResponseDTO.success(Map.of("token", "Bearer "+ token));
     }
+
+    @Override
+    public UserEntity getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
 }

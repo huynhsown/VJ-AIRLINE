@@ -1,105 +1,73 @@
 package com.vietjoke.vn.service.booking.impl;
 
+import com.vietjoke.vn.dto.booking.SearchParamDTO;
+import com.vietjoke.vn.entity.booking.BookingEntity;
+import com.vietjoke.vn.entity.booking.BookingSession;
+import com.vietjoke.vn.entity.booking.BookingStatusEntity;
+import com.vietjoke.vn.entity.pricing.PaymentMethodEntity;
+import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
+import com.vietjoke.vn.entity.user.UserEntity;
 import com.vietjoke.vn.service.booking.BookingService;
 import com.vietjoke.vn.service.booking.BookingSessionService;
+import com.vietjoke.vn.service.booking.BookingStatusService;
+import com.vietjoke.vn.service.helper.PriceCalculator;
+import com.vietjoke.vn.service.pricing.PromoCodeService;
+import com.vietjoke.vn.service.user.UserService;
+import com.vietjoke.vn.util.enums.booking.BookingStatus;
+import com.vietjoke.vn.util.enums.flight.TripType;
+import com.vietjoke.vn.util.paypal.PayPalUtil;
+import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
-    @Value("${paypal.client-id}")
-    private String clientId;
-
-    @Value("${paypal.secret}")
-    private String secretKey;
-
-    @Value("${paypal.api-url}")
-    private String apiUrl;
-
     private final BookingSessionService bookingSessionService;
+    private final PayPalUtil payPalUtil;
+    private final UserService userService;
+    private final PriceCalculator priceCalculator;
+    private final BookingStatusService bookingStatusService;
+    private final PromoCodeService promoCodeService;
 
-    public String getAccessToken() throws IOException {
-        String auth = clientId + ":" + secretKey;
-        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
-
-        URL url = new URL(apiUrl + "/v1/oauth2/token");
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Authorization", "Basic " + encodedAuth);
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-        String data = "grant_type=client_credentials";
-        try (OutputStream os = connection.getOutputStream()) {
-            byte[] input = data.getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
-        }
-
-        int status = connection.getResponseCode();
-        if (status != 200) {
-            throw new IOException("Failed to get access token, status: " + status);
-        }
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-            StringBuilder response = new StringBuilder();
-            String responseLine;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-            return response.toString().split("\"access_token\":\"")[1].split("\"")[0];
-        }
-    }
 
     @Override
-    public String createPayPalOrder(BigDecimal amount) throws IOException {
+    public BookingEntity createBooking(String sessionToken, Map<String, String> orderDetail, String username) {
+        BookingSession session = bookingSessionService.getSession(sessionToken);
 
-        String accessToken = getAccessToken();
-        String currency = "USD";
-        URL url = new URL(apiUrl + "/v2/checkout/orders");
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Prefer", "return=representation");
+        SearchParamDTO searchParamDTO = session.getSearchCriteria();
+        UserEntity userEntity = userService.getUserByUsername(username);
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        String reference = "VN" + uuid.substring(0, 6).toUpperCase();
 
-        String payload = "{"
-                + "\"intent\": \"CAPTURE\","
-                + "\"purchase_units\": [{"
-                + "\"amount\": {"
-                + "\"currency_code\": \"" + currency + "\","
-                + "\"value\": \"" + amount + "\""
-                + "}}]}";
+        BigDecimal totalAmount = priceCalculator.calculatePaymentPrice(session);
+        BigDecimal discountAmount = priceCalculator.calculateDiscountAmount(session);
 
-        try (OutputStream os = connection.getOutputStream()) {
-            byte[] input = payload.getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
-        }
+        int adultCount = searchParamDTO.getTripPassengersAdult();
+        int childCount = searchParamDTO.getTripPassengersChild();
+        int infantCount = searchParamDTO.getTripPassengersInfant();
+        TripType tripType = TripType.valueOf(searchParamDTO.getTripType());
+        BookingStatusEntity bookingStatus = bookingStatusService.getStatus(BookingStatus.COMPLETED);
+        PromoCodeEntity promoCodeEntity = promoCodeService.getPromoCode(searchParamDTO.getCoupon());
 
-        int status = connection.getResponseCode();
-        if (status != 201) {
-            throw new IOException("Failed to create order, status: " + status);
-        }
+        BookingEntity bookingEntity = new BookingEntity();
+        bookingEntity.setBookingReference(reference);
+        bookingEntity.setUserEntity(userEntity);
+        bookingEntity.setTotalAmount(totalAmount);
+        bookingEntity.setDiscountAmount(discountAmount);
+        bookingEntity.setAdultCount(adultCount);
+        bookingEntity.setChildCount(childCount);
+        bookingEntity.setInfantCount(infantCount);
+        bookingEntity.setTripType(tripType);
+        bookingEntity.setBookingStatusEntity(bookingStatus);
+        bookingEntity.setPromoCodeEntity(promoCodeEntity);
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-            StringBuilder response = new StringBuilder();
-            String responseLine;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-            return response.toString().split("\"id\":\"")[1].split("\"")[0]; //Get order Id
-        }
+
+
+        return bookingEntity;
     }
 }

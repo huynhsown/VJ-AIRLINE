@@ -25,7 +25,7 @@ public class BookingPaymentEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", length = 20, nullable = false)
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
+    private PaymentStatus paymentStatus = PaymentStatus.CREATED;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", length = 20, nullable = false)
