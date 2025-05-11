@@ -1,6 +1,8 @@
 package com.vietjoke.vn.dto.response.flight;
 
 import com.vietjoke.vn.dto.pricing.PromoDTO;
+import com.vietjoke.vn.util.enums.user.Gender;
+import com.vietjoke.vn.util.enums.user.IdType;
 import com.vietjoke.vn.util.enums.user.PassengerType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +44,16 @@ public class BookingPreviewDTO {
         private String firstName;
         private String lastName;
         private PassengerType passengerType;
-        private List<PassengerFlightDetailDTO> passengerFlightDetailDTOS = new ArrayList<>();
         private String accompanyingAdultFirstName;
         private String accompanyingAdultLastName;
+        private LocalDate dateOfBirth;
+        private Gender gender;
+        private String countryCode;
+        private IdType idType;
+        private String idNumber;
+        private String phone;
+        private String email;
+        private List<PassengerFlightDetailDTO> passengerFlightDetailDTOS = new ArrayList<>();
     }
 
     @Data

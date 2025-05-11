@@ -22,4 +22,7 @@ public interface SeatReservationRepository extends JpaRepository<SeatReservation
     );
 
     Optional<SeatReservationEntity> findByFlightEntity_FlightNumberAndSeatNumber(String flightNumber, String seatNumber);
+    List<SeatReservationEntity> findByFlightEntity_FlightNumberAndFareClassEntity_CodeOrderBySeatNumberAsc(
+            String flightNumber, String fareClassCode
+    );
 }

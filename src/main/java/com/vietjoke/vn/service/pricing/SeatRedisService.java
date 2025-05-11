@@ -7,4 +7,5 @@ public interface SeatRedisService {
     ResponseDTO<?> reserveSeat(SeatReservationRequestDTO seatRequest);
     ResponseDTO<?> releaseSeat(SeatReservationRequestDTO seatRequest);
     String getSeatLockStatus(SeatReservationRequestDTO seatRequest);
+    String getSeatNumber(String flightNumber, String passengerUuid);
 }

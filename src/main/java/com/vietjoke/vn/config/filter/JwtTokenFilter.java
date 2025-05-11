@@ -26,8 +26,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
 
     private static final List<EndpointMethod> BYPASS_ENDPOINTS = List.of(
-            new EndpointMethod("/", "POST"),
-            new EndpointMethod("/", "GET")
+            new EndpointMethod("/api/v1/booking", "POST"),
+            new EndpointMethod("/api/v1/booking", "GET"),
+            new EndpointMethod("/api/v1/flight", "POST"),
+            new EndpointMethod("/api/v1/flight", "GET")
     );
 
     @Override

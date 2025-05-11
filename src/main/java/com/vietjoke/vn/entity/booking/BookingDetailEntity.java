@@ -27,7 +27,7 @@ public class BookingDetailEntity extends BaseEntity {
     @JoinColumn(name = "flight_id", nullable = false)
     private FlightEntity flightEntity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "passenger_id", nullable = false)
     private PassengerEntity passengerEntity;
 
@@ -59,7 +59,7 @@ public class BookingDetailEntity extends BaseEntity {
     @OneToMany(mappedBy = "bookingDetailEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<BookingAddonEntity> bookingAddonEntities;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "seat_reservation_id", nullable = true, unique = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "seat_reservation_id", unique = true)
     private SeatReservationEntity seatReservationEntity;
 }

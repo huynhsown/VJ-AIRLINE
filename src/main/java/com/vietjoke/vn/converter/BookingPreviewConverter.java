@@ -54,7 +54,7 @@ public class BookingPreviewConverter {
 
     public BookingPreviewDTO.PassengerBookingDetailDTO toPassengerBookingDetailDTO(
             PassengerDTO passengerDTO,
-            List<BookingPreviewDTO.PassengerFlightDetailDTO> passengerFlightDetailDTOS){
+            List<BookingPreviewDTO.PassengerFlightDetailDTO> passengerFlightDetailDTOS) {
 
         return BookingPreviewDTO.PassengerBookingDetailDTO
                 .builder()
@@ -65,8 +65,14 @@ public class BookingPreviewConverter {
                 .passengerFlightDetailDTOS(passengerFlightDetailDTOS)
                 .accompanyingAdultFirstName(passengerDTO.getAccompanyingAdultFirstName())
                 .accompanyingAdultLastName(passengerDTO.getAccompanyingAdultLastName())
+                .dateOfBirth(passengerDTO.getDateOfBirth())
+                .gender(passengerDTO.getGender())
+                .countryCode(passengerDTO.getCountryCode())
+                .idType(passengerDTO.getIdType())
+                .idNumber(passengerDTO.getIdNumber())
+                .phone(passengerDTO.getPhone())
+                .email(passengerDTO.getEmail())
                 .build();
-
     }
 
 }

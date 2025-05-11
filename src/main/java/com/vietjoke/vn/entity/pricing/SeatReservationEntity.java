@@ -29,7 +29,7 @@ public class SeatReservationEntity extends BaseEntity {
     @JoinColumn(name = "fare_class_id")
     private FareClassEntity fareClassEntity;
 
-    @OneToOne(mappedBy = "seatReservationEntity", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "seatReservationEntity")
     private BookingDetailEntity bookingDetailEntity;
 
 }

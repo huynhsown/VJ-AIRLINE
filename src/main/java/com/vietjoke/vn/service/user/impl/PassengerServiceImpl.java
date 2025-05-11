@@ -3,19 +3,24 @@ package com.vietjoke.vn.service.user.impl;
 import com.vietjoke.vn.dto.booking.PassengersInfoParamDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
+import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
 import com.vietjoke.vn.dto.response.user.PassengerInfoResponseDTO;
 import com.vietjoke.vn.dto.response.user.SimplifiedPassengerDTO;
 import com.vietjoke.vn.dto.user.PassengerDTO;
 import com.vietjoke.vn.entity.booking.BookingSession;
+import com.vietjoke.vn.entity.user.PassengerEntity;
 import com.vietjoke.vn.exception.user.PassengerInfomationException;
 import com.vietjoke.vn.exception.user.PassengerTypeRequiredException;
 import com.vietjoke.vn.repository.user.PassengerRepository;
 import com.vietjoke.vn.service.booking.BookingSessionService;
 import com.vietjoke.vn.service.helper.BookingSessionHelper;
+import com.vietjoke.vn.service.location.CountryService;
 import com.vietjoke.vn.service.user.PassengerService;
+import com.vietjoke.vn.util.enums.user.IdType;
 import com.vietjoke.vn.util.enums.user.PassengerType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +32,7 @@ public class PassengerServiceImpl implements PassengerService {
     private final BookingSessionService bookingSessionService;
 
     private final PassengerRepository passengerRepository;
+    private final CountryService countryService;
 
     @Override
     public ResponseDTO<Map<String, String>> inputPassengerInfo(PassengersInfoParamDTO infoParamDTO) {
@@ -76,6 +82,53 @@ public class PassengerServiceImpl implements PassengerService {
                 .sessionToken(session.getSessionId())
                 .passengers(simplifiedPassengers)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public PassengerEntity createPassenger(BookingPreviewDTO.PassengerBookingDetailDTO passengerBookingDetailDTO) {
+        // Validate các trường bắt buộc
+        if (passengerBookingDetailDTO.getFirstName() == null || passengerBookingDetailDTO.getLastName() == null) {
+            throw new IllegalArgumentException("First name and last name are required");
+        }
+        if (passengerBookingDetailDTO.getDateOfBirth() == null) {
+            throw new IllegalArgumentException("Date of birth is required");
+        }
+        if (passengerBookingDetailDTO.getPassengerType() == null) {
+            throw new IllegalArgumentException("Passenger type is required");
+        }
+
+        PassengerEntity passengerEntity = new PassengerEntity();
+        passengerEntity.setFirstName(passengerBookingDetailDTO.getFirstName());
+        passengerEntity.setLastName(passengerBookingDetailDTO.getLastName());
+        passengerEntity.setDateOfBirth(passengerBookingDetailDTO.getDateOfBirth());
+        passengerEntity.setGender(passengerBookingDetailDTO.getGender());
+        passengerEntity.setPassengerType(passengerBookingDetailDTO.getPassengerType());
+
+        passengerEntity.setIdType(passengerBookingDetailDTO.getIdType());
+        passengerEntity.setIdNumber(passengerBookingDetailDTO.getIdNumber());
+        passengerEntity.setPhone(passengerBookingDetailDTO.getPhone());
+        passengerEntity.setEmail(passengerBookingDetailDTO.getEmail());
+
+        if (passengerBookingDetailDTO.getCountryCode() != null) {
+            passengerEntity.setNationality(countryService.getCountry(passengerBookingDetailDTO.getCountryCode()));
+        }
+
+        return passengerRepository.save(passengerEntity);
+    }
+
+    @Override
+    @Transactional
+    public PassengerEntity getOrCreatePassenger(BookingPreviewDTO.PassengerBookingDetailDTO passengerBookingDetailDTO) {
+        IdType idType = passengerBookingDetailDTO.getIdType();
+        String idNumber = passengerBookingDetailDTO.getIdNumber();
+
+        if (idType != null && idNumber != null) {
+            return passengerRepository.findByIdTypeAndIdNumber(idType, idNumber)
+                    .orElseGet(() -> createPassenger(passengerBookingDetailDTO));
+        }
+
+        return createPassenger(passengerBookingDetailDTO);
     }
 
     private void validatePassengers(List<PassengerDTO> passengers) {

@@ -58,7 +58,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity roleEntity;
 
-    @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingEntity> bookingEntities;
 
     @Override

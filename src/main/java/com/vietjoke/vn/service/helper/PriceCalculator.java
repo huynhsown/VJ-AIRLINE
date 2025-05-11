@@ -36,6 +36,14 @@ public class PriceCalculator {
                         .orElse(BigDecimal.ZERO));
     }
 
+    public BigDecimal calculateTotalPrice(BookingSession session) {
+        List<BookingPreviewDTO.FlightSummaryDTO> flightSummaries =
+                flightProcessor.processFlights(session.getSelectedFlight(),
+                        passengerProcessor.processPassengers(session));
+
+        return calculateTotalPrice(flightSummaries);
+    }
+
     public BigDecimal calculatePaymentPrice(BookingSession session) {
         List<BookingPreviewDTO.FlightSummaryDTO> flightSummaries =
                 flightProcessor.processFlights(session.getSelectedFlight(),

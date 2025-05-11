@@ -23,7 +23,9 @@ public class ApiSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
-                    requests.anyRequest().permitAll();
+                    requests
+                            .requestMatchers("/api/v1/payment/capture-order").authenticated()  // Yêu cầu authentication
+                            .anyRequest().permitAll();  // Các request khác cho phép truy cập
                 });
         return http.build();
     }

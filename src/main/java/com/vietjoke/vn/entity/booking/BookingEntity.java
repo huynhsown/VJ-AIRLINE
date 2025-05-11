@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -55,10 +56,10 @@ public class BookingEntity extends BaseEntity {
     private BookingStatusEntity bookingStatusEntity;
 
     @OneToMany(mappedBy = "bookingEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private List<BookingDetailEntity> bookingDetailEntities;
+    private List<BookingDetailEntity> bookingDetailEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "bookingEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private List<BookingPaymentEntity> bookingPaymentEntities;
+    private List<BookingPaymentEntity> bookingPaymentEntities = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "promode_id")

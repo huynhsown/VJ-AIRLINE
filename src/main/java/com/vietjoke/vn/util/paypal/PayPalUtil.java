@@ -2,7 +2,8 @@ package com.vietjoke.vn.util.paypal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
+import com.vietjoke.vn.dto.pricing.PayPalCaptureDTO;
+import com.vietjoke.vn.dto.pricing.PayPalOrderDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class PayPalUtil {
@@ -101,7 +100,7 @@ public class PayPalUtil {
         }
     }
 
-    public Map<String, String> getOrderDetails(String orderId) throws IOException {
+    public PayPalOrderDTO getOrderDetails(String orderId) throws IOException {
         String accessToken = getAccessToken();
         URL url = new URL(apiUrl + "/v2/checkout/orders/" + orderId);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -124,9 +123,10 @@ public class PayPalUtil {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(response.toString());
 
-            Map<String, String> result = new HashMap<>();
-            result.put("orderId", rootNode.get("id").asText());
-            result.put("status", rootNode.get("status").asText());
+            PayPalOrderDTO orderDTO = PayPalOrderDTO.builder()
+                    .orderId(rootNode.get("id").asText())
+                    .status(rootNode.get("status").asText())
+                    .build();
 
             try {
                 JsonNode purchaseUnits = rootNode.get("purchase_units");
@@ -136,27 +136,94 @@ public class PayPalUtil {
                         JsonNode captures = payments.get("captures");
                         if (captures != null && captures.isArray() && captures.size() > 0) {
                             JsonNode capture = captures.get(0);
-                            result.put("captureId", capture.get("id").asText());
-                            result.put("captureStatus", capture.get("status").asText());
-
                             JsonNode amount = capture.get("amount");
-                            if (amount != null) {
-                                result.put("amount", amount.get("value").asText());
-                                result.put("currency", amount.get("currency_code").asText());
-                            }
+
+                            PayPalCaptureDTO captureDTO = PayPalCaptureDTO.builder()
+                                    .captureId(capture.get("id").asText())
+                                    .captureStatus(capture.get("status").asText())
+                                    .amount(amount != null ? new BigDecimal(amount.get("value").asText()) : null)
+                                    .currency(amount != null ? amount.get("currency_code").asText() : null)
+                                    .build();
+
+                            orderDTO.setCapture(captureDTO);
                         } else {
-                            result.put("captureId", null);
-                            result.put("captureStatus", "NO_CAPTURE");
+                            orderDTO.setCapture(PayPalCaptureDTO.builder()
+                                    .captureId(null)
+                                    .captureStatus("NO_CAPTURE")
+                                    .build());
                         }
                     }
                 }
             } catch (Exception e) {
-                result.put("captureId", null);
-                result.put("captureStatus", "ERROR");
+                orderDTO.setCapture(PayPalCaptureDTO.builder()
+                        .captureId(null)
+                        .captureStatus("ERROR")
+                        .build());
             }
 
-            return result;
+            return orderDTO;
         }
     }
 
+    public PayPalOrderDTO captureOrder(String orderId) throws IOException {
+        String accessToken = getAccessToken();
+        URL url = new URL(apiUrl + "/v2/checkout/orders/" + orderId + "/capture");
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Prefer", "return=representation");
+
+        int status = connection.getResponseCode();
+        if (status != 201) {
+            throw new IOException("Failed to capture order, status: " + status);
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(response.toString());
+
+            PayPalOrderDTO orderDTO = PayPalOrderDTO.builder()
+                    .orderId(rootNode.get("id").asText())
+                    .status(rootNode.get("status").asText())
+                    .build();
+
+            try {
+                JsonNode purchaseUnits = rootNode.get("purchase_units");
+                if (purchaseUnits != null && purchaseUnits.isArray() && purchaseUnits.size() > 0) {
+                    JsonNode payments = purchaseUnits.get(0).get("payments");
+                    if (payments != null) {
+                        JsonNode captures = payments.get("captures");
+                        if (captures != null && captures.isArray() && captures.size() > 0) {
+                            JsonNode capture = captures.get(0);
+                            JsonNode amount = capture.get("amount");
+
+                            PayPalCaptureDTO captureDTO = PayPalCaptureDTO.builder()
+                                    .captureId(capture.get("id").asText())
+                                    .captureStatus(capture.get("status").asText())
+                                    .amount(amount != null ? new BigDecimal(amount.get("value").asText()) : null)
+                                    .currency(amount != null ? amount.get("currency_code").asText() : null)
+                                    .build();
+
+                            orderDTO.setCapture(captureDTO);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                orderDTO.setCapture(PayPalCaptureDTO.builder()
+                        .captureId(null)
+                        .captureStatus("ERROR")
+                        .build());
+            }
+
+            return orderDTO;
+        }
+    }
 }

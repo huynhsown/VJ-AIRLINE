@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -85,6 +86,19 @@ public class SeatRedisServiceImpl implements SeatRedisService {
     public String getSeatLockStatus(SeatReservationRequestDTO seatRequest) {
         String seatLockKey = buildSeatLockKey(seatRequest);
         return stringRedisTemplate.opsForValue().get(seatLockKey);
+    }
+
+    @Override
+    public String getSeatNumber(String flightNumber, String passengerUUID) {
+        String keyPattern = "seat:" + flightNumber + ":*";
+        Set<String> matchingKeys = stringRedisTemplate.keys(keyPattern);
+        for (String key : matchingKeys) {
+            String value = stringRedisTemplate.opsForValue().get(key);
+            if (passengerUUID.equals(value)) {
+                return key.substring(key.lastIndexOf(":") + 1);
+            }
+        }
+        return null;
     }
 
     private String buildSeatLockKey(SeatReservationRequestDTO seatRequest) {

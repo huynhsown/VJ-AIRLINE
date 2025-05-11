@@ -104,6 +104,30 @@ public class SeatReservationServiceImpl implements SeatReservationService {
                 .orElseThrow(() -> new FlightNotFoundException("Flight with number " + flightNumber + " not found."));
     }
 
+    @Override
+    public SeatReservationEntity getOrAssignSeat(String flightNumber, String fareCode,String seatNumber) {
+        if (flightNumber == null || fareCode == null) {
+            throw new IllegalArgumentException("Flight number and fare code are required");
+        }
+
+        if (seatNumber != null) {
+            try {
+                return getSeatReservation(flightNumber, seatNumber);
+            } catch (FlightNotFoundException ignored) {
+            }
+        }
+
+        List<SeatReservationEntity> seats = seatReservationRepository
+                .findByFlightEntity_FlightNumberAndFareClassEntity_CodeOrderBySeatNumberAsc(flightNumber, fareCode);
+
+        return seats.stream()
+                .filter(seat -> seat.getSeatStatus() == SeatStatus.AVAILABLE)
+                .findFirst()
+                .orElseThrow(() -> new FlightNotFoundException(
+                        String.format("No available seats found for flight %s with fare code %s",
+                                flightNumber, fareCode)));
+    }
+
     private static AircraftModelEntity getAircraftModelEntity(FlightEntity flightEntity) {
         AircraftEntity aircraftEntity = flightEntity.getAircraftEntity();
         if (aircraftEntity == null) {

@@ -11,4 +11,5 @@ public interface UserService {
     ResponseDTO<String> register(UserRegisterRequestDTO user);
     ResponseDTO<Map<String, String>> login(UserLoginRequestDTO user);
     UserEntity getUserByUsername(String username);
+    void addBookingToUser(String username, String sessionToken);
 }
