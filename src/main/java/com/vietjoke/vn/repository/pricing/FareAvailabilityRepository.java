@@ -12,4 +12,6 @@ public interface FareAvailabilityRepository extends JpaRepository<FareAvailabili
     Optional<FareAvailabilityEntity> findByFlightEntityAndFareClassEntity(FlightEntity flightEntity,
                                                                           FareClassEntity fareClassEntity);
 
+    Optional<FareAvailabilityEntity> findByFlightEntity_FlightNumberAndFareClassEntity_Code(
+            String flightNumber, String fareCode);
 }

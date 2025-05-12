@@ -4,6 +4,7 @@ import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.pricing.PayPalOrderDTO;
 import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
 import com.vietjoke.vn.entity.booking.*;
+import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
 import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
@@ -42,6 +43,7 @@ public class BookingServiceImpl implements BookingService {
     private final SeatReservationService seatReservationService;
     private final AddonService addonService;
     private final BookingRepository bookingRepository;
+    private final FareAvailabilityService fareAvailabilityService;
 
 
     @Override
@@ -133,6 +135,11 @@ public class BookingServiceImpl implements BookingService {
                         flightDetail.getFlightNumber(),
                         passengerDetail.getPassengerUuid());
 
+                FareAvailabilityEntity fareAvailabilityEntity = fareAvailabilityService.decreaseAvailableSeat(
+                        flightDetail.getFlightNumber(),
+                        flightDetail.getFareCode()
+                );
+
                 SeatReservationEntity seatEntity = seatReservationService.getOrAssignSeat(
                         flightDetail.getFlightNumber(),
                         flightDetail.getFareCode(),
@@ -140,6 +147,7 @@ public class BookingServiceImpl implements BookingService {
                 );
 
                 seatEntity.setSeatStatus(SeatStatus.RESERVED);
+
                 bookingDetail.setSeatReservationEntity(seatEntity);
 
                 List<BookingAddonEntity> bookingAddons = new ArrayList<>();

@@ -52,4 +52,20 @@ public class FareAvailabilityServiceImpl implements FareAvailabilityService {
         return fareAvailabilityRepository.findByFlightEntityAndFareClassEntity(flightEntity, fareClassEntity)
                 .orElseThrow(() -> new RuntimeException("FareAvailability not found"));
     }
+
+    @Override
+    public FareAvailabilityEntity getFareAvailability(String flightNumber, String fareClasCode) {
+        return fareAvailabilityRepository.
+                findByFlightEntity_FlightNumberAndFareClassEntity_Code(flightNumber, fareClasCode)
+                .orElseThrow(() -> new RuntimeException("FareAvailability not found"));
+    }
+
+    @Override
+    @Transactional
+    public FareAvailabilityEntity decreaseAvailableSeat(String flightNumber, String fareClasCode) {
+        FareAvailabilityEntity fareAvailabilityEntity = getFareAvailability(flightNumber, fareClasCode);
+        int currentAvailableSeats = fareAvailabilityEntity.getAvailableSeats() - 1;
+        fareAvailabilityEntity.setAvailableSeats(currentAvailableSeats);
+        return fareAvailabilityRepository.save(fareAvailabilityEntity);
+    }
 }
