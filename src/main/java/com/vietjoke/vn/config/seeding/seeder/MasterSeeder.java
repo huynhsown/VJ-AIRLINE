@@ -6,9 +6,11 @@ import com.vietjoke.vn.config.seeding.jsonObject.FareClass;
 import com.vietjoke.vn.config.seeding.jsonObject.Flight;
 import com.vietjoke.vn.config.seeding.jsonObject.Route;
 import com.vietjoke.vn.converter.PromoConverter;
+import com.vietjoke.vn.dto.booking.BookingStatusDTO;
 import com.vietjoke.vn.dto.pricing.AddonDTO;
 import com.vietjoke.vn.dto.pricing.PaymentMethodDTO;
 import com.vietjoke.vn.dto.pricing.PromoCodeDTO;
+import com.vietjoke.vn.entity.booking.BookingStatusEntity;
 import com.vietjoke.vn.entity.fleet.AircraftEntity;
 import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
 import com.vietjoke.vn.entity.fleet.AirlineEntity;
@@ -20,6 +22,7 @@ import com.vietjoke.vn.entity.location.CountryEntity;
 import com.vietjoke.vn.entity.location.ProvinceEntity;
 import com.vietjoke.vn.entity.pricing.*;
 import com.vietjoke.vn.entity.user.RoleEntity;
+import com.vietjoke.vn.repository.booking.BookingStatusRepository;
 import com.vietjoke.vn.repository.fleet.AircraftModelRepository;
 import com.vietjoke.vn.repository.fleet.AircraftRepository;
 import com.vietjoke.vn.repository.fleet.AirlineRepository;
@@ -68,6 +71,8 @@ public class MasterSeeder implements CommandLineRunner {
     @Autowired
     @Lazy
     private FlightService flightService;
+    @Autowired
+    private BookingStatusRepository bookingStatusRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -83,6 +88,7 @@ public class MasterSeeder implements CommandLineRunner {
         seedAddons();
         seedPromos();
         seedPaymentMethod();
+        seedBookingStatus();
     }
 
     private void seedCountries() throws IOException {
@@ -349,6 +355,25 @@ public class MasterSeeder implements CommandLineRunner {
             paymentMethodRepository.saveAll(paymentMethodEntities);
         } catch (Exception e) {
             throw new RuntimeException("Error loading payment data", e);
+        }
+    }
+
+    private void seedBookingStatus(){
+        try {
+            if(bookingStatusRepository.count() != 0) return;
+            InputStream inputStream = new ClassPathResource("/data/bookingstatus.json").getInputStream();
+            List<BookingStatusDTO> bookingStatusDTOS = List.of(objectMapper.readValue(inputStream, BookingStatusDTO[].class));
+            List<BookingStatusEntity> bookingStatusEntities = new ArrayList<>();
+            for(BookingStatusDTO bookingStatusDTO : bookingStatusDTOS){
+                BookingStatusEntity bookingStatusEntity = new BookingStatusEntity();
+                bookingStatusEntity.setStatusCode(bookingStatusDTO.getStatusCode());
+                bookingStatusEntity.setStatusName(bookingStatusDTO.getStatusName());
+                bookingStatusEntity.setDescription(bookingStatusDTO.getDescription());
+                bookingStatusEntities.add(bookingStatusEntity);
+            }
+            bookingStatusRepository.saveAll(bookingStatusEntities);
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading booking status data", e);
         }
     }
 }

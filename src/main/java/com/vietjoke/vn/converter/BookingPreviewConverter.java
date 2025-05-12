@@ -45,6 +45,7 @@ public class BookingPreviewConverter {
                 .builder()
                 .flightNumber(flightEntity.getFlightNumber())
                 .ticketPrice(fareAvailEntity.getBasePrice())
+                .fareCode(fareAvailEntity.getFareClassEntity().getCode())
                 .fareClass(fareAvailEntity.getFareClassEntity().getName())
                 .routeCode(flightEntity.getRouteEntity().getRouteCode())
                 .addonPrice(totalPrice)

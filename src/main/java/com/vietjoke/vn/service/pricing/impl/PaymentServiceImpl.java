@@ -65,6 +65,7 @@ public class PaymentServiceImpl implements PaymentService {
             BookingEntity bookingEntity = bookingService.createBooking(
                     sessionToken, userEntity, payPalOrderDTO
             );
+            bookingSessionService.deleteSession(sessionToken);
             result.put("orderId", orderId);
             result.put("status", PaymentStatus.COMPLETED.toString());
             return ResponseDTO.success(result);

@@ -59,7 +59,7 @@ public class BookingServiceImpl implements BookingService {
         int adultCount = searchParamDTO.getTripPassengersAdult();
         int childCount = searchParamDTO.getTripPassengersChild();
         int infantCount = searchParamDTO.getTripPassengersInfant();
-        TripType tripType = TripType.valueOf(searchParamDTO.getTripType());
+        TripType tripType = TripType.fromValue(searchParamDTO.getTripType());
         BookingStatusEntity bookingStatus = bookingStatusService.getStatus(BookingStatus.COMPLETED);
         PromoCodeEntity promoCodeEntity = promoCodeService.getPromoCode(searchParamDTO.getCoupon());
 
@@ -114,7 +114,7 @@ public class BookingServiceImpl implements BookingService {
                 bookingDetail.setFlightEntity(flightService.getFlightByFlightNumber(flightDetail.getFlightNumber()));
                 bookingDetail.setPassengerEntity(passengerService.getOrCreatePassenger(passengerDetail));
                 bookingDetail.setFareClassEntity(fareClassService.getFareClass(
-                        flightDetail.getFareClass()
+                        flightDetail.getFareCode()
                 ));
                 bookingDetail.setFareAmount(flightDetail.getTicketPrice());
                 BigDecimal discountAmount = BigDecimal.ZERO;
@@ -135,7 +135,7 @@ public class BookingServiceImpl implements BookingService {
 
                 SeatReservationEntity seatEntity = seatReservationService.getOrAssignSeat(
                         flightDetail.getFlightNumber(),
-                        flightDetail.getFareClass(),
+                        flightDetail.getFareCode(),
                         seatNumber
                 );
 

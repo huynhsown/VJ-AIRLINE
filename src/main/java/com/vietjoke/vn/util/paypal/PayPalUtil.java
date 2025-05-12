@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vietjoke.vn.dto.pricing.PayPalCaptureDTO;
 import com.vietjoke.vn.dto.pricing.PayPalOrderDTO;
+import com.vietjoke.vn.util.enums.booking.PaymentMethod;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -193,6 +194,7 @@ public class PayPalUtil {
             PayPalOrderDTO orderDTO = PayPalOrderDTO.builder()
                     .orderId(rootNode.get("id").asText())
                     .status(rootNode.get("status").asText())
+                    .paymentMethod(PaymentMethod.PAYPAL)
                     .build();
 
             try {

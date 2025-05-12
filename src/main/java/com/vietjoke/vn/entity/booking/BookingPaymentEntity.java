@@ -29,7 +29,7 @@ public class BookingPaymentEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", length = 20, nullable = false)
-    private PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
+    private PaymentMethod paymentMethod = PaymentMethod.PAYPAL;
 
     @Column(name = "transaction_id", length = 255, unique = true)
     private String transactionId;

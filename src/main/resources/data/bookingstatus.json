@@ -1,0 +1,27 @@
+[
+  {
+    "statusCode": "PENDING",
+    "statusName": "Pending",
+    "description": "The booking has been created but not yet paid. Waiting for payment or further confirmation from the user."
+  },
+  {
+    "statusCode": "CONFIRMED",
+    "statusName": "Confirmed",
+    "description": "The booking has been successfully paid and confirmed. Seats and passenger information are secured."
+  },
+  {
+    "statusCode": "CANCELLED",
+    "statusName": "Cancelled",
+    "description": "The booking was cancelled either by the user or the system. No longer valid."
+  },
+  {
+    "statusCode": "COMPLETED",
+    "statusName": "Completed",
+    "description": "The flight associated with the booking has been completed. Booking remains in the system for record-keeping."
+  },
+  {
+    "statusCode": "EXPIRED",
+    "statusName": "Expired",
+    "description": "The booking expired due to no action taken within the allowed time. Typically happens when payment was not made in time."
+  }
+]

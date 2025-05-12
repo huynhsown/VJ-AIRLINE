@@ -63,6 +63,7 @@ public class BookingPreviewDTO {
     public static class PassengerFlightDetailDTO {
         private String flightNumber;
         private String fareClass;
+        private String fareCode;
         private String routeCode;
         private BigDecimal ticketPrice;
         private BigDecimal addonPrice;
