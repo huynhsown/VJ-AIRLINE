@@ -1,4 +1,4 @@
-package com.vietjoke.vn.exception.handler;
+package com.vietjoke.vn.exception;
 
 import com.vietjoke.vn.constant.ErrorConstaints;
 import com.vietjoke.vn.dto.response.ErrorResponseDTO;
@@ -238,4 +238,36 @@ public class GlobalExceptionHandler {
                 ErrorConstaints.INVALID_ADDON_QUANTITY
         );
     }
+
+    @ExceptionHandler(AccountAlreadyActivatedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleAccountAlreadyActivated(AccountAlreadyActivatedException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                List.of(new ErrorResponseDTO.ErrorDetail("Account", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(InvalidOtpException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleInvalidOtp(InvalidOtpException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                List.of(new ErrorResponseDTO.ErrorDetail("OTP", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(OtpCooldownException.class)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    public ErrorResponseDTO handleOtpCooldown(OtpCooldownException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.TOO_MANY_REQUESTS.value(),
+                "Too Many Requests",
+                List.of(new ErrorResponseDTO.ErrorDetail("OTP", ex.getMessage(), "error"))
+        );
+    }
+
+
 }

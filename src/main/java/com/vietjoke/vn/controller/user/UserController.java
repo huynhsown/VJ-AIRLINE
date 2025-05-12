@@ -3,9 +3,11 @@ package com.vietjoke.vn.controller.user;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.user.UserLoginRequestDTO;
 import com.vietjoke.vn.dto.user.UserRegisterRequestDTO;
+import com.vietjoke.vn.dto.user.VerifyOtpRequestDTO;
 import com.vietjoke.vn.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,13 @@ public class UserController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    @GetMapping("/hello")
-    public ResponseEntity<?> hello() {
-        return ResponseEntity.ok("Dit me tuyet voi");
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOTP(@Valid @RequestBody VerifyOtpRequestDTO verifyOtp) {
+        return ResponseEntity.ok(userService.verifyOTP(verifyOtp));
+    }
+
+    @PostMapping("/resend-otp")
+    public ResponseEntity<?> resendOtp(@RequestParam String email) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.resendOTP(email));
     }
 }

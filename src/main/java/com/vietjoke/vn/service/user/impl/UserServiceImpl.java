@@ -4,6 +4,7 @@ import com.vietjoke.vn.converter.UserConverter;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.user.UserLoginRequestDTO;
 import com.vietjoke.vn.dto.user.UserRegisterRequestDTO;
+import com.vietjoke.vn.dto.user.VerifyOtpRequestDTO;
 import com.vietjoke.vn.entity.booking.BookingEntity;
 import com.vietjoke.vn.entity.user.RoleEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
@@ -14,12 +15,14 @@ import com.vietjoke.vn.service.booking.BookingService;
 import com.vietjoke.vn.service.user.UserService;
 import com.vietjoke.vn.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.ResourceTransactionManager;
 
 import java.util.Map;
 import java.util.Optional;
@@ -34,7 +37,9 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final BookingService bookingService;
+    private final OTPService otpService;
+    private final EmailService emailService;
+    private final ResourceTransactionManager resourceTransactionManager;
 
     @Override
     public ResponseDTO<String> register(UserRegisterRequestDTO user) {
@@ -68,7 +73,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setPasswordHash(hashedPassword);
         userEntity.setRoleEntity(roleEntity);
         userRepository.save(userEntity);
-
+        String otp = otpService.generateAndSaveOtp(userEntity.getEmail());
+        emailService.sendRegistrationEmail(
+                userEntity.getEmail(),
+                userEntity.getLastName() + ' ' + userEntity.getFirstName(),
+                otp
+        );
         return ResponseDTO.success("Success");
     }
 
@@ -108,6 +118,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
     @Transactional
     public void addBookingToUser(String username, String sessionToken) {
 //        UserEntity userEntity = getUserByUsername(username);
@@ -117,5 +133,38 @@ public class UserServiceImpl implements UserService {
 //        );
 //        userEntity.getBookingEntities().add(bookingEntity);
 //        userRepository.save(userEntity);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDTO<String> verifyOTP(VerifyOtpRequestDTO verifyOtp) {
+        UserEntity userEntity = getUserByEmail(verifyOtp.getEmail());
+        if (userEntity.getIsActive()) {
+            throw new AccountAlreadyActivatedException("Account is already activated");
+        }
+        if(!otpService.validateOtp(verifyOtp.getEmail(), verifyOtp.getOtp())) {
+            throw new InvalidOtpException("Invalid OTP");
+        }
+        userEntity.setIsActive(true);
+        userRepository.save(userEntity);
+        return ResponseDTO.success("Verification successful");
+    }
+
+    @Override
+    public ResponseDTO<Map<String, String>> resendOTP(String email) {
+        UserEntity userEntity = getUserByEmail(email);
+        if (userEntity.getIsActive()) {
+            throw new AccountAlreadyActivatedException("Account is already activated");
+        }
+        String otp = otpService.generateAndSaveOtp(userEntity.getEmail());
+        emailService.sendRegistrationEmail(
+                userEntity.getEmail(),
+                userEntity.getLastName() + ' ' + userEntity.getFirstName(),
+                otp
+        );
+        return ResponseDTO.success(Map.of(
+                "status", HttpStatus.CREATED.toString(),
+                "message", "OTP resent successfully"
+                ));
     }
 }

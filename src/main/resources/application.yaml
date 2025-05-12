@@ -68,4 +68,8 @@ paypal:
   secret: ${PAYPAL_SECRET}
   api-url: ${PAYPAL_API_URL}
 
+auth:
+  otp-length: 6
+  otp-expiration: 300
+  otp-resend-delay: 60
 

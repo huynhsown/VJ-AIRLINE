@@ -16,7 +16,6 @@ public class CountryController {
 
     @GetMapping("/countries")
     public ResponseEntity<?> getAllCountries() {
-        return ResponseEntity.ok().body(countryService)
+        return ResponseEntity.ok().body(countryService.getCountries());
     }
-
 }
