@@ -28,4 +28,9 @@ public class BookingController {
         return ResponseEntity.ok(bookingSessionService.getBookingPreview(sessionToken));
     }
 
+    @GetMapping("/booking/history")
+    public ResponseEntity<?> getBookingHistory(@RequestParam String sessionToken) {
+
+    }
+
 }

@@ -45,11 +45,10 @@ public class UserController {
     }
 
     @PutMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseDTO<UserDTO> updateAvatar(
+    public ResponseEntity<?> updateAvatar(
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid @ModelAttribute UserUpdateAvatarRequestDTO request) {
-//        return userService.updateAvatar(userDetails.getUsername(), request);
-        return null;
+        return ResponseEntity.ok(userService.updateAvatar(userDetails.getUsername(), request));
     }
 
     @GetMapping("/user/profile")
