@@ -22,6 +22,9 @@ import java.util.List;
 @AllArgsConstructor
 public class UserEntity extends BaseEntity implements UserDetails {
 
+    @Column(name = "avatar_url", nullable = true)
+    private String avatarUrl;
+
     @Column(unique = true, nullable = false)
     private String username;
 

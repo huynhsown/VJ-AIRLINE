@@ -2,9 +2,7 @@ package com.vietjoke.vn.service.user.impl;
 
 import com.vietjoke.vn.converter.UserConverter;
 import com.vietjoke.vn.dto.response.ResponseDTO;
-import com.vietjoke.vn.dto.user.UserLoginRequestDTO;
-import com.vietjoke.vn.dto.user.UserRegisterRequestDTO;
-import com.vietjoke.vn.dto.user.VerifyOtpRequestDTO;
+import com.vietjoke.vn.dto.user.*;
 import com.vietjoke.vn.entity.booking.BookingEntity;
 import com.vietjoke.vn.entity.user.RoleEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
@@ -12,8 +10,10 @@ import com.vietjoke.vn.exception.user.*;
 import com.vietjoke.vn.repository.user.RoleRepository;
 import com.vietjoke.vn.repository.user.UserRepository;
 import com.vietjoke.vn.service.booking.BookingService;
+import com.vietjoke.vn.service.cloudinary.CloudinaryService;
 import com.vietjoke.vn.service.user.UserService;
 import com.vietjoke.vn.util.JwtTokenUtil;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenUtil jwtTokenUtil;
     private final OTPService otpService;
     private final EmailService emailService;
-    private final ResourceTransactionManager resourceTransactionManager;
+    private final CloudinaryService cloudinaryService;
 
     @Override
     public ResponseDTO<String> register(UserRegisterRequestDTO user) {
@@ -166,5 +166,51 @@ public class UserServiceImpl implements UserService {
                 "status", HttpStatus.CREATED.toString(),
                 "message", "OTP resent successfully"
                 ));
+    }
+
+    @Override
+    public ResponseDTO<UserProfileResponseDTO> getUserProfile(String username) {
+        UserEntity userEntity = getUserByUsername(username);
+        UserProfileResponseDTO profile = userConverter.toUserProfileResponseDTO(userEntity);
+        return ResponseDTO.success(profile);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDTO<UserProfileResponseDTO> updateProfile(String username, UserUpdateRequestDTO request) {
+        UserEntity userEntity = getUserByUsername(username);
+        userEntity.setFirstName(request.getFirstName());
+        userEntity.setLastName(request.getLastName());
+        userEntity.setPhone(request.getPhone());
+        userEntity.setDateOfBirth(request.getDateOfBirth());
+        userEntity.setAddress(request.getAddress());
+
+        if (request.isChangingPassword()) {
+            if (request.getPreviousPassword() == null) {
+                throw new ValidationException("Previous password is required to change password");
+            }
+
+            if (!passwordEncoder.matches(request.getPreviousPassword(), userEntity.getPasswordHash())) {
+                throw new ValidationException("Previous password is incorrect");
+            }
+
+            if (!request.isPasswordMatching()) {
+                throw new ValidationException("New password and confirmation do not match");
+            }
+
+            userEntity.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        }
+
+        return ResponseDTO.success(userConverter.toUserProfileResponseDTO(userEntity));
+    }
+
+    @Override
+    public ResponseDTO<UserProfileResponseDTO> updateAvatar(String username, UserUpdateAvatarRequestDTO request) {
+        UserEntity user = getUserByUsername(username);
+
+        String url = cloudinaryService.uploadImage(request.getAvatar());
+        user.setAvatarUrl(url);
+        userRepository.save(user);
+        return ResponseDTO.success(userConverter.toUserProfileResponseDTO(user));
     }
 }
