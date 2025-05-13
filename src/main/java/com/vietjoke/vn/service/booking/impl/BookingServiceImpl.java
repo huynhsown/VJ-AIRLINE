@@ -1,7 +1,11 @@
 package com.vietjoke.vn.service.booking.impl;
 
+import com.vietjoke.vn.converter.BookingConverter;
+import com.vietjoke.vn.dto.booking.BookingDetailedViewDTO;
+import com.vietjoke.vn.dto.booking.BookingHistoryDTO;
 import com.vietjoke.vn.dto.booking.SearchParamDTO;
 import com.vietjoke.vn.dto.pricing.PayPalOrderDTO;
+import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
 import com.vietjoke.vn.entity.booking.*;
 import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
@@ -17,6 +21,7 @@ import com.vietjoke.vn.service.helper.PassengerProcessor;
 import com.vietjoke.vn.service.helper.PriceCalculator;
 import com.vietjoke.vn.service.pricing.*;
 import com.vietjoke.vn.service.user.PassengerService;
+import com.vietjoke.vn.service.user.UserService;
 import com.vietjoke.vn.util.enums.booking.BookingStatus;
 import com.vietjoke.vn.util.enums.booking.PaymentStatus;
 import com.vietjoke.vn.util.enums.flight.TripType;
@@ -27,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +50,8 @@ public class BookingServiceImpl implements BookingService {
     private final AddonService addonService;
     private final BookingRepository bookingRepository;
     private final FareAvailabilityService fareAvailabilityService;
+    private final UserService userService;
+    private final BookingConverter bookingConverter;
 
 
     @Override
@@ -84,6 +92,26 @@ public class BookingServiceImpl implements BookingService {
                 bookingEntity
         ));
         return bookingRepository.save(bookingEntity);
+    }
+
+
+    @Override
+    public ResponseDTO<List<BookingHistoryDTO>> getBookingHistory(String username) {
+        UserEntity userEntity = userService.getUserByUsername(username);
+        List<BookingEntity> bookingEntities = userEntity.getBookingEntities();
+        return ResponseDTO.success(bookingEntities.stream()
+                .sorted(Comparator.comparing(BookingEntity::getModifiedDate).reversed())
+                .map(bookingConverter::toBookingHistoryDTO)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public ResponseDTO<BookingDetailedViewDTO> getBookingDetail(String username, String bookingReference) {
+        UserEntity userEntity = userService.getUserByUsername(username);
+        BookingEntity bookingEntity = bookingRepository.findByBookingReference(bookingReference)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        BookingDetailedViewDTO detailDTO = bookingConverter.toBookingDetailedViewDTO(bookingEntity);
+        return ResponseDTO.success(detailDTO);
     }
 
     private BookingPaymentEntity createBookingPayments(

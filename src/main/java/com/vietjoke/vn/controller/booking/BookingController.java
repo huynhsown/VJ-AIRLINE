@@ -1,8 +1,11 @@
 package com.vietjoke.vn.controller.booking;
 
+import com.vietjoke.vn.service.booking.BookingService;
 import com.vietjoke.vn.service.booking.BookingSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookingController {
 
     private final BookingSessionService bookingSessionService;
+    private final BookingService bookingService;
 
     @GetMapping("/booking/flight-info")
     public ResponseEntity<?> getBookingFlightInfo(@RequestParam String sessionToken) {
@@ -23,14 +27,24 @@ public class BookingController {
         return ResponseEntity.ok(bookingSessionService.completeServiceSelection(sessionToken));
     }
 
-    @GetMapping("/booking/preview") // Ở bước preview
+    @GetMapping("/booking/preview")
     public ResponseEntity<?> getBookingPreview(@RequestParam String sessionToken) {
         return ResponseEntity.ok(bookingSessionService.getBookingPreview(sessionToken));
     }
 
     @GetMapping("/booking/history")
-    public ResponseEntity<?> getBookingHistory(@RequestParam String sessionToken) {
-
+    public ResponseEntity<?> getBookingHistory(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        return ResponseEntity.ok(bookingService.getBookingHistory(username));
     }
+
+    @GetMapping("/booking/detail")
+    public ResponseEntity<?> getBookingDetail(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam String bookingReference) {
+        String username = userDetails.getUsername();
+        return ResponseEntity.ok(bookingService.getBookingDetail(username, bookingReference));
+    }
+
 
 }

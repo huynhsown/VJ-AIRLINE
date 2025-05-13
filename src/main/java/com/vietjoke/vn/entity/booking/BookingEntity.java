@@ -55,10 +55,10 @@ public class BookingEntity extends BaseEntity {
     @JoinColumn(name = "status_id")
     private BookingStatusEntity bookingStatusEntity;
 
-    @OneToMany(mappedBy = "bookingEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookingEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingDetailEntity> bookingDetailEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bookingEntity", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @OneToMany(mappedBy = "bookingEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingPaymentEntity> bookingPaymentEntities = new ArrayList<>();
 
     @ManyToOne
