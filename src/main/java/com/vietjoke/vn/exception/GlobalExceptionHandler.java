@@ -3,6 +3,8 @@ package com.vietjoke.vn.exception;
 import com.vietjoke.vn.constant.ErrorConstaints;
 import com.vietjoke.vn.dto.response.ErrorResponseDTO;
 import com.vietjoke.vn.exception.booking.MissingBookingStepException;
+import com.vietjoke.vn.exception.chat.ChatSessionClosedException;
+import com.vietjoke.vn.exception.chat.ChatSessionNotFoundException;
 import com.vietjoke.vn.exception.data.DataNotFoundException;
 import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.exception.flight.InvalidTripSelectionException;
@@ -269,5 +271,55 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(NoAvailableAdminException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorResponseDTO handleNoAvailableAdmin(NoAvailableAdminException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.SERVICE_UNAVAILABLE.value(),
+                "Service Unavailable",
+                List.of(new ErrorResponseDTO.ErrorDetail("Admin", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(NotAnAdminException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponseDTO handleNotAnAdmin(NotAnAdminException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.FORBIDDEN.value(),
+                "Access Denied",
+                List.of(new ErrorResponseDTO.ErrorDetail("Admin", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(UnauthorizedMessageException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponseDTO handleUnauthorizedMessage(UnauthorizedMessageException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.FORBIDDEN.value(),
+                "Unauthorized Message",
+                List.of(new ErrorResponseDTO.ErrorDetail("Message", ex.getMessage(), "error"))
+        );
+    }
+
+
+    @ExceptionHandler(ChatSessionNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseDTO handleChatSessionNotFound(ChatSessionNotFoundException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                "Chat Session Not Found",
+                List.of(new ErrorResponseDTO.ErrorDetail("ChatSession", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(ChatSessionClosedException.class)
+    @ResponseStatus(HttpStatus.GONE)
+    public ErrorResponseDTO handleChatSessionClosed(ChatSessionClosedException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.GONE.value(),
+                "Chat Session Closed",
+                List.of(new ErrorResponseDTO.ErrorDetail("ChatSession", ex.getMessage(), "error"))
+        );
+    }
 
 }

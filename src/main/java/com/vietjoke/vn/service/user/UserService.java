@@ -10,6 +10,7 @@ public interface UserService {
     ResponseDTO<String> register(UserRegisterRequestDTO user);
     ResponseDTO<Map<String, String>> login(UserLoginRequestDTO user);
     UserEntity getUserByUsername(String username);
+    UserEntity getAdminByUsername(String username);
     UserEntity getUserByEmail(String email);
     void addBookingToUser(String username, String sessionToken);
     ResponseDTO<String> verifyOTP(VerifyOtpRequestDTO verifyOtp);
