@@ -46,5 +46,13 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingDetail(username, bookingReference));
     }
 
+    @PostMapping("/booking/cancel")
+    public ResponseEntity<?> cancelBooking(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam String bookingReference) {
+        String username = userDetails.getUsername();
+        return ResponseEntity.ok(bookingService.cancelBooking(username, bookingReference));
+    }
+
 
 }

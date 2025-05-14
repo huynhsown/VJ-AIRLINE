@@ -40,6 +40,12 @@ public class SeatReservationServiceImpl implements SeatReservationService {
 
     @Override
     @Transactional
+    public SeatReservationEntity save(SeatReservationEntity seatReservation) {
+        return seatReservationRepository.save(seatReservation);
+    }
+
+    @Override
+    @Transactional
     public List<SeatReservationEntity> createSeatReservations(FlightEntity flightEntity) {
         AircraftModelEntity aircraftModelEntity = getAircraftModelEntity(flightEntity);
 

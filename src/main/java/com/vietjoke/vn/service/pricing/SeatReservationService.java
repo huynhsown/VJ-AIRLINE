@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface SeatReservationService {
-
+    SeatReservationEntity save(SeatReservationEntity seatReservation);
     List<SeatReservationEntity> createSeatReservations(FlightEntity flightEntity);
     Integer countAvailableSeat(FlightEntity flightEntity, FareClassEntity fareClassEntity);
     List<SeatResponseDTO> getSeats(String flightNumber, String fareCode);

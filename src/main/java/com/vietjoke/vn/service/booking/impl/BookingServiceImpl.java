@@ -8,7 +8,9 @@ import com.vietjoke.vn.dto.pricing.PayPalOrderDTO;
 import com.vietjoke.vn.dto.response.ResponseDTO;
 import com.vietjoke.vn.dto.response.flight.BookingPreviewDTO;
 import com.vietjoke.vn.entity.booking.*;
+import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.FareAvailabilityEntity;
+import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
@@ -26,11 +28,15 @@ import com.vietjoke.vn.util.enums.booking.BookingStatus;
 import com.vietjoke.vn.util.enums.booking.PaymentStatus;
 import com.vietjoke.vn.util.enums.flight.TripType;
 import com.vietjoke.vn.util.enums.pricing.SeatStatus;
+import com.vietjoke.vn.util.paypal.PayPalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,6 +58,7 @@ public class BookingServiceImpl implements BookingService {
     private final FareAvailabilityService fareAvailabilityService;
     private final UserService userService;
     private final BookingConverter bookingConverter;
+    private final PayPalUtil payPalUtil;
 
 
     @Override
@@ -112,6 +119,75 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
         BookingDetailedViewDTO detailDTO = bookingConverter.toBookingDetailedViewDTO(bookingEntity);
         return ResponseDTO.success(detailDTO);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDTO<?> cancelBooking(String username, String bookingReference) {
+        BookingEntity bookingEntity = getBooking(username, bookingReference);
+        List<BookingDetailEntity> bookingDetailEntities = bookingEntity.getBookingDetailEntities();
+        List<FlightEntity> sortedFlights = bookingDetailEntities.stream()
+                .map(BookingDetailEntity::getFlightEntity)
+                .sorted(Comparator.comparing(FlightEntity::getScheduledDeparture))
+                .toList();
+        if(sortedFlights.isEmpty()) {
+            throw new RuntimeException("Flight not found");
+        }
+        if(LocalDateTime.now().isAfter(sortedFlights.get(0).getScheduledDeparture())) {
+            throw new RuntimeException("Flight not scheduled");
+        }
+        //Refund
+        Map<FareClassEntity, List<BookingDetailEntity>> fareMap = bookingDetailEntities
+                .stream()
+                .filter(detail -> detail.getFareClassEntity() != null)
+                .collect(Collectors.groupingBy(BookingDetailEntity::getFareClassEntity));
+
+        BigDecimal discountEachBooking = bookingEntity.getDiscountAmount()
+                .divide(BigDecimal.valueOf(bookingDetailEntities.size()), 2, RoundingMode.HALF_UP);
+
+        BigDecimal refundFee = fareMap.entrySet().stream()
+                .filter(entry -> entry.getKey().getRefundAllowed())
+                .flatMap(entry -> entry.getValue().stream()
+                        .map(detail -> detail.getTotalAmount()
+                                .subtract(discountEachBooking)
+                                .subtract(BigDecimal.valueOf(entry.getKey().getRefundFee()))))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        //Set seat available
+        bookingDetailEntities.forEach(
+                detail -> {
+                    SeatReservationEntity seatEntity = detail.getSeatReservationEntity();
+                    if (seatEntity != null) {
+                        seatEntity.setSeatStatus(SeatStatus.AVAILABLE);
+                        seatReservationService.save(seatEntity);
+                        detail.setSeatReservationEntity(null);
+                    }
+                    detail.setSeatReservationEntity(null);
+                }
+        );
+
+        List<BookingPaymentEntity> bookingPaymentEntities = bookingEntity.getBookingPaymentEntities();
+
+        try {
+            bookingRepository.save(bookingEntity);
+            if(!bookingPaymentEntities.isEmpty()) {
+                Map<String, String> refundResult = payPalUtil.refundOrder(
+                        bookingPaymentEntities.get(0).getTransactionId(), refundFee
+                );
+                return ResponseDTO.success(Map.of("Booking cancelled", refundResult));
+            }
+            return ResponseDTO.success("Booking cancelled");
+        } catch (Exception ignored) {
+
+        }
+        return ResponseDTO.success("Booking cancelled");
+    }
+
+    @Override
+    public BookingEntity getBooking(String username, String bookingReference) {
+        UserEntity userEntity = userService.getUserByUsername(username);
+        return bookingRepository.findByUserEntityAndBookingReference(userEntity, bookingReference)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
     }
 
     private BookingPaymentEntity createBookingPayments(

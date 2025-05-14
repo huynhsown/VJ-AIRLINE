@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class PayPalUtil {
@@ -163,6 +165,65 @@ public class PayPalUtil {
             }
 
             return orderDTO;
+        }
+    }
+
+    public Map<String, String> refundOrder(String captureId, BigDecimal amount) throws IOException {
+        Map<String, String> result = new HashMap<>();
+
+        String accessToken = getAccessToken();
+        URL url = new URL(apiUrl + "/v2/payments/captures/" + captureId + "/refund");
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Prefer", "return=representation");
+
+        String payload = "{" +
+                "\"amount\": {" +
+                "\"value\": \"" + amount + "\"," +
+                "\"currency_code\": \"USD\"" +
+                "}," +
+                "\"note_to_payer\": \"Refund for cancelled booking\"" +
+                "}";
+
+        try (OutputStream os = connection.getOutputStream()) {
+            byte[] input = payload.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+
+        int status = connection.getResponseCode();
+        if (status != 201) {
+            result.put("status", "FAILED");
+            result.put("message", "Refund failed with status: " + status);
+            return result;
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(response.toString());
+            String refundStatus = rootNode.get("status").asText();
+
+            if ("COMPLETED".equals(refundStatus)) {
+                result.put("status", "SUCCESS");
+                result.put("message", "Refund successful");
+                result.put("refundId", rootNode.get("id").asText());
+            } else {
+                result.put("status", "FAILED");
+                result.put("message", "Refund status: " + refundStatus);
+            }
+            return result;
+        } catch (Exception e) {
+            result.put("status", "FAILED");
+            result.put("message", "Refund failed: " + e.getMessage());
+            return result;
         }
     }
 

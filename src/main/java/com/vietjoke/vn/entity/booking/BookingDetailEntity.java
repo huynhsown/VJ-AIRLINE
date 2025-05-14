@@ -60,6 +60,6 @@ public class BookingDetailEntity extends BaseEntity {
     private List<BookingAddonEntity> bookingAddonEntities;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "seat_reservation_id", unique = true)
+    @JoinColumn(name = "seat_reservation_id")
     private SeatReservationEntity seatReservationEntity;
 }
