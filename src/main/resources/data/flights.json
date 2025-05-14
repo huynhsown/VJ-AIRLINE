@@ -11,15 +11,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 10000000
+        "basePrice": 10000
       },
       {
         "code": "BUS",
-        "basePrice": 8000000
+        "basePrice": 8000
       },
       {
         "code": "STD",
-        "basePrice": 5000000
+        "basePrice": 5000
       }
     ]
   },
@@ -35,15 +35,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 9000000
+        "basePrice": 9000
       },
       {
         "code": "BUS",
-        "basePrice": 7000000
+        "basePrice": 7000
       },
       {
         "code": "STD",
-        "basePrice": 4500000
+        "basePrice": 4500
       }
     ]
   },
@@ -59,15 +59,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 8500000
+        "basePrice": 8500
       },
       {
         "code": "BUS",
-        "basePrice": 6500000
+        "basePrice": 6500
       },
       {
         "code": "STD",
-        "basePrice": 4000000
+        "basePrice": 4000
       }
     ]
   },
@@ -83,15 +83,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 12000000
+        "basePrice": 12000
       },
       {
         "code": "BUS",
-        "basePrice": 9500000
+        "basePrice": 9500
       },
       {
         "code": "STD",
-        "basePrice": 6000000
+        "basePrice": 6000
       }
     ]
   },
@@ -107,15 +107,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 15000000
+        "basePrice": 15000
       },
       {
         "code": "BUS",
-        "basePrice": 11000000
+        "basePrice": 11000
       },
       {
         "code": "STD",
-        "basePrice": 7500000
+        "basePrice": 7500
       }
     ]
   },
@@ -131,15 +131,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 8000000
+        "basePrice": 8000
       },
       {
         "code": "BUS",
-        "basePrice": 6000000
+        "basePrice": 6000
       },
       {
         "code": "STD",
-        "basePrice": 3500000
+        "basePrice": 3500
       }
     ]
   },
@@ -155,15 +155,15 @@
     "fareAvailability": [
       {
         "code": "PRM",
-        "basePrice": 11000000
+        "basePrice": 11000
       },
       {
         "code": "BUS",
-        "basePrice": 8500000
+        "basePrice": 8500
       },
       {
         "code": "STD",
-        "basePrice": 5500000
+        "basePrice": 5500
       }
     ]
   }
