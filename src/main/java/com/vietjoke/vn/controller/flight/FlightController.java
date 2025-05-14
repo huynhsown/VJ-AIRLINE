@@ -18,7 +18,7 @@ public class FlightController {
 
     private final FlightService flightService;
 
-    @GetMapping("/flight/search")
+    @PostMapping("/flight/search")
     public ResponseEntity<?> searchFlight(@Valid @RequestBody SearchParamDTO searchParamDTO) {
         ResponseDTO<SearchFlightResponseDTO> result = flightService.searchFlight(searchParamDTO);
         if(result.getStatus() == HttpStatus.NOT_FOUND.value()) {

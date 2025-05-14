@@ -27,6 +27,7 @@ public class ApiSecurityConfig {
                             .requestMatchers(
                                     "/api/v1/auth/**",
                                     "/api/v1/flight/search",
+                                    "/api/v1/flight/select",
                                     "/api/v1/location/routes",
                                     "/api/v1/countries",
                                     "/api/v1/airports"
@@ -37,7 +38,6 @@ public class ApiSecurityConfig {
                                     "/api/v1/payment/**",
                                     "/api/v1/booking/**",
                                     "/api/v1/chat/**",
-                                    "/api/v1/flight/select",
                                     "/api/v1/addon/types"
                             ).hasRole("CUSTOMER")
                             .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
