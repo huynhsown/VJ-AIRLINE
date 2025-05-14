@@ -68,4 +68,12 @@ public class FareAvailabilityServiceImpl implements FareAvailabilityService {
         fareAvailabilityEntity.setAvailableSeats(currentAvailableSeats);
         return fareAvailabilityRepository.save(fareAvailabilityEntity);
     }
+
+    @Override
+    public FareAvailabilityEntity increaseAvailableSeat(String flightNumber, String fareClasCode) {
+        FareAvailabilityEntity fareAvailabilityEntity = getFareAvailability(flightNumber, fareClasCode);
+        int currentAvailableSeats = fareAvailabilityEntity.getAvailableSeats() + 1;
+        fareAvailabilityEntity.setAvailableSeats(currentAvailableSeats);
+        return fareAvailabilityRepository.save(fareAvailabilityEntity);
+    }
 }

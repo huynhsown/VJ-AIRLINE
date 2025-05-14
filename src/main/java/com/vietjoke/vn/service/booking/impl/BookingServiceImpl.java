@@ -125,6 +125,8 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public ResponseDTO<?> cancelBooking(String username, String bookingReference) {
         BookingEntity bookingEntity = getBooking(username, bookingReference);
+        BookingStatusEntity bookingStatus = bookingStatusService.getStatus(BookingStatus.CANCELLED);
+        bookingEntity.setBookingStatusEntity(bookingStatus);
         List<BookingDetailEntity> bookingDetailEntities = bookingEntity.getBookingDetailEntities();
         List<FlightEntity> sortedFlights = bookingDetailEntities.stream()
                 .map(BookingDetailEntity::getFlightEntity)
@@ -161,6 +163,10 @@ public class BookingServiceImpl implements BookingService {
                         seatEntity.setSeatStatus(SeatStatus.AVAILABLE);
                         seatReservationService.save(seatEntity);
                         detail.setSeatReservationEntity(null);
+                        FlightEntity flightEntity = seatEntity.getFlightEntity();
+                        FareClassEntity fareClassEntity = seatEntity.getFareClassEntity();
+                        FareAvailabilityEntity fareAvailability = fareAvailabilityService.
+                                increaseAvailableSeat(flightEntity.getFlightNumber(), fareClassEntity.getCode());
                     }
                     detail.setSeatReservationEntity(null);
                 }

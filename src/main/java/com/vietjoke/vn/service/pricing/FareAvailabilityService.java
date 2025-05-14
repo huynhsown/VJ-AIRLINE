@@ -13,5 +13,6 @@ public interface FareAvailabilityService {
     List<FareAvailabilityEntity> createFareAvailability(List<FareAvailbility> fareAvailability, FlightEntity flightEntity);
     FareAvailabilityEntity getFareAvailability(FlightEntity flightEntity, FareClassEntity fareClassEntity);
     FareAvailabilityEntity getFareAvailability(String flightNumber, String fareClasCode);
-    FareAvailabilityEntity decreaseAvailableSeat(String flightNumber, String fareClasCode);
+    FareAvailabilityEntity decreaseAvailableSeat(String flightNumber, String fareClassCode);
+    FareAvailabilityEntity increaseAvailableSeat(String flightNumber, String fareClassCode);
 }
