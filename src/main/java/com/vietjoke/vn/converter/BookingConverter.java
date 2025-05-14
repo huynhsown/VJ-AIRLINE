@@ -14,7 +14,9 @@ import com.vietjoke.vn.entity.fleet.AircraftEntity;
 import com.vietjoke.vn.entity.fleet.AircraftModelEntity;
 import com.vietjoke.vn.entity.flight.FlightEntity;
 import com.vietjoke.vn.entity.pricing.AddonEntity;
+import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import com.vietjoke.vn.entity.user.PassengerEntity;
+import com.vietjoke.vn.service.pricing.SeatReservationService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -67,12 +69,17 @@ public class BookingConverter {
                                 String departureAirport = flightEntity.getRouteEntity().getOriginAirportEntity().getAirportName();
                                 String arrivalAirport = flightEntity.getRouteEntity().getDestinationAirportEntity().getAirportName();
                                 String airlineName = flightEntity.getAirlineEntity().getAirlineName();
+
                                 flightInfoDTO.setFlightDepartureAirport(departureAirport);
                                 flightInfoDTO.setFlightArrivalAirport(arrivalAirport);
                                 flightInfoDTO.setAirlineName(airlineName);
                                 flightInfoDTO.setAircraftRegistrationNumber(aircraftEntity.getRegistrationNumber());
                                 flightInfoDTO.setAircraftModelCode(modelEntity.getModelCode());
                                 flightInfoDTO.setAddons(mapAddons(detail.getBookingAddonEntities()));
+
+                                if(detail.getSeatReservationEntity() == null){
+                                    flightInfoDTO.setSeatNumber(detail.getSeatReservationHistoryNumber());
+                                }
 
                                 return flightInfoDTO;
                             })
@@ -87,7 +94,6 @@ public class BookingConverter {
                 .map(i -> modelMapper.map(i, PaymentDetailDTO.class))
                 .toList();
         bookingDetailedView.setPayments(paymentDetails);
-
         return bookingDetailedView;
     }
 

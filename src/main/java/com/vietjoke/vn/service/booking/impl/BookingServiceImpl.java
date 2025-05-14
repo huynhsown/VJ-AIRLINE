@@ -259,6 +259,7 @@ public class BookingServiceImpl implements BookingService {
                 seatEntity.setSeatStatus(SeatStatus.RESERVED);
 
                 bookingDetail.setSeatReservationEntity(seatEntity);
+                bookingDetail.setSeatReservationHistoryNumber(seatEntity.getSeatNumber());
 
                 List<BookingAddonEntity> bookingAddons = new ArrayList<>();
                 for (BookingPreviewDTO.AddonDetailDTO addonDetail : flightDetail.getAddons()) {

@@ -53,6 +53,4 @@ public class BookingController {
         String username = userDetails.getUsername();
         return ResponseEntity.ok(bookingService.cancelBooking(username, bookingReference));
     }
-
-
 }

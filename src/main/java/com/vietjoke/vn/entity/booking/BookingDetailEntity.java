@@ -62,4 +62,7 @@ public class BookingDetailEntity extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seat_reservation_id")
     private SeatReservationEntity seatReservationEntity;
+
+    private String seatReservationHistoryNumber;
+
 }
