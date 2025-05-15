@@ -197,8 +197,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseDTO<Map<String, String>> sendResetPasswordOTP(String email) {
         UserEntity userEntity = getUserByEmail(email);
-        if (userEntity.getIsActive()) {
-            throw new AccountAlreadyActivatedException("Account is already activated");
+        if (!userEntity.getIsActive()) {
+            throw new AccountNotActivatedException("Account is not activated");
         }
         String otp = otpService.generateAndSaveOtp(userEntity.getEmail());
         emailService.sendForgotPasswordOTP(
