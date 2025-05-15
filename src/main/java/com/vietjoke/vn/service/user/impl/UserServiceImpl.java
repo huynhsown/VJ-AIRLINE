@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setPasswordHash(hashedPassword);
             emailService.sendForgotPasswordOTP(userEntity.getEmail(),
                     userEntity.getLastName() + ' ' + userEntity.getFirstName(),
-                    hashedPassword);
+                    password);
         }
         return ResponseDTO.success("Verification successful");
     }
