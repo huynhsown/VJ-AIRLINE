@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setIsActive(true);
             userRepository.save(userEntity);
         }
-        else{
+        else if(verifyOtp.getOtpType().equals(OTPType.RESET)){
             if (!isActive) {
                 throw new AccountNotActivatedException("Account is not activated");
             }
@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setPasswordHash(hashedPassword);
             emailService.sendForgotPasswordOTP(userEntity.getEmail(),
                     userEntity.getLastName() + ' ' + userEntity.getFirstName(),
-                    hashedPassword);
+                    password);
         }
         return ResponseDTO.success("Verification successful");
     }
@@ -197,8 +197,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseDTO<Map<String, String>> sendResetPasswordOTP(String email) {
         UserEntity userEntity = getUserByEmail(email);
-        if (userEntity.getIsActive()) {
-            throw new AccountAlreadyActivatedException("Account is already activated");
+        if (!userEntity.getIsActive()) {
+            throw new AccountNotActivatedException("Account is not activated");
         }
         String otp = otpService.generateAndSaveOtp(userEntity.getEmail());
         emailService.sendForgotPasswordOTP(
