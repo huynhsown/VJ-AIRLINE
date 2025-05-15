@@ -15,6 +15,7 @@ public interface UserService {
     void addBookingToUser(String username, String sessionToken);
     ResponseDTO<String> verifyOTP(VerifyOtpRequestDTO verifyOtp);
     ResponseDTO<Map<String, String>> resendOTP(String email);
+    ResponseDTO<Map<String, String>> sendResetPasswordOTP(String email);
     ResponseDTO<UserProfileResponseDTO> getUserProfile(String username);
     ResponseDTO<UserProfileResponseDTO> updateProfile(String username, UserUpdateRequestDTO request);
     ResponseDTO<UserProfileResponseDTO> updateAvatar(String username, UserUpdateAvatarRequestDTO request);

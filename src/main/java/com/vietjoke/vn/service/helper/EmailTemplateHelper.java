@@ -215,4 +215,49 @@ public class EmailTemplateHelper {
             }
             """;
     }
+
+    public String getForgotPasswordTemplate(String fullName, String otp) {
+        return """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                %s
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>VietJoke Airline</h1>
+            </div>
+            <div class="content">
+                <h2>Xin chào %s,</h2>
+                <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản VietJoke Airline của bạn.</p>
+                <p>Vui lòng sử dụng mã OTP sau để đặt lại mật khẩu:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <div class="otp-box">
+                        <span class="otp-code">%s</span>
+                    </div>
+                </div>
+                <p style="color: #666; font-size: 14px;">
+                    Mã OTP này sẽ hết hạn sau 5 phút.<br>
+                    Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này và đảm bảo tài khoản của bạn được bảo mật.
+                </p>
+                <div class="important-note">
+                    <h3>Lưu ý bảo mật:</h3>
+                    <ul>
+                        <li>Không chia sẻ mã OTP này với bất kỳ ai</li>
+                        <li>Mã OTP chỉ có hiệu lực một lần sử dụng</li>
+                        <li>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng liên hệ hỗ trợ ngay lập tức</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer">
+                <p>Email này được gửi tự động, vui lòng không trả lời.</p>
+                <p>&copy; 2024 VietJoke Airline. All rights reserved.</p>
+            </div>
+        </body>
+        </html>
+        """.formatted(getCommonStyles(), fullName, otp);
+    }
 }

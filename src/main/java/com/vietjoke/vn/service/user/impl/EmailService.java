@@ -37,4 +37,9 @@ public class EmailService {
         String htmlContent = EmailTemplateHelper.getRegistrationTemplate(fullName, otp);
         sendHtmlEmail(to, "Mã xác thực đăng ký VietJoke Airline", htmlContent);
     }
+
+    public void sendForgotPasswordOTP(String to, String fullName, String otp) {
+        String htmlContent = EmailTemplateHelper.getForgotPasswordTemplate(fullName, otp);
+        sendHtmlEmail(to, "VietJoke Airline", htmlContent);
+    }
 }

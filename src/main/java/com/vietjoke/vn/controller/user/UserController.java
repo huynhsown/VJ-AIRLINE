@@ -44,6 +44,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.resendOTP(email));
     }
 
+    @PostMapping("/auth/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+        return ResponseEntity.ok(userService.sendResetPasswordOTP(email));
+    }
+
     @PutMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateAvatar(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -63,5 +68,4 @@ public class UserController {
         String username = userDetails.getUsername();
         return ResponseEntity.ok(userService.updateProfile(username, request));
     }
-
 }

@@ -13,6 +13,8 @@ import com.vietjoke.vn.service.booking.BookingService;
 import com.vietjoke.vn.service.cloudinary.CloudinaryService;
 import com.vietjoke.vn.service.user.UserService;
 import com.vietjoke.vn.util.JwtTokenUtil;
+import com.vietjoke.vn.util.PasswordGenerator;
+import com.vietjoke.vn.util.enums.user.OTPType;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
     private final OTPService otpService;
     private final EmailService emailService;
     private final CloudinaryService cloudinaryService;
+    private final PasswordGenerator passwordGenerator;
 
     @Override
     public ResponseDTO<String> register(UserRegisterRequestDTO user) {
@@ -154,8 +157,18 @@ public class UserServiceImpl implements UserService {
         if(!otpService.validateOtp(verifyOtp.getEmail(), verifyOtp.getOtp())) {
             throw new InvalidOtpException("Invalid OTP");
         }
-        userEntity.setIsActive(true);
-        userRepository.save(userEntity);
+        if(verifyOtp.getOtpType().equals(OTPType.VERIFY)){
+            userEntity.setIsActive(true);
+            userRepository.save(userEntity);
+        }
+        else{
+            String password = PasswordGenerator.generatePassword(8);
+            String hashedPassword = passwordEncoder.encode(password);
+            userEntity.setPasswordHash(hashedPassword);
+            emailService.sendForgotPasswordOTP(userEntity.getEmail(),
+                    userEntity.getLastName() + ' ' + userEntity.getFirstName(),
+                    hashedPassword);
+        }
         return ResponseDTO.success("Verification successful");
     }
 
@@ -175,6 +188,24 @@ public class UserServiceImpl implements UserService {
                 "status", HttpStatus.CREATED.toString(),
                 "message", "OTP resent successfully"
                 ));
+    }
+
+    @Override
+    public ResponseDTO<Map<String, String>> sendResetPasswordOTP(String email) {
+        UserEntity userEntity = getUserByEmail(email);
+        if (userEntity.getIsActive()) {
+            throw new AccountAlreadyActivatedException("Account is already activated");
+        }
+        String otp = otpService.generateAndSaveOtp(userEntity.getEmail());
+        emailService.sendForgotPasswordOTP(
+                userEntity.getEmail(),
+                userEntity.getLastName() + ' ' + userEntity.getFirstName(),
+                otp
+        );
+        return ResponseDTO.success(Map.of(
+                "status", HttpStatus.CREATED.toString(),
+                "message", "OTP resent successfully"
+        ));
     }
 
     @Override
