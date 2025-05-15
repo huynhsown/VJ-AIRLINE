@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -125,6 +126,27 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     @Override
     @Transactional
     public void deleteSession(String sessionId) {
+        BookingSession session = getSession(sessionId);
+
+        Set<String> lockedSeats = session.getLockedSeats();
+
+        if (!lockedSeats.isEmpty()) {
+            log.info("Removing {} locked seats from Redis for session {}", lockedSeats.size(), sessionId);
+            try {
+                Set<String> existingKeys = lockedSeats.stream()
+                        .filter(key -> Boolean.TRUE.equals(stringRedisTemplate.hasKey(key)))
+                        .collect(Collectors.toSet());
+
+                if (!existingKeys.isEmpty()) {
+                    stringRedisTemplate.delete(existingKeys);
+                    log.info("Successfully removed {} existing locked seats from Redis", existingKeys.size());
+                }
+            } catch (Exception e) {
+                log.error("Error removing locked seats from Redis: {}", e.getMessage());
+            } finally {
+                lockedSeats.clear();
+            }
+        }
         bookingSessionRepository.deleteById(sessionId);
     }
 
