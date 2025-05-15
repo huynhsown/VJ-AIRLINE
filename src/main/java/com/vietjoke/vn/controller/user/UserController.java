@@ -57,4 +57,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserProfile(username));
     }
 
+    @PutMapping("/user/update-profile")
+    public ResponseEntity<?> updateUserProfile(@AuthenticationPrincipal UserDetails userDetails,
+                                               @Valid @RequestBody UserUpdateRequestDTO request) {
+        String username = userDetails.getUsername();
+        return ResponseEntity.ok(userService.updateProfile(username, request));
+    }
+
 }
