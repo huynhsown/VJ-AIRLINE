@@ -28,7 +28,6 @@ public class SeatRedisServiceImpl implements SeatRedisService {
 
     private final BookingSessionService bookingSessionService;
     private final StringRedisTemplate stringRedisTemplate;
-    private final FareClassService fareClassService;
     private final SeatReservationService seatReservationService;
 
     @Override

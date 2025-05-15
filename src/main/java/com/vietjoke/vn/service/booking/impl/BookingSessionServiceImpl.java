@@ -126,28 +126,47 @@ public class BookingSessionServiceImpl implements BookingSessionService {
     @Override
     @Transactional
     public void deleteSession(String sessionId) {
+        // Lấy thông tin session trước khi xóa
         BookingSession session = getSession(sessionId);
 
+        // Lấy set các seat lock key
         Set<String> lockedSeats = session.getLockedSeats();
 
-        if (!lockedSeats.isEmpty()) {
-            log.info("Removing {} locked seats from Redis for session {}", lockedSeats.size(), sessionId);
-            try {
-                Set<String> existingKeys = lockedSeats.stream()
-                        .filter(key -> Boolean.TRUE.equals(stringRedisTemplate.hasKey(key)))
-                        .collect(Collectors.toSet());
+        // Debug: In ra số lượng seat cần xóa
+        log.info("Number of seats to delete: {}", lockedSeats.size());
+        log.info("Seats to delete: {}", lockedSeats);
 
-                if (!existingKeys.isEmpty()) {
-                    stringRedisTemplate.delete(existingKeys);
-                    log.info("Successfully removed {} existing locked seats from Redis", existingKeys.size());
+        // Xóa các seat lock key trong Redis
+        if (!lockedSeats.isEmpty()) {
+            try {
+                // Debug: Kiểm tra từng key có tồn tại trong Redis không
+                for (String seatKey : lockedSeats) {
+                    Boolean exists = stringRedisTemplate.hasKey(seatKey);
+                    log.info("Key {} exists in Redis: {}", seatKey, exists);
+                }
+
+                // Xóa trực tiếp các key trong Redis
+                Long deletedCount = stringRedisTemplate.delete(lockedSeats);
+                log.info("Number of keys deleted from Redis: {}", deletedCount);
+
+                // Debug: Kiểm tra lại sau khi xóa
+                for (String seatKey : lockedSeats) {
+                    Boolean stillExists = stringRedisTemplate.hasKey(seatKey);
+                    log.info("Key {} still exists in Redis: {}", seatKey, stillExists);
                 }
             } catch (Exception e) {
                 log.error("Error removing locked seats from Redis: {}", e.getMessage());
+                e.printStackTrace(); // In ra stack trace để debug
             } finally {
+                // Xóa tất cả các key trong Set lockedSeats
                 lockedSeats.clear();
+                log.info("Cleared lockedSeats set");
             }
         }
+
+        // Xóa session
         bookingSessionRepository.deleteById(sessionId);
+        log.info("Deleted session with ID: {}", sessionId);
     }
 
     @Override
