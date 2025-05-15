@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setIsActive(true);
             userRepository.save(userEntity);
         }
-        else{
+        else if(verifyOtp.getOtpType().equals(OTPType.RESET)){
             if (!isActive) {
                 throw new AccountNotActivatedException("Account is not activated");
             }
