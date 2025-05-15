@@ -151,17 +151,21 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseDTO<String> verifyOTP(VerifyOtpRequestDTO verifyOtp) {
         UserEntity userEntity = getUserByEmail(verifyOtp.getEmail());
-        if (userEntity.getIsActive()) {
-            throw new AccountAlreadyActivatedException("Account is already activated");
-        }
         if(!otpService.validateOtp(verifyOtp.getEmail(), verifyOtp.getOtp())) {
             throw new InvalidOtpException("Invalid OTP");
         }
+        boolean isActive = userEntity.getIsActive();
         if(verifyOtp.getOtpType().equals(OTPType.VERIFY)){
+            if (isActive) {
+                throw new AccountAlreadyActivatedException("Account is already activated");
+            }
             userEntity.setIsActive(true);
             userRepository.save(userEntity);
         }
         else{
+            if (!isActive) {
+                throw new AccountNotActivatedException("Account is not activated");
+            }
             String password = PasswordGenerator.generatePassword(8);
             String hashedPassword = passwordEncoder.encode(password);
             userEntity.setPasswordHash(hashedPassword);
