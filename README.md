@@ -25,7 +25,7 @@ VIETJOKE_AIRLINE là một ứng dụng web được phát triển bằng Spring
 - Hệ thống lưu trữ thông tin hành khách cho quá trình đặt vé.
 
 ### Thanh toán
-- Người dùng có thể thanh toán vé máy bay thông qua các phương thức thanh toán khác nhau.
+- Người dùng có thể thanh toán vé máy bay.
 - Hệ thống xử lý thanh toán và cập nhật trạng thái đặt vé.
 
 ## Công nghệ sử dụng
