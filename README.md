@@ -48,7 +48,7 @@ VIETJOKE_AIRLINE là một ứng dụng web được phát triển bằng Spring
 4. Chạy lệnh `mvn clean install`
 5. Chạy lệnh `mvn spring-boot:run`
 
-## Đóng gópgóp
+## Đóng góp
 
 Mọi đóng góp đều được hoan nghênh. Vui lòng tạo issue hoặc pull request để đóng góp vào dự án.
 
