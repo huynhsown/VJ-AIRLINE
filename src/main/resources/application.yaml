@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: default
   mail:
     host: smtp.gmail.com
     port: 587
@@ -19,36 +17,26 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:mysql://mysql:3306/vj_airline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=60000&socketTimeout=60000&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    url: jdbc:mysql://mysql:3307/vj_airline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=60000&socketTimeout=60000
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-timeout: 60000
-      maximum-pool-size: 5
-      minimum-idle: 2
+      maximum-pool-size: 10
+      minimum-idle: 5
       idle-timeout: 300000
       max-lifetime: 1200000
-      validation-timeout: 5000
-      leak-detection-threshold: 60000
-      initialization-fail-timeout: 60000
-      connection-test-query: SELECT 1
 
   jpa:
     database: mysql
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         format_sql: true
         use_sql_comments: true
-        dialect: org.hibernate.dialect.MySQLDialect
-        connection:
-          provider_disables_autocommit: true
-        jdbc:
-          time_zone: UTC
-    database-platform: org.hibernate.dialect.MySQLDialect
 
   data:
     redis:
@@ -57,21 +45,9 @@ spring:
       timeout: 60000
       lettuce:
         pool:
-          max-active: 8
-          max-idle: 4
-          min-idle: 1
-        shutdown-timeout: 30000
-
----
-spring:
-  config:
-    activate:
-      on-profile: docker
-  datasource:
-    url: jdbc:mysql://mysql:3306/vj_airline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=90000&socketTimeout=90000&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&maxReconnects=3&initialTimeout=1
-    hikari:
-      initialization-fail-timeout: 120000
-      connection-timeout: 90000
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
 
 jwt:
   expiration: 2592000
@@ -110,9 +86,6 @@ auth:
 
 logging:
   level:
-    com.zaxxer.hikari: INFO
+    com.zaxxer.hikari: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    # Thêm logging cho connection debugging
-    com.mysql.cj.jdbc: INFO
-    org.springframework.retry: DEBUG
