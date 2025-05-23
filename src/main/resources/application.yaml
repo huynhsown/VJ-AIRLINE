@@ -17,7 +17,7 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:mysql://mysql:3306/vj_airline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=60000&socketTimeout=60000
+    url: jdbc:mysql://mysql:3306/vj_airline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=60000&socketTimeout=60000&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,6 +27,10 @@ spring:
       minimum-idle: 5
       idle-timeout: 300000
       max-lifetime: 1200000
+      # Thêm cấu hình retry và validation
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      initialization-fail-timeout: 30000
 
   jpa:
     database: mysql
@@ -37,6 +41,12 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        # Thêm cấu hình để xử lý connection
+        connection:
+          provider_disables_autocommit: true
+        jdbc:
+          time_zone: UTC
 
   data:
     redis:
@@ -48,6 +58,7 @@ spring:
           max-active: 10
           max-idle: 5
           min-idle: 2
+        shutdown-timeout: 30000
 
 jwt:
   expiration: 2592000
@@ -84,3 +95,11 @@ auth:
   otp-expiration: 300
   otp-resend-delay: 60
 
+logging:
+  level:
+    com.zaxxer.hikari: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    # Thêm logging cho connection debugging
+    com.mysql.cj.jdbc: INFO
+    org.springframework.retry: DEBUG

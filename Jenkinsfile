@@ -8,19 +8,32 @@ pipeline {
     stages {
 		stage('Build') {
 			steps {
-				sh 'mvn clean package -DskipTests'
+				echo 'Đang build ứng dụng...'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
 			steps {
-				sh 'mvn test'
+				echo 'Đang chạy tests...'
+                sh 'mvn test'
             }
         }
 
         stage('Build Docker Image') {
 			steps {
-				sh 'docker build -t vj-airline:${BUILD_NUMBER} .'
+				echo 'Đang build Docker image...'
+                sh 'docker build -t vj-airline:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Stop Old Containers') {
+			steps {
+				echo 'Đang dừng containers cũ...'
+                sh '''
+                    ${DOCKER_COMPOSE} down || true
+                    docker system prune -f || true
+                '''
             }
         }
 
@@ -39,7 +52,8 @@ pipeline {
                     string(credentialsId: 'PAYPAL_SECRET', variable: 'PAYPAL_SECRET'),
                     string(credentialsId: 'PAYPAL_API_URL', variable: 'PAYPAL_API_URL')
                 ]) {
-					sh '''
+					echo 'Đang tạo file .env và deploy...'
+                    sh '''
                         echo "MAIL_USERNAME=${MAIL_USERNAME}" > .env
                         echo "MAIL_PASSWORD=${MAIL_PASSWORD}" >> .env
                         echo "CLOUD_NAME=${CLOUD_NAME}" >> .env
@@ -51,8 +65,45 @@ pipeline {
                         echo "PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}" >> .env
                         echo "PAYPAL_SECRET=${PAYPAL_SECRET}" >> .env
                         echo "PAYPAL_API_URL=${PAYPAL_API_URL}" >> .env
-                        ${DOCKER_COMPOSE} down
-                        ${DOCKER_COMPOSE} up -d
+
+                        echo "Đang khởi động MySQL và Redis trước..."
+                        ${DOCKER_COMPOSE} up -d mysql redis
+
+                        echo "Đang chờ MySQL khởi động hoàn tất..."
+                        sleep 30
+
+                        echo "Đang khởi động ứng dụng..."
+                        ${DOCKER_COMPOSE} up -d app
+
+                        echo "Đang khởi động Redis Insight..."
+                        ${DOCKER_COMPOSE} up -d redis-insight
+
+                        echo "Checking container status..."
+                        ${DOCKER_COMPOSE} ps
+                    '''
+                }
+            }
+        }
+
+        stage('Health Check') {
+			steps {
+				echo 'Đang kiểm tra tình trạng ứng dụng...'
+                script {
+					sleep(time: 30, unit: 'SECONDS')
+                    sh '''
+                        echo "Checking application logs..."
+                        ${DOCKER_COMPOSE} logs --tail=50 app
+
+                        echo "Testing application endpoint..."
+                        for i in {1..10}; do
+                            if curl -f http://localhost:8088/actuator/health 2>/dev/null; then
+                                echo "Ứng dụng đã sẵn sàng!"
+                                exit 0
+                            fi
+                            echo "Đang chờ ứng dụng khởi động... (lần thử $i/10)"
+                            sleep 10
+                        done
+                        echo "Cảnh báo: Không thể kết nối đến ứng dụng"
                     '''
                 }
             }
@@ -61,13 +112,19 @@ pipeline {
 
     post {
 		always {
-			cleanWs()
+			echo 'Đang dọn dẹp workspace...'
+            cleanWs()
         }
         success {
-			echo 'Pipeline completed successfully!'
+			echo 'Pipeline hoàn thành thành công! ✅'
         }
         failure {
-			echo 'Pipeline failed!'
+			echo 'Pipeline thất bại! ❌'
+            sh '''
+                echo "Checking container logs for debugging..."
+                ${DOCKER_COMPOSE} logs app || true
+                ${DOCKER_COMPOSE} logs mysql || true
+            '''
         }
     }
 }
