@@ -1,22 +1,6 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    container_name: vj_airline_app
-    restart: always
-    ports:
-      - "8088:8080"
-    env_file:
-      - .env
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_started
-    networks:
-      - vj_network
-
   mysql:
     image: mysql:8
     container_name: mysql_container
@@ -31,10 +15,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot", "--silent"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 10
+      start_period: 30s
     networks:
       - vj_network
 
@@ -44,8 +29,36 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - vj_network
+
+  app:
+    build: .
+    container_name: vj_airline_app
+    restart: always
+    ports:
+      - "8088:8080"
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - vj_network
+    # Thêm delay để đảm bảo MySQL hoàn toàn sẵn sàng
+    command: >
+      sh -c "
+        echo 'Đang chờ MySQL khởi động hoàn tất...' &&
+        sleep 10 &&
+        java -jar app.jar
+      "
 
   redis-insight:
     image: redis/redisinsight:latest
@@ -54,7 +67,8 @@ services:
     ports:
       - "5540:5540"
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     networks:
       - vj_network
 
