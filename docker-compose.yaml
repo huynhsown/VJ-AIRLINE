@@ -52,13 +52,8 @@ services:
         condition: service_healthy
     networks:
       - vj_network
-    # Thêm delay để đảm bảo MySQL hoàn toàn sẵn sàng
-    command: >
-      sh -c "
-        echo 'Đang chờ MySQL khởi động hoàn tất...' &&
-        sleep 10 &&
-        java -jar app.jar
-      "
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   redis-insight:
     image: redis/redisinsight:latest
