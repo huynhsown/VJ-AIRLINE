@@ -66,17 +66,8 @@ pipeline {
                         echo "PAYPAL_SECRET=${PAYPAL_SECRET}" >> .env
                         echo "PAYPAL_API_URL=${PAYPAL_API_URL}" >> .env
 
-                        echo "Đang khởi động MySQL và Redis trước..."
-                        ${DOCKER_COMPOSE} up -d mysql redis
-
-                        echo "Đang chờ MySQL khởi động hoàn tất..."
-                        sleep 30
-
-                        echo "Đang khởi động ứng dụng..."
-                        ${DOCKER_COMPOSE} up -d app
-
-                        echo "Đang khởi động Redis Insight..."
-                        ${DOCKER_COMPOSE} up -d redis-insight
+                        echo "Đang khởi động tất cả services..."
+                        ${DOCKER_COMPOSE} up -d
 
                         echo "Checking container status..."
                         ${DOCKER_COMPOSE} ps
