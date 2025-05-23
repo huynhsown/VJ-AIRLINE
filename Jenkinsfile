@@ -27,17 +27,17 @@ pipeline {
         stage('Deploy') {
 			steps {
 				withCredentials([
-                    string(credentialsId: 'mail-username', variable: 'MAIL_USERNAME'),
-                    string(credentialsId: 'mail-password', variable: 'MAIL_PASSWORD'),
-                    string(credentialsId: 'cloud-name', variable: 'CLOUD_NAME'),
-                    string(credentialsId: 'cloud-api-key', variable: 'CLOUD_API_KEY'),
-                    string(credentialsId: 'cloud-api-secret', variable: 'CLOUD_API_SECRET'),
-                    string(credentialsId: 'zalopay-app-id', variable: 'APP_ID'),
-                    string(credentialsId: 'zalopay-mac-key', variable: 'MAC_KEY'),
-                    string(credentialsId: 'zalopay-url', variable: 'URL_CREATE_ORDER'),
-                    string(credentialsId: 'paypal-client-id', variable: 'PAYPAL_CLIENT_ID'),
-                    string(credentialsId: 'paypal-secret', variable: 'PAYPAL_SECRET'),
-                    string(credentialsId: 'paypal-api-url', variable: 'PAYPAL_API_URL')
+                    string(credentialsId: 'MAIL_USERNAME', variable: 'MAIL_USERNAME'),
+                    string(credentialsId: 'MAIL_PASSWORD', variable: 'MAIL_PASSWORD'),
+                    string(credentialsId: 'CLOUD_NAME', variable: 'CLOUD_NAME'),
+                    string(credentialsId: 'CLOUD_API_KEY', variable: 'CLOUD_API_KEY'),
+                    string(credentialsId: 'CLOUD_API_SECRET', variable: 'CLOUD_API_SECRET'),
+                    string(credentialsId: 'APP_ID', variable: 'APP_ID'),
+                    string(credentialsId: 'MAC_KEY', variable: 'MAC_KEY'),
+                    string(credentialsId: 'URL_CREATE_ORDER', variable: 'URL_CREATE_ORDER'),
+                    string(credentialsId: 'PAYPAL_CLIENT_ID', variable: 'PAYPAL_CLIENT_ID'),
+                    string(credentialsId: 'PAYPAL_SECRET', variable: 'PAYPAL_SECRET'),
+                    string(credentialsId: 'PAYPAL_API_URL', variable: 'PAYPAL_API_URL')
                 ]) {
 					sh '''
                         echo "MAIL_USERNAME=${MAIL_USERNAME}" > .env
