@@ -17,7 +17,7 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:mysql://localhost:3307/vj_airline
+    url: jdbc:mysql://localhost:3306/vj_airline
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
