@@ -1,10 +1,10 @@
-# VIETJOKE_AIRLINE
+# VIETJAY_AIRLINE
 
-Hệ thống đặt vé máy bay trực tuyến của hãng hàng không VIETJOKE.
+Hệ thống đặt vé máy bay trực tuyến của hãng hàng không VIETJAY.
 
 ## Tổng quan
 
-VIETJOKE_AIRLINE là một ứng dụng web được phát triển bằng Spring Boot, cung cấp các chức năng đặt vé máy bay trực tuyến cho khách hàng. Hệ thống cho phép người dùng tìm kiếm chuyến bay, chọn hạng vé, đặt chỗ ngồi và hoàn tất quá trình đặt vé.
+VIETJAY_AIRLINE là một ứng dụng web được phát triển bằng Spring Boot, cung cấp các chức năng đặt vé máy bay trực tuyến cho khách hàng. Hệ thống cho phép người dùng tìm kiếm chuyến bay, chọn hạng vé, đặt chỗ ngồi và hoàn tất quá trình đặt vé.
 
 ## Các chức năng chính
 
