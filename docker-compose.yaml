@@ -11,8 +11,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      # Chỉ cần ánh xạ khi cần truy cập ngoài host
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -28,10 +27,11 @@ services:
     image: redis:latest
     container_name: redis_container
     restart: always
+    command: redis-server --protected-mode no
     ports:
       - "6379:6379"
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -55,7 +55,6 @@ services:
       - vj_network
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      # Kết nối JDBC sử dụng biến môi trường
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vj_airline?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
