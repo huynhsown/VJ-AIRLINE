@@ -11,14 +11,15 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - "3307:3306"
+      # Chỉ cần ánh xạ khi cần truy cập ngoài host
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot", "--silent"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot", "--silent"]
       interval: 10s
       timeout: 10s
-      retries: 10
+      retries: 5
       start_period: 30s
     networks:
       - vj_network
@@ -53,7 +54,23 @@ services:
     networks:
       - vj_network
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      SPRING_PROFILES_ACTIVE: docker
+      # Kết nối JDBC sử dụng biến môi trường
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vj_airline?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      CLOUD_NAME: ${CLOUD_NAME}
+      CLOUD_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUD_API_SECRET: ${CLOUDINARY_API_SECRET}
+      APP_ID: ${APP_ID}
+      MAC_KEY: ${MAC_KEY}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_SECRET: ${PAYPAL_SECRET}
+      PAYPAL_API_URL: ${PAYPAL_API_URL}
 
   redis-insight:
     image: redis/redisinsight:latest

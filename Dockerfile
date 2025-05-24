@@ -1,38 +1,38 @@
+### 1. Build stage
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
+### 2. Runtime stage
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Cài đặt netcat và ping để test connection
+# Cài netcat và ping để debug kết nối
 RUN apt-get update && \
     apt-get install -y netcat-openbsd iputils-ping && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/target/*.jar app.jar
 
-# Tạo script đợi MySQL
+# Đặt script chờ MySQL
 COPY <<EOF wait-for-it.sh
 #!/bin/bash
-host=\$1
-port=\$2
-timeout=\${3:-60}
+host="$1"
+port="$2"
+timeout=${3:-60}
 
-echo "Đang chờ \$host:\$port sẵn sàng trong \$timeout giây..."
-
-for i in \$(seq \$timeout); do
-  if nc -z \$host \$port > /dev/null 2>&1; then
-    echo "\$host:\$port đã sẵn sàng!"
+echo "[wait-for-it] Đang chờ $host:$port sẵn sàng trong $timeout giây..."
+for i in $(seq $timeout); do
+  if nc -z "$host" "$port"; then
+    echo "[wait-for-it] $host:$port đã sẵn sàng!"
     exec java -jar app.jar
   fi
-  echo "Đang chờ \$host:\$port... (\$i/\$timeout)"
   sleep 1
 done
 
-echo "Timeout: \$host:\$port không sẵn sàng sau \$timeout giây"
+echo "[wait-for-it] Timeout: $host:$port không sẵn sàng sau $timeout giây"
 exit 1
 EOF
 
