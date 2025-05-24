@@ -8,28 +8,28 @@ pipeline {
     stages {
 		stage('Build') {
 			steps {
-				echo 'Đang build ứng dụng...'
+				echo 'Building the application...'
                 sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
 			steps {
-				echo 'Đang chạy tests...'
+				echo 'Running tests...'
                 sh 'mvn test'
             }
         }
 
         stage('Build Docker Image') {
 			steps {
-				echo 'Đang build Docker image...'
+				echo 'Building Docker image...'
                 sh 'docker build -t vj-airline:${BUILD_NUMBER} .'
             }
         }
 
         stage('Stop Old Containers') {
 			steps {
-				echo 'Đang dừng containers cũ...'
+				echo 'Stopping old containers...'
                 sh '''
                     ${DOCKER_COMPOSE} down || true
                     docker system prune -f || true
@@ -52,7 +52,7 @@ pipeline {
                     string(credentialsId: 'PAYPAL_SECRET', variable: 'PAYPAL_SECRET'),
                     string(credentialsId: 'PAYPAL_API_URL', variable: 'PAYPAL_API_URL')
                 ]) {
-					echo 'Đang tạo file .env và deploy...'
+					echo 'Creating .env file and deploying...'
                     sh '''
                         echo "MAIL_USERNAME=${MAIL_USERNAME}" > .env
                         echo "MAIL_PASSWORD=${MAIL_PASSWORD}" >> .env
@@ -66,7 +66,7 @@ pipeline {
                         echo "PAYPAL_SECRET=${PAYPAL_SECRET}" >> .env
                         echo "PAYPAL_API_URL=${PAYPAL_API_URL}" >> .env
 
-                        echo "Đang khởi động tất cả services..."
+                        echo "Starting all services..."
                         ${DOCKER_COMPOSE} up -d
 
                         echo "Checking container status..."
@@ -75,42 +75,18 @@ pipeline {
                 }
             }
         }
-
-        stage('Health Check') {
-			steps {
-				echo 'Đang kiểm tra tình trạng ứng dụng...'
-                script {
-					sleep(time: 30, unit: 'SECONDS')
-                    sh '''
-                        echo "Checking application logs..."
-                        ${DOCKER_COMPOSE} logs --tail=50 app
-
-                        echo "Testing application endpoint..."
-                        for i in {1..10}; do
-                            if curl -f http://localhost:8088/actuator/health 2>/dev/null; then
-                                echo "Ứng dụng đã sẵn sàng!"
-                                exit 0
-                            fi
-                            echo "Đang chờ ứng dụng khởi động... (lần thử $i/10)"
-                            sleep 10
-                        done
-                        echo "Cảnh báo: Không thể kết nối đến ứng dụng"
-                    '''
-                }
-            }
-        }
     }
 
     post {
 		always {
-			echo 'Đang dọn dẹp workspace...'
+			echo 'Cleaning up workspace...'
             cleanWs()
         }
         success {
-			echo 'Pipeline hoàn thành thành công! ✅'
+			echo 'Pipeline completed successfully'
         }
         failure {
-			echo 'Pipeline thất bại! ❌'
+			echo 'Pipeline failed'
             sh '''
                 echo "Checking container logs for debugging..."
                 ${DOCKER_COMPOSE} logs app || true

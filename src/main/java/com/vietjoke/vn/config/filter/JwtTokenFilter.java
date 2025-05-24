@@ -32,7 +32,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             new EndpointMethod("/api/v1/flight/select", "POST"),
             new EndpointMethod("/api/v1/location/routes", "GET"),
             new EndpointMethod("/api/v1/countries", "GET"),
-            new EndpointMethod("/api/v1/airports", "GET")
+            new EndpointMethod("/api/v1/airports", "GET"),
+            new EndpointMethod("/test", "GET")
     );
 
     @Override
