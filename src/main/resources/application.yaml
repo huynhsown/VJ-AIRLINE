@@ -17,7 +17,7 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:mysql://mysql_container:3306/vj_airline?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=60000&socketTimeout=60000
+    url: jdbc:mysql://mysql:3306/vj_airline
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
