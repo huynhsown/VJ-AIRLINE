@@ -7,8 +7,10 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Cài đặt netcat để test connection
-RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+# Cài đặt netcat và ping để test connection
+RUN apt-get update && \
+    apt-get install -y netcat-openbsd iputils-ping && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/target/*.jar app.jar
 
