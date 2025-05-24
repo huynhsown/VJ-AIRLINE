@@ -17,9 +17,9 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:mysql://mysql:3306/vj_airline
-    username: user
-    password: password
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/vj_airline?useSSL=false&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-timeout: 60000
@@ -40,8 +40,8 @@ spring:
 
   data:
     redis:
-      host: redis
-      port: 6379
+      host: ${SPRING_DATA_REDIS_HOST:redis}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
       timeout: 60000
       lettuce:
         pool:
