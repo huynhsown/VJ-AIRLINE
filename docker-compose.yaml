@@ -56,7 +56,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
       # Kết nối JDBC sử dụng biến môi trường
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vj_airline?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vj_airline?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATA_REDIS_HOST: redis
