@@ -1,57 +1,68 @@
 # VIETJAY_AIRLINE
 
-Hệ thống đặt vé máy bay trực tuyến của hãng hàng không VIETJAY.
+Online flight booking system of VIETJAY airline.
 
-## Tổng quan
+## Overview
 
-VIETJAY_AIRLINE là một ứng dụng web được phát triển bằng Spring Boot, cung cấp các chức năng đặt vé máy bay trực tuyến cho khách hàng. Hệ thống cho phép người dùng tìm kiếm chuyến bay, chọn hạng vé, đặt chỗ ngồi và hoàn tất quá trình đặt vé.
+VIETJAY_AIRLINE is a web application developed with Spring Boot, providing online flight booking features for customers. The system allows users to search flights, select ticket classes, choose seats, and complete the booking process.
 
-## Các chức năng chính
+## Main Features
 
-### Tìm kiếm chuyến bay
-- Người dùng có thể tìm kiếm chuyến bay dựa trên điểm đi, điểm đến, ngày bay, số lượng hành khách.
-- Hệ thống hiển thị danh sách chuyến bay phù hợp với tiêu chí tìm kiếm.
+### Flight Search
+- Users can search flights based on departure location, destination, flight date, and number of passengers.
+- The system displays a list of flights matching the search criteria.
 
-### Chọn chuyến bay
-- Người dùng có thể chọn chuyến bay và hạng vé phù hợp.
-- Hệ thống kiểm tra tính khả dụng của ghế ngồi và cập nhật thông tin đặt vé.
+### Flight Selection
+- Users can select a flight and a suitable ticket class.
+- The system checks seat availability and updates booking information.
 
-### Đặt chỗ ngồi
-- Người dùng có thể chọn chỗ ngồi cụ thể trên máy bay.
-- Hệ thống hiển thị sơ đồ ghế ngồi và trạng thái của từng ghế.
+### Seat Booking
+- Users can select specific seats on the airplane.
+- The system displays the seat map and the status of each seat.
 
-### Quản lý thông tin hành khách
-- Người dùng nhập thông tin chi tiết của hành khách.
-- Hệ thống lưu trữ thông tin hành khách cho quá trình đặt vé.
+### Passenger Information Management
+- Users enter detailed passenger information.
+- The system stores passenger information for the booking process.
 
-### Thanh toán
-- Người dùng có thể thanh toán vé máy bay.
-- Hệ thống xử lý thanh toán và cập nhật trạng thái đặt vé.
+### Payment
+- Users can pay for their flight tickets.
+- The system processes payments and updates booking status.
 
-## Công nghệ sử dụng
+## Technologies Used
 
 - **Backend**: Spring Boot, Spring Data JPA, Spring Security
-- **Database**: Có thể là MySQL, PostgreSQL hoặc H2 (tùy thuộc vào cấu hình)
-- **Công cụ xây dựng**: Maven hoặc Gradle
+- **Database**: MySQL
+- **Build Tool**: Maven or Gradle
 
-## Cài đặt và chạy
+## Installation and Running
 
-### Yêu cầu hệ thống
-- JDK 17 trở lên
-- Maven hoặc Gradle
-- Database tương thích
+### System Requirements
+- JDK 17 or higher
+- Maven or Gradle
+- Compatible database
 
-### Các bước cài đặt
-1. Clone repository
-2. Truy cập thư mục docker
-3. Chạy docker bằng lệnh `docker-compose up -d`
-4. Chạy lệnh `mvn clean install`
-5. Chạy lệnh `mvn spring-boot:run`
+### Installation Steps
+1. Clone the repository
+2. Run docker with the command `docker-compose up -d`
+3. Run `mvn clean install`
+4. Run `mvn spring-boot:run`
 
-## Đóng góp
+## Frontend (Mobile App - Android)
 
-Mọi đóng góp đều được hoan nghênh. Vui lòng tạo issue hoặc pull request để đóng góp vào dự án.
+The mobile application for Android is developed separately and is located at:  
+[https://github.com/VanLuanNguyen/UI-VJ-AIRLINE](https://github.com/VanLuanNguyen/UI-VJ-AIRLINE)
 
-## Giấy phép
+Please refer to the mobile app repository for installation, usage, and deployment instructions.
 
-Dự án này được phân phối dưới giấy phép [MIT](LICENSE). 
+## Backend Repository
+
+The backend repository is located at:  
+[https://github.com/huynhsown/VJ-AIRLINE](https://github.com/huynhsown/VJ-AIRLINE)
+
+## Contributing
+
+All contributions are welcome. Please create issues or pull requests to contribute to this project.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
