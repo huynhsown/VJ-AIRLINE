@@ -322,4 +322,25 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(PasswordNotMatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handlePasswordNotMatchException(PasswordNotMatchException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Password Not Match",
+                List.of(new ErrorResponseDTO.ErrorDetail("Password", ex.getMessage(), "error"))
+        );
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleRoleNotFound(RoleNotFoundException ex) {
+        return new ErrorResponseDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                "Role Not Found",
+                List.of(new ErrorResponseDTO.ErrorDetail("Role", ex.getMessage(), "error"))
+        );
+    }
+
+
 }

@@ -38,7 +38,6 @@ public class BookingSession implements Serializable {
     private SelectFlightRequestDTO selectedFlight;
     private PassengersInfoParamDTO passengersInfoParamDTO;
     private Set<String> lockedSeats = new HashSet<>();
-
     private String passengerAddonsJson;
     
     @Transient

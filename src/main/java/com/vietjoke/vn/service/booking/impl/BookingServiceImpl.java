@@ -14,6 +14,7 @@ import com.vietjoke.vn.entity.pricing.FareClassEntity;
 import com.vietjoke.vn.entity.pricing.PromoCodeEntity;
 import com.vietjoke.vn.entity.pricing.SeatReservationEntity;
 import com.vietjoke.vn.entity.user.UserEntity;
+import com.vietjoke.vn.exception.flight.FlightNotFoundException;
 import com.vietjoke.vn.repository.booking.BookingRepository;
 import com.vietjoke.vn.service.booking.BookingService;
 import com.vietjoke.vn.service.booking.BookingSessionService;
@@ -133,10 +134,10 @@ public class BookingServiceImpl implements BookingService {
                 .sorted(Comparator.comparing(FlightEntity::getScheduledDeparture))
                 .toList();
         if(sortedFlights.isEmpty()) {
-            throw new RuntimeException("Flight not found");
+            throw new FlightNotFoundException("Flight not found");
         }
         if(LocalDateTime.now().isAfter(sortedFlights.get(0).getScheduledDeparture())) {
-            throw new RuntimeException("Flight not scheduled");
+            throw new FlightNotFoundException("Flight not scheduled");
         }
         //Refund
         Map<FareClassEntity, List<BookingDetailEntity>> fareMap = bookingDetailEntities

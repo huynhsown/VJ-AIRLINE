@@ -173,7 +173,6 @@ public class AddonServiceImpl implements AddonService {
 
         Map<String, Map<String, List<AddonSelectionDTO>>> passengerAddons = session.getPassengerAddons();
         if (passengerAddons == null) {
-            System.out.println("passengerAddons is null");
             return ResponseDTO.success(PassengerAddonsResponseDTO.builder()
                     .passengerUuid(passengerUuid)
                     .flightNumber(flightNumber)
@@ -183,7 +182,6 @@ public class AddonServiceImpl implements AddonService {
         
         Map<String, List<AddonSelectionDTO>> flightAddons = passengerAddons.get(passengerUuid);
         if (flightAddons == null) {
-            System.out.println("flightAddons is null for passenger: " + passengerUuid);
             return ResponseDTO.success(PassengerAddonsResponseDTO.builder()
                     .passengerUuid(passengerUuid)
                     .flightNumber(flightNumber)
@@ -193,7 +191,6 @@ public class AddonServiceImpl implements AddonService {
         
         List<AddonSelectionDTO> addons = flightAddons.get(flightNumber);
         if (addons == null) {
-            System.out.println("addons is null for flight: " + flightNumber);
             addons = new ArrayList<>();
         }
 
